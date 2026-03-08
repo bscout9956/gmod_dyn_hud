@@ -86,6 +86,10 @@ function changeZoom()
     end
 end
 
+function changeAstimagtismMode()
+    astigmatismMode = not astigmatismMode
+end
+
 function round(n)
     return math.floor(n + 0.5)
 end
