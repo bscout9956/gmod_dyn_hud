@@ -166,25 +166,21 @@ function drawAstigmatismInfo(idx)
     local astStr = boolToStr(astigmatismMode)
 
     local astigmatismModeStr = "Astigmatism Mode: " .. astStr
-    if not astigmatismMode then
-        draw.SimpleText(astigmatismModeStr, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
-            Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-    else
-        draw.SimpleText(astigmatismModeStr, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
-            Color(240, 240, 240), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-    end
+    draw.SimpleAstigmatismText(astigmatismModeStr, "DermaDefault", xPos + (spacing/2), size + (yPos * idx) + spacing, 
+        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
 function drawZoomInfo(idx)
     local infoZoom = "Zoom Level: " .. zoomLevel
-    if not astigmatismMode then
-        draw.SimpleText(infoZoom, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
-            Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-    else
-        draw.SimpleText(infoZoom, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
-            Color(240, 240, 240), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-    end
+    draw.SimpleAstigmatismText(infoZoom, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing, 
+        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+end
 
+function drawCoordinates(idx)
+    local pPos = ply:GetPos()
+    local infoCoords = "X: " .. pPos.x .. " Y: " .. pPos.y .. " Z: " .. pPos.z
+    
+    if not astigmatismMode then
 end
 
 function drawInfo()
