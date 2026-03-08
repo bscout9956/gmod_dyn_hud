@@ -110,6 +110,24 @@ function mapRender()
     end
 end
 
+function northPointRender()
+    local angY = ply:EyeAngles().y
+    local radA = math.rad(-angY + 90)
+
+    -- We need the distance, why? I don't know
+    local northDist = radA - math.rad(90)
+
+    surface.SetDrawColor(0,0,0,255)
+    draw.NoTexture()
+
+    local renderX = hudCenterX + northDist
+    local renderY = hudCenterY - northDist
+
+    print(renderX, renderY)
+
+    surface.DrawRect(renderX, renderY, 10, 10)
+end
+
 -- Hook and other shit
 
 hook.Add("HUDPaint", "HUDMain", function()
@@ -117,4 +135,5 @@ hook.Add("HUDPaint", "HUDMain", function()
     drawPlayerIndicator()
     registerPlayerPos()
     mapRender()
+    northPointRender()
 end)
