@@ -2,6 +2,7 @@
 
 -- Data
 points = {}
+zoomLevel = 0.5
 
 -- HUD Parameters
 local width = ScrW()
@@ -59,6 +60,14 @@ function draw.Circle( x, y, radius, seg )
 	table.insert( cir, { x = x + math.sin( a ) * radius, y = y + math.cos( a ) * radius, u = math.sin( a ) / 2 + 0.5, v = math.cos( a ) / 2 + 0.5 } )
 
 	surface.DrawPoly( cir )
+end
+
+function changeZoom()
+    if zoomLevel >= 1 then
+        zoomLevel = 0.1
+    else
+        zoomLevel = zoomLevel + 0.01
+    end
 end
 
 function round(n)
@@ -154,4 +163,10 @@ hook.Add("HUDPaint", "HUDMain", function()
     registerPlayerPos()
     mapRender()
     northPointRender()
+end)
+
+hook.Add("Think", "Zoomer", function(ply, button)
+    if input.IsKeyDown(KEY_Z) then
+        changeZoom()
+    end
 end)
