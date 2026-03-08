@@ -113,6 +113,15 @@ function boolToStr(value)
     end
 end
 
+--- Draws whether or not astigmatism mode is enabled.
+---@param idx any
+function drawAstigmatismInfo(idx)
+    local astStr = boolToStr(astigmatismMode)
+
+    local astigmatismModeStr = "Astigmatism Mode: " .. astStr
+    draw.SimpleText(astigmatismModeStr, "DermaDefault", xPos, size + (yPos * idx), Color(255, 255, 255),
+        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+end
 
 function drawZoomInfo(idx)
     local infoZoom = "Zoom Level: " .. zoomLevel
