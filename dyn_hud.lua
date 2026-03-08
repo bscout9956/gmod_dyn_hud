@@ -1,10 +1,11 @@
--- GMOD Dynamic HUD v0.1 by BlackScout/bscout9956
+-- GMOD Dynamic HUD v0.1.1 by BlackScout/bscout9956
 
 -- Data
 points = {}
 
 -- HUD Parameters
-size = 275
+local width = ScrW()
+size = math.floor(0.125 * width)
 halfSize = size / 2
 
 thickness = 3
