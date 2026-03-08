@@ -1,5 +1,4 @@
 -- GMOD Dynamic HUD v0.2 by BlackScout/bscout9956
-
 -- Data
 points = {}
 zoomLevel = 0.5
@@ -48,19 +47,34 @@ playerIndicatorTable = {{
 
 -- Taken from: https://wiki.facepunch.com/gmod/surface.DrawPoly
 -- Why isn't this included bro? It's not bloat, it's useful lmao
-function draw.Circle( x, y, radius, seg )
-	local cir = {}
+function draw.Circle(x, y, radius, seg)
+    local cir = {}
 
-	table.insert( cir, { x = x, y = y, u = 0.5, v = 0.5 } )
-	for i = 0, seg do
-		local a = math.rad( ( i / seg ) * -360 )
-		table.insert( cir, { x = x + math.sin( a ) * radius, y = y + math.cos( a ) * radius, u = math.sin( a ) / 2 + 0.5, v = math.cos( a ) / 2 + 0.5 } )
-	end
+    table.insert(cir, {
+        x = x,
+        y = y,
+        u = 0.5,
+        v = 0.5
+    })
+    for i = 0, seg do
+        local a = math.rad((i / seg) * -360)
+        table.insert(cir, {
+            x = x + math.sin(a) * radius,
+            y = y + math.cos(a) * radius,
+            u = math.sin(a) / 2 + 0.5,
+            v = math.cos(a) / 2 + 0.5
+        })
+    end
 
-	local a = math.rad( 0 ) -- This is needed for non absolute segment counts
-	table.insert( cir, { x = x + math.sin( a ) * radius, y = y + math.cos( a ) * radius, u = math.sin( a ) / 2 + 0.5, v = math.cos( a ) / 2 + 0.5 } )
+    local a = math.rad(0) -- This is needed for non absolute segment counts
+    table.insert(cir, {
+        x = x + math.sin(a) * radius,
+        y = y + math.cos(a) * radius,
+        u = math.sin(a) / 2 + 0.5,
+        v = math.cos(a) / 2 + 0.5
+    })
 
-	surface.DrawPoly( cir )
+    surface.DrawPoly(cir)
 end
 
 function changeZoom()
@@ -154,7 +168,7 @@ function mapRender()
     local pPos = ply:GetPos()
     local angY = ply:EyeAngles().y
     local radA = math.rad(-angY + 90) -- We rotate so 90 is upwards/north
-    
+
     local cosA = math.cos(radA)
     local sinA = math.sin(radA)
 
@@ -167,7 +181,7 @@ function mapRender()
 
         local rotX = relX * cosA - relY * sinA -- renderX = hudCenterX + (pos.x - pPos.x)
         local rotY = relX * sinA + relY * cosA -- hudCenterY - (pos.y - pPos.y) -- We subtract Y because Source coordinate system
-        
+
         local renderX = hudCenterX + rotX
         local renderY = hudCenterY - rotY
 
@@ -192,7 +206,8 @@ function northPointRender()
 
     surface.SetDrawColor(128, 0, 0, 255)
     draw.Circle(renderX, renderY, 10, 255)
-    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, Color(255, 255, 255), TEXT_ALIGN_CENTER,
+        TEXT_ALIGN_CENTER)
 end
 
 -- Hook and other shit
