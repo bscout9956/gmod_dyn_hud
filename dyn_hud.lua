@@ -85,8 +85,8 @@ end
 
 function mapRender()
     local pPos = ply:GetPos()
-    local yAngle = ply:EyeAngles().y
-    local radA = math.rad(-yAngle + 90) -- We rotate so 90 is upwards/north
+    local angY = ply:EyeAngles().y
+    local radA = math.rad(-angY + 90) -- We rotate so 90 is upwards/north
     
     local cosA = math.cos(radA)
     local sinA = math.sin(radA)
