@@ -9,6 +9,6 @@ It works through a breadcrumb system that reveals the path on the player's radar
 
 ## Features
 
-Automatic scaling by resolution
-Rotation
-Breadcrumb system
+- Automatic scaling by resolution
+- Rotation
+- Breadcrumb system
