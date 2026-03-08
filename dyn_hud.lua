@@ -94,6 +94,10 @@ function round(n)
     return math.floor(n + 0.5)
 end
 
+--- Adds a point to the points table if it doesn't already exist
+---@param x number @X coordinate
+---@param y number @Y coordinate
+---@param z number @Z coordinate
 function addPoint(x, y, z)
     if not hasPoint(x, y) then
         table.insert(points, {
@@ -104,6 +108,10 @@ function addPoint(x, y, z)
     end
 end
 
+--- Checks if the points table has a specific coordinate
+---@param x number @X coordinate
+---@param y number @Y coordinate
+---@param z number @Z coordinate
 function hasPoint(x, y, z)
     for _, pt in ipairs(points) do
         if pt.x == x and pt.y == y and pt.z == z then
@@ -136,6 +144,8 @@ function drawHUDBox()
     surface.DrawRect(xPos + thickness, yPos + thickness, size - (thickness * 2), size - (thickness * 2))
 end
 
+--- Converts a boolean value to a string for display purposes
+---@param value boolean @The boolean value to convert to a string
 function boolToStr(value)
     if value then
         return "On"
@@ -145,10 +155,10 @@ function boolToStr(value)
 end
 
 --- Wrapper function to reduce font contrast when necessary
----@param text any @The text that will be fed to draw.SimpleText
----@param style any @The font style
----@param x any @ X Position
----@param y any @ Y Position
+---@param text string @The text that will be fed to draw.SimpleText
+---@param style string @The font style
+---@param x number @ X Position
+---@param y number @ Y Position
 ---@param align_x any @ Text Alignment on X Axis
 ---@param align_y any @ Text Alignment on Y Axis
 function draw.SimpleAstigmatismText(text, style, x, y, align_x, align_y)
@@ -160,7 +170,7 @@ function draw.SimpleAstigmatismText(text, style, x, y, align_x, align_y)
 end
 
 --- Draws whether or not astigmatism mode is enabled.
----@param idx any
+---@param idx number @ Index for rendering info at the right spot
 function drawAstigmatismInfo(idx)
     local astStr = boolToStr(astigmatismMode)
 
@@ -169,12 +179,15 @@ function drawAstigmatismInfo(idx)
         TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
+--- Draws the current zoom level on the HUD
+---@param idx number @ Index for rendering info at the right spot
 function drawZoomInfo(idx)
     local infoZoom = "Zoom Level: " .. zoomLevel
     draw.SimpleAstigmatismText(infoZoom, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
         TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
-
+--- Draws the player's current coordinates on the HUD
+---@param idx number @ Index for rendering info at the right spot
 function drawCoordinates(idx)
     local pPos = ply:GetPos()
     local infoCoords = "X: " .. pPos.x .. " Y: " .. pPos.y .. " Z: " .. pPos.z
@@ -183,17 +196,19 @@ function drawCoordinates(idx)
         TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
+-- Helper functions for drawing the HUD and info
 function drawInfo()
     drawZoomInfo(1)
     drawAstigmatismInfo(2)
     drawCoordinates(3)
 end
 
+-- Draws the player indicator triangle
 function drawPlayerIndicator()
     if not astigmatismMode then
         surface.SetDrawColor(255, 255, 0, 200) -- Default Yellow
     else
-        surface.SetDrawColor(0, 102, 204, 255)
+        surface.SetDrawColor(0, 100, 200, 255)
     end
     surface.DrawPoly(playerIndicatorTable)
 end
