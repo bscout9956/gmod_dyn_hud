@@ -181,6 +181,7 @@ function drawCoordinates(idx)
     local infoCoords = "X: " .. pPos.x .. " Y: " .. pPos.y .. " Z: " .. pPos.z
     
     if not astigmatismMode then
+    end
 end
 
 function drawInfo()
