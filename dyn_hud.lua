@@ -127,8 +127,8 @@ function mapRender()
     draw.NoTexture()
 
     for _, pos in pairs(points) do
-        local relX = pos.x - pPos.x
-        local relY = pos.y - pPos.y
+        local relX = (pos.x - pPos.x) * zoomLevel
+        local relY = (pos.y - pPos.y) * zoomLevel
 
         local rotX = relX * cosA - relY * sinA -- renderX = hudCenterX + (pos.x - pPos.x)
         local rotY = relX * sinA + relY * cosA -- hudCenterY - (pos.y - pPos.y) -- We subtract Y because Source coordinate system
@@ -164,6 +164,7 @@ end
 
 hook.Add("HUDPaint", "HUDMain", function()
     drawHUDBox()
+    drawInfo()
     drawPlayerIndicator()
     registerPlayerPos()
     mapRender()
