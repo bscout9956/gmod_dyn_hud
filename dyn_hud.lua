@@ -2,7 +2,8 @@
 -- Data
 points = {}
 zoomLevel = 0.5
-astigmatismMode = true
+astigmatismMode = false
+spacing = 20
 
 -- HUD Parameters
 local width = ScrW()
@@ -10,8 +11,8 @@ size = math.floor(0.125 * width)
 halfSize = size / 2
 
 thickness = 3
-xPos = 20
-yPos = 20
+xPos = spacing
+yPos = spacing
 
 -- Auxiliary Variables and Globals
 
