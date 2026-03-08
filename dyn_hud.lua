@@ -1,4 +1,4 @@
--- GMOD Dynamic HUD v0.2.1 by BlackScout/bscout9956
+-- GMOD Dynamic HUD v0.2.3 by BlackScout/bscout9956
 -- Data
 points = {}
 zoomLevel = 0.5
@@ -99,7 +99,7 @@ function addPoint(x, y, z)
         table.insert(points, {
             x = x,
             y = y,
-            z = z,
+            z = z
         })
     end
 end
@@ -153,12 +153,11 @@ end
 ---@param align_y any @ Text Alignment on Y Axis
 function draw.SimpleAstigmatismText(text, style, x, y, align_x, align_y)
     if not astigmatismMode then
-        draw.SimpleText(text, style, x, y, Color(255,255,255), align_x, align_y)    
+        draw.SimpleText(text, style, x, y, Color(255, 255, 255), align_x, align_y)
     else
-        draw.SimpleText(text, style, x, y, Color(240,240,240), align_x, align_y)
+        draw.SimpleText(text, style, x, y, Color(240, 240, 240), align_x, align_y)
     end
 end
-
 
 --- Draws whether or not astigmatism mode is enabled.
 ---@param idx any
@@ -166,13 +165,13 @@ function drawAstigmatismInfo(idx)
     local astStr = boolToStr(astigmatismMode)
 
     local astigmatismModeStr = "Astigmatism Mode: " .. astStr
-    draw.SimpleAstigmatismText(astigmatismModeStr, "DermaDefault", xPos + (spacing/2), size + (yPos * idx) + spacing, 
+    draw.SimpleAstigmatismText(astigmatismModeStr, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
         TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
 function drawZoomInfo(idx)
     local infoZoom = "Zoom Level: " .. zoomLevel
-    draw.SimpleAstigmatismText(infoZoom, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing, 
+    draw.SimpleAstigmatismText(infoZoom, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
         TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
