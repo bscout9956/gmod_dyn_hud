@@ -179,9 +179,9 @@ end
 function drawCoordinates(idx)
     local pPos = ply:GetPos()
     local infoCoords = "X: " .. pPos.x .. " Y: " .. pPos.y .. " Z: " .. pPos.z
-    
-    if not astigmatismMode then
-    end
+
+    draw.SimpleAstigmatismText(infoCoords, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
+        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
 function drawInfo()
