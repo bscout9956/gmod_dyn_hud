@@ -5,6 +5,9 @@ zoomLevel = 0.5
 astigmatismMode = false
 spacing = 20
 
+pure_white = Color(255, 255, 255)
+soft_gray = Color(240, 240, 240)
+
 -- HUD Parameters
 local width = ScrW()
 size = math.floor(0.125 * width)
@@ -163,9 +166,9 @@ end
 ---@param align_y any @ Text Alignment on Y Axis
 function draw.SimpleAstigmatismText(text, style, x, y, align_x, align_y)
     if not astigmatismMode then
-        draw.SimpleText(text, style, x, y, Color(255, 255, 255), align_x, align_y)
+        draw.SimpleText(text, style, x, y, pure_white, align_x, align_y)
     else
-        draw.SimpleText(text, style, x, y, Color(240, 240, 240), align_x, align_y)
+        draw.SimpleText(text, style, x, y, soft_gray, align_x, align_y)
     end
 end
 
@@ -260,7 +263,7 @@ function northPointRender()
     surface.SetDrawColor(128, 0, 0, 255)
     draw.Circle(renderX, renderY, 10, 255)
 
-    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, Color(255, 255, 255), TEXT_ALIGN_CENTER,
+    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, pure_white, TEXT_ALIGN_CENTER,
         TEXT_ALIGN_CENTER)
 end
 
