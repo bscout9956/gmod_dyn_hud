@@ -144,6 +144,22 @@ function boolToStr(value)
     end
 end
 
+--- Wrapper function to reduce font contrast when necessary
+---@param text any @The text that will be fed to draw.SimpleText
+---@param style any @The font style
+---@param x any @ X Position
+---@param y any @ Y Position
+---@param align_x any @ Text Alignment on X Axis
+---@param align_y any @ Text Alignment on Y Axis
+function draw.SimpleAstigmatismText(text, style, x, y, align_x, align_y)
+    if not astigmatismMode then
+        draw.SimpleText(text, style, x, y, Color(255,255,255), align_x, align_y)    
+    else
+        draw.SimpleText(text, style, x, y, Color(240,240,240), align_x, align_y)
+    end
+end
+
+
 --- Draws whether or not astigmatism mode is enabled.
 ---@param idx any
 function drawAstigmatismInfo(idx)
