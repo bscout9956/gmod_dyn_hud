@@ -105,6 +105,15 @@ function drawHUDBox()
     surface.DrawRect(xPos + thickness, yPos + thickness, size - (thickness * 2), size - (thickness * 2))
 end
 
+function boolToStr(value)
+    if value then
+        return "On"
+    else
+        return "Off"
+    end
+end
+
+
 function drawInfo()
     local infoText = "Zoom Level: " .. zoomLevel
     draw.SimpleText(infoText, "DermaDefault", xPos, size + yPos + yPos, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
