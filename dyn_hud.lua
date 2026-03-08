@@ -190,7 +190,7 @@ end
 ---@param idx number @ Index for rendering info at the right spot
 function drawCoordinates(idx)
     local pPos = ply:GetPos()
-    local infoCoords = "X: " .. pPos.x .. " Y: " .. pPos.y .. " Z: " .. pPos.z
+    local infoCoords = "X: " .. math.floor(pPos.x) .. " Y: " .. math.floor(pPos.y) .. " Z: " .. math.floor(pPos.z)
 
     draw.SimpleAstigmatismText(infoCoords, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
         TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
