@@ -145,7 +145,7 @@ function mapRender()
         local renderX = hudCenterX + rotX
         local renderY = hudCenterY - rotY
 
-        if (math.abs(rotX) < halfSize) and (math.abs(rotY) < halfSize) then
+        if (math.abs(rotX) < halfSize - thickness) and (math.abs(rotY) < halfSize - thickness) then
             surface.DrawRect(renderX - 1, renderY - 1, 3, 3)
         end
     end
