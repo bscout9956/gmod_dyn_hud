@@ -186,6 +186,7 @@ end
 function drawInfo()
     drawZoomInfo(1)
     drawAstigmatismInfo(2)
+    drawCoordinates(3)
 end
 
 function drawPlayerIndicator()
