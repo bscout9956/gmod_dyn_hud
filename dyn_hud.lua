@@ -94,18 +94,19 @@ function round(n)
     return math.floor(n + 0.5)
 end
 
-function addPoint(x, y)
+function addPoint(x, y, z)
     if not hasPoint(x, y) then
         table.insert(points, {
             x = x,
-            y = y
+            y = y,
+            z = z,
         })
     end
 end
 
-function hasPoint(x, y)
+function hasPoint(x, y, z)
     for _, pt in ipairs(points) do
-        if pt.x == x and pt.y == y then
+        if pt.x == x and pt.y == y and pt.z == z then
             return true
         end
     end
@@ -114,7 +115,7 @@ end
 
 function registerPlayerPos()
     local pos = ply:GetPos()
-    addPoint(round(pos.x), round(pos.y)) -- We round first, we don't need extremely granular HUD points
+    addPoint(round(pos.x), round(pos.y), round(pos.z)) -- We round first, we don't need extremely granular HUD points
 end
 
 function drawHUDBox()
