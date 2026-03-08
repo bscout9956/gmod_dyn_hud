@@ -121,7 +121,7 @@ function drawHUDBox()
     if not astigmatismMode then
         surface.SetDrawColor(255, 255, 255, 255)
     else
-        surface.SetDrawColor(40, 40, 40, 255)
+        surface.SetDrawColor(60, 60, 60, 255)
     end
 
     surface.DrawOutlinedRect(xPos, yPos, size, size, thickness)
@@ -129,7 +129,7 @@ function drawHUDBox()
     if not astigmatismMode then
         surface.SetDrawColor(0, 0, 0, 220)
     else
-        surface.SetDrawColor(200, 200, 200, 220)
+        surface.SetDrawColor(235, 235, 235, 240)
     end
 
     surface.DrawRect(xPos + thickness, yPos + thickness, size - (thickness * 2), size - (thickness * 2))
@@ -149,14 +149,25 @@ function drawAstigmatismInfo(idx)
     local astStr = boolToStr(astigmatismMode)
 
     local astigmatismModeStr = "Astigmatism Mode: " .. astStr
-    draw.SimpleText(astigmatismModeStr, "DermaDefault", xPos, size + (yPos * idx), Color(255, 255, 255),
-        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+    if not astigmatismMode then
+        draw.SimpleText(astigmatismModeStr, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
+            Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+    else
+        draw.SimpleText(astigmatismModeStr, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
+            Color(240, 240, 240), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+    end
 end
 
 function drawZoomInfo(idx)
     local infoZoom = "Zoom Level: " .. zoomLevel
-    draw.SimpleText(infoZoom, "DermaDefault", xPos, size + (yPos * idx), Color(255, 255, 255), TEXT_ALIGN_LEFT,
-        TEXT_ALIGN_TOP)
+    if not astigmatismMode then
+        draw.SimpleText(infoZoom, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
+            Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+    else
+        draw.SimpleText(infoZoom, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
+            Color(240, 240, 240), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+    end
+
 end
 
 function drawInfo()
@@ -165,7 +176,11 @@ function drawInfo()
 end
 
 function drawPlayerIndicator()
-    surface.SetDrawColor(255, 255, 0, 200) -- yellow
+    if not astigmatismMode then
+        surface.SetDrawColor(255, 255, 0, 200) -- Default Yellow
+    else
+        surface.SetDrawColor(0, 102, 204, 255)
+    end
     surface.DrawPoly(playerIndicatorTable)
 end
 
@@ -177,7 +192,11 @@ function mapRender()
     local cosA = math.cos(radA)
     local sinA = math.sin(radA)
 
-    surface.SetDrawColor(255, 255, 255, 255)
+    if not astigmatismMode then
+        surface.SetDrawColor(255, 255, 255, 255)
+    else
+        surface.SetDrawColor(40, 40, 40, 255)
+    end
     draw.NoTexture()
 
     for _, pos in pairs(points) do
@@ -211,11 +230,12 @@ function northPointRender()
 
     surface.SetDrawColor(128, 0, 0, 255)
     draw.Circle(renderX, renderY, 10, 255)
+
     draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, Color(255, 255, 255), TEXT_ALIGN_CENTER,
         TEXT_ALIGN_CENTER)
 end
 
--- Hook and other shit
+-- Hooks and other shit
 
 hook.Add("HUDPaint", "HUDMain", function()
     drawHUDBox()
@@ -230,4 +250,9 @@ hook.Add("Think", "Zoomer", function(ply, button)
     if input.IsKeyDown(KEY_Z) then
         changeZoom()
     end
+    -- I need to figure out a way to do this that doesn't cause an epilepsy seizure to the user...
+    -- DO NOT UNCOMMENT THIS IF YOU HAVE PHOTOSENSITIVITY
+    -- if input.IsKeyDown(KEY_X) then
+    --     changeAstimagtismMode()
+    -- end
 end)
