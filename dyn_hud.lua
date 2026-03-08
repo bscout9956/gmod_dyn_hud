@@ -3,6 +3,7 @@
 -- Data
 points = {}
 zoomLevel = 0.5
+astigmatismMode = true
 
 -- HUD Parameters
 local width = ScrW()
@@ -98,10 +99,20 @@ function registerPlayerPos()
 end
 
 function drawHUDBox()
-    surface.SetDrawColor(255, 255, 255, 255)
+    if not astigmatismMode then
+        surface.SetDrawColor(255, 255, 255, 255)
+    else
+        surface.SetDrawColor(40, 40, 40, 255)
+    end
+
     surface.DrawOutlinedRect(xPos, yPos, size, size, thickness)
 
-    surface.SetDrawColor(0, 0, 0, 220)
+    if not astigmatismMode then
+        surface.SetDrawColor(0, 0, 0, 220)
+    else
+        surface.SetDrawColor(200, 200, 200, 220)
+    end
+
     surface.DrawRect(xPos + thickness, yPos + thickness, size - (thickness * 2), size - (thickness * 2))
 end
 
@@ -131,7 +142,7 @@ end
 
 function drawInfo()
     drawZoomInfo(1)
-    draw.SimpleText(infoText, "DermaDefault", xPos, size + yPos + yPos, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+    drawAstigmatismInfo(2)
 end
 
 function drawPlayerIndicator()
