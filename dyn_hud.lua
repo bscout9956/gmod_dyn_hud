@@ -114,8 +114,14 @@ function boolToStr(value)
 end
 
 
+function drawZoomInfo(idx)
+    local infoZoom = "Zoom Level: " .. zoomLevel
+    draw.SimpleText(infoZoom, "DermaDefault", xPos, size + (yPos * idx), Color(255, 255, 255), TEXT_ALIGN_LEFT,
+        TEXT_ALIGN_TOP)
+end
+
 function drawInfo()
-    local infoText = "Zoom Level: " .. zoomLevel
+    drawZoomInfo(1)
     draw.SimpleText(infoText, "DermaDefault", xPos, size + yPos + yPos, Color(255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
