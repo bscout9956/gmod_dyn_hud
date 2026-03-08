@@ -129,21 +129,21 @@ function mapRender()
 end
 
 function northPointRender()
-    local angY = ply:EyeAngles().y
-    local radA = math.rad(-angY + 90)
+    local angY = math.rad(ply:EyeAngles().y - 90)
 
-    -- We need the distance, why? I don't know
-    local northDist = radA - math.rad(90)
+    local radius = halfSize
+
+    local dirX = math.cos(angY)
+    local dirY = math.sin(angY)
+
+    local limit = 1 / math.max(math.abs(dirX), math.abs(dirY))
+
+    local renderX = hudCenterX + (dirX * radius * limit);
+    local renderY = hudCenterY + (dirY * radius * limit);
 
     surface.SetDrawColor(0,0,0,255)
-    draw.NoTexture()
-
-    local renderX = hudCenterX + northDist
-    local renderY = hudCenterY - northDist
-
-    print(renderX, renderY)
-
-    surface.DrawRect(renderX, renderY, 10, 10)
+    draw.Circle(renderX, renderY, 10, 255)
+    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
 -- Hook and other shit
