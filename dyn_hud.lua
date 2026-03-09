@@ -267,7 +267,7 @@ function mapRender()
                 local renderY = hudCenterY - rotY
 
                 setDrawColor(r, g, b, alpha)
-                drawRect(renderX - 1, renderY - 1, 3, 3)
+                drawRect(renderX, renderY, 3, 3)
             end
         end
     end
