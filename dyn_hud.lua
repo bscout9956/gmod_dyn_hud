@@ -237,9 +237,9 @@ function mapRender()
     local cosA = cos(radA)
     local sinA = sin(radA)
 
-    local r,g,b=255,255,255
+    local r, g, b = 255, 255, 255
     if astigmatismMode then
-        r,g,b=40,40,40
+        r, g, b = 40, 40, 40
     end
 
     local hudBound = hudBound
@@ -251,7 +251,7 @@ function mapRender()
 
         if diffZ < 80 then -- we don't perform any crazy arithmetic on points we're not drawing
             local alpha = 255 - (diffZ * 3.1875) -- 3.1875 aka 255/80 or the distance of the fade
-            
+
             local relX = (pos.x - pPos.x) * zLevel
             local relY = (pos.y - pPos.y) * zLevel
 
@@ -285,8 +285,7 @@ function northPointRender()
     surface.SetDrawColor(128, 0, 0, 255)
     draw.Circle(renderX, renderY, 10, 255)
 
-    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, pure_white, TEXT_ALIGN_CENTER,
-        TEXT_ALIGN_CENTER)
+    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, pure_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
 -- Hooks and other shit
