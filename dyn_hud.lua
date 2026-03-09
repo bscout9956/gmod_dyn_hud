@@ -22,6 +22,7 @@ yPos = margin
 
 hudCenterX = xPos + (size / 2)
 hudCenterY = yPos + (size / 2)
+hudBound = halfSize - thickness
 
 ply = LocalPlayer()
 local playerIndicatorSize = 18
