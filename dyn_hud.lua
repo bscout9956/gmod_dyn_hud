@@ -290,14 +290,15 @@ hook.Add("HUDPaint", "HUDMain", function()
     northPointRender()
 end)
 
+local nextChange = 0
 hook.Add("Think", "Zoomer", function(ply, button)
-    local cz = changeZoom
-    if input.IsKeyDown(KEY_Z) then
-        cz()
+    local curTime = CurTime
+    if input.IsKeyDown(KEY_Z) and curTime() > nextChange then
+        changeZoom()
+        nextChange = curTime() + 0.009
     end
-    -- I need to figure out a way to do this that doesn't cause an epilepsy seizure to the user...
-    -- DO NOT UNCOMMENT THIS IF YOU HAVE PHOTOSENSITIVITY
-    -- if input.IsKeyDown(KEY_X) then
-    --     changeAstimagtismMode()
-    -- end
+    if input.IsKeyDown(KEY_X) and curTime() > nextChange then
+        changeAstimagtismMode()
+        nextChange = CurTime() + 0.2
+    end
 end)
