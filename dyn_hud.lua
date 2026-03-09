@@ -218,7 +218,6 @@ function drawPlayerIndicator()
 end
 
 function mapRender()
-
     -- Locals for optimization
     local zoomLevel = zoomLevel
     local hudBound = hudBound
@@ -231,8 +230,8 @@ function mapRender()
     local clamp = math.Clamp
 
     -- Render/Surface stuff
-    local dR = surface.DrawRect
-    local sdc = surface.SetDrawColor
+    local drawRect = surface.DrawRect
+    local setDrawColor = surface.SetDrawColor
     -- End of optimization fluff
     local pPos = ply:GetPos()
     local angY = ply:EyeAngles().y
@@ -264,8 +263,8 @@ function mapRender()
                 local renderX = hudCenterX + rotX
                 local renderY = hudCenterY - rotY
 
-                sdc(r, g, b, alpha)
-                dR(renderX - 1, renderY - 1, 3, 3)
+                setDrawColor(r, g, b, alpha)
+                drawRect(renderX - 1, renderY - 1, 3, 3)
             end
         end
     end
