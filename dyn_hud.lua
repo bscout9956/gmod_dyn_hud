@@ -58,13 +58,15 @@ function draw.Circle(x, y, radius, seg)
         u = 0.5,
         v = 0.5
     })
+
+    local cos, sin = math.cos, math.sin
     for i = 0, seg do
         local a = math.rad((i / seg) * -360)
         table.insert(cir, {
-            x = x + math.sin(a) * radius,
-            y = y + math.cos(a) * radius,
-            u = math.sin(a) / 2 + 0.5,
-            v = math.cos(a) / 2 + 0.5
+            x = x + sin(a) * radius,
+            y = y + cos(a) * radius,
+            u = sin(a) / 2 + 0.5,
+            v = cos(a) / 2 + 0.5
         })
     end
 
@@ -210,7 +212,7 @@ function drawPlayerIndicator()
     if not astigmatismMode then
         surface.SetDrawColor(255, 255, 0, 200) -- Default Yellow
     else
-        surface.SetDrawColor(0, 100, 200, 255)
+        surface.SetDrawColor(0, 100, 200, 255) -- Smoother blue
     end
     surface.DrawPoly(playerIndicatorTable)
 end
