@@ -190,11 +190,22 @@ function drawCoordinates(idx)
         TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
+--- Draws the number of points
+---@param idx number @ Index for rendering info at the right spot
+function drawPCount(idx)
+    local pCount = #points
+    local info = "Number of Points: " .. pCount
+
+    draw.SimpleAstigmatismText(info, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
+        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+end
+
 -- Helper functions for drawing the HUD and info
 function drawInfo()
     drawZoomInfo(1)
     drawAstigmatismInfo(2)
     drawCoordinates(3)
+    drawPCount(4)
 end
 
 -- Draws the player indicator triangle
@@ -299,6 +310,6 @@ hook.Add("Think", "Zoomer", function(ply, button)
     end
     if input.IsKeyDown(KEY_X) and curTime() > nextChange then
         changeAstimagtismMode()
-        nextChange = CurTime() + 0.2
+        nextChange = curTime() + 0.2
     end
 end)
