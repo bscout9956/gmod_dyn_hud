@@ -218,18 +218,24 @@ function drawPlayerIndicator()
 end
 
 function mapRender()
-    local pPos = ply:GetPos()
-    local angY = ply:EyeAngles().y
 
     -- Locals for optimization
     local zoomLevel = zoomLevel
+    local hudBound = hudBound
+
+    -- Math stuff
     local abs = math.abs
     local cos = math.cos
     local sin = math.sin
     local rad = math.rad
     local clamp = math.Clamp
+
+    -- Render/Surface stuff
     local dR = surface.DrawRect
     local sdc = surface.SetDrawColor
+    -- End of optimization fluff
+    local pPos = ply:GetPos()
+    local angY = ply:EyeAngles().y
 
     local radA = rad(-angY + 90) -- We rotate so 90 is upwards/north
     local cosA = cos(radA)
@@ -239,8 +245,6 @@ function mapRender()
     if astigmatismMode then
         r, g, b = 40, 40, 40
     end
-
-    local hudBound = hudBound
 
     draw.NoTexture()
 
