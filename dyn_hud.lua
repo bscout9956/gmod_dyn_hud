@@ -293,7 +293,7 @@ function northPointRender()
     local renderY = hudCenterY + (dirY * radius * limit);
 
     surface.SetDrawColor(128, 0, 0, 255)
-    draw.Circle(renderX, renderY, 10, 255)
+    draw.Circle(renderX, renderY, 10, 10)
 
     draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
