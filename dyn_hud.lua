@@ -167,49 +167,40 @@ function draw.SimpleAstigmatismText(text, style, x, y, align_x, align_y)
 end
 
 --- Draws whether or not astigmatism mode is enabled.
----@param idx number @ Index for rendering info at the right spot
-function drawAstigmatismInfo(idx)
-    local astStr = boolToStr(astigmatismMode)
-
-    local astigmatismModeStr = "Astigmatism Mode: " .. astStr
-    draw.SimpleAstigmatismText(astigmatismModeStr, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
-        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+function drawAstigmatismInfo()
+    return "Astigmatism Mode: " .. boolToStr(astigmatismMode)
 end
 
 --- Draws the current zoom level on the HUD
----@param idx number @ Index for rendering info at the right spot
-function drawZoomInfo(idx)
-    local infoZoom = "Zoom Level: " .. zoomLevel
-    draw.SimpleAstigmatismText(infoZoom, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
-        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+function drawZoomInfo()
+    return "Zoom Level: " .. uiZoomLevel
 end
+
 --- Draws the player's current coordinates on the HUD
----@param idx number @ Index for rendering info at the right spot
-function drawCoordinates(idx)
+function drawCoordinates()
     local pPos = ply:GetPos()
     local floor = math.floor
-    local infoCoords = "X: " .. floor(pPos.x) .. " Y: " .. floor(pPos.y) .. " Z: " .. floor(pPos.z)
-
-    draw.SimpleAstigmatismText(infoCoords, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
-        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+    return "X: " .. floor(pPos.x) .. " Y: " .. floor(pPos.y) .. " Z: " .. floor(pPos.z)
 end
 
 --- Draws the number of points
----@param idx number @ Index for rendering info at the right spot
-function drawPCount(idx)
-    local pCount = #points
-    local info = "Number of Points: " .. pCount
-
-    draw.SimpleAstigmatismText(info, "DermaDefault", xPos + (spacing / 2), size + (yPos * idx) + spacing,
-        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+function drawPCount()
+    return "Number of Points: " .. #points
 end
 
--- Helper functions for drawing the HUD and info
+function drawBudget()
+    local timeSpent = ""
+    return timeSpent
+end
+
+-- Draw all debug/HUD information
 function drawInfo()
-    drawZoomInfo(1)
-    drawAstigmatismInfo(2)
-    drawCoordinates(3)
-    drawPCount(4)
+    funcs = {drawZoomInfo, drawAstigmatismInfo, drawCoordinates, drawPCount}
+
+    for index, func in ipairs(funcs) do
+        draw.SimpleAstigmatismText(func(), "DermaDefault", xPos + (spacing / 2), size + (yPos * index) + spacing,
+            TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+    end
 end
 
 -- Draws the player indicator triangle
