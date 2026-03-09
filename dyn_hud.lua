@@ -51,6 +51,7 @@ playerIndicatorTable = {{
 -- Auxiliary Variables
 PURE_WHITE = Color(255, 255, 255)
 SOFT_GRAY = Color(240, 240, 240)
+GREEN = Color(0, 255, 0)
 
 -- Functions
 
@@ -275,7 +276,7 @@ function mapRender()
     local frameTime = (renderEnd - renderStart) * 1000
     local timeDiff = string.format("%.2f ms", frameTime)
 
-    draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, Color(0, 255, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+    draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, GREEN, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
 function northPointRender()
