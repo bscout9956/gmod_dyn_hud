@@ -157,21 +157,6 @@ function boolToStr(value)
     end
 end
 
---- Wrapper function to reduce font contrast when necessary
----@param text string @The text that will be fed to draw.SimpleText
----@param style string @The font style
----@param x number @ X Position
----@param y number @ Y Position
----@param align_x any @ Text Alignment on X Axis
----@param align_y any @ Text Alignment on Y Axis
-function draw.SimpleAstigmatismText(text, style, x, y, align_x, align_y)
-    if not astigmatismMode then
-        draw.SimpleText(text, style, x, y, PURE_WHITE, align_x, align_y)
-    else
-        draw.SimpleText(text, style, x, y, SOFT_GRAY, align_x, align_y)
-    end
-end
-
 -- DRY HELL INCOMING:
 
 --- Draws whether or not astigmatism mode is enabled.
@@ -196,26 +181,17 @@ function drawPCount()
     return "Number of Points: " .. #points
 end
 
-function drawBudget()
-    local timeSpent = ""
-    return timeSpent
-end
-
 -- Draw all debug/HUD information
 function drawInfo()
     for index, func in ipairs(funcs) do
-        draw.SimpleAstigmatismText(func(), "DermaDefault", xPos + (spacing * 0.5), size + (yPos * index) + spacing,
+        draw.SimpleText(func(), "DermaDefault", xPos + (spacing * 0.5), size + (yPos * index) + spacing, PURE_WHITE,
             TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
     end
 end
 
 -- Draws the player indicator triangle
 function drawPlayerIndicator()
-    if not astigmatismMode then
-        surface.SetDrawColor(255, 255, 0, 200) -- Default Yellow
-    else
-        surface.SetDrawColor(0, 100, 200, 255) -- Smoother blue
-    end
+    surface.SetDrawColor(0, 100, 200, 255) -- Smoother blue
     surface.DrawPoly(playerIndicatorTable)
 end
 
