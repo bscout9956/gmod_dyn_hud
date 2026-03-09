@@ -4,6 +4,7 @@ points = {}
 zoomLevel = 0.5
 astigmatismMode = false
 spacing = 20
+margin = spacing
 
 pure_white = Color(255, 255, 255)
 soft_gray = Color(240, 240, 240)
@@ -13,8 +14,8 @@ local width = ScrW()
 size = math.floor(0.125 * width)
 halfSize = size / 2
 
-thickness = 3
-xPos = spacing
+thicknemargin
+xPos = margin
 yPos = spacing
 
 -- Auxiliary Variables and Globals
