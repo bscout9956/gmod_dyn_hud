@@ -203,7 +203,7 @@ function drawInfo()
     funcs = {drawZoomInfo, drawAstigmatismInfo, drawCoordinates, drawPCount}
 
     for index, func in ipairs(funcs) do
-        draw.SimpleAstigmatismText(func(), "DermaDefault", xPos + (spacing / 2), size + (yPos * index) + spacing,
+        draw.SimpleAstigmatismText(func(), "DermaDefault", xPos + (spacing * 0.5), size + (yPos * index) + spacing,
             TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
     end
 end
