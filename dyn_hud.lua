@@ -53,6 +53,8 @@ PURE_WHITE = Color(255, 255, 255)
 SOFT_GRAY = Color(240, 240, 240)
 GREEN = Color(0, 255, 0)
 
+funcs = {drawZoomInfo, drawAstigmatismInfo, drawCoordinates, drawPCount}
+
 -- Functions
 
 -- Taken from: https://wiki.facepunch.com/gmod/surface.DrawPoly
@@ -201,8 +203,6 @@ end
 
 -- Draw all debug/HUD information
 function drawInfo()
-    funcs = {drawZoomInfo, drawAstigmatismInfo, drawCoordinates, drawPCount}
-
     for index, func in ipairs(funcs) do
         draw.SimpleAstigmatismText(func(), "DermaDefault", xPos + (spacing * 0.5), size + (yPos * index) + spacing,
             TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
