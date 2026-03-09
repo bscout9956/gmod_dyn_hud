@@ -124,7 +124,9 @@ end
 function registerPlayerPos()
     local pos = ply:GetPos()
     local round = math.floor
-    addPoint(round(pos.x), round(pos.y), round(pos.z)) -- We round first, we don't need extremely granular HUD points
+    -- We drop some precision for X and Y because we don't really need that much precision honestly
+    -- It also looks really cool lmao
+    addPoint(round(pos.x/10)*10, round(pos.y/10)*10, round(pos.z)) 
 end
 
 function drawHUDBox()
