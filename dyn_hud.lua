@@ -93,9 +93,6 @@ function changeAstimagtismMode()
     astigmatismMode = not astigmatismMode
 end
 
-function round(n)
-    return math.floor(n + 0.5)
-end
 
 --- Adds a point to the points table if it doesn't already exist
 ---@param x number @X coordinate
@@ -126,6 +123,7 @@ end
 
 function registerPlayerPos()
     local pos = ply:GetPos()
+    local round = math.floor
     addPoint(round(pos.x), round(pos.y), round(pos.z)) -- We round first, we don't need extremely granular HUD points
 end
 
