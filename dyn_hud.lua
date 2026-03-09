@@ -1,13 +1,8 @@
 -- GMOD Dynamic HUD v0.3 by BlackScout/bscout9956
+uiResolution = 1 -- Fractional, the higher the worse, keep it small
 -- Data
 points = {}
-zoomLevel = 0.5
-astigmatismMode = false
-spacing = 20
-margin = spacing
-
-pure_white = Color(255, 255, 255)
-soft_gray = Color(240, 240, 240)
+ply = LocalPlayer()
 
 -- HUD Parameters
 local width = ScrW()
@@ -19,8 +14,8 @@ xPos = margin
 yPos = margin
 hudCenterX = xPos + halfSize
 hudCenterY = yPos + halfSize
-
-ply = LocalPlayer()
+mapResolution = uiResolution / 100
+mapZoomLevel = uiZoomLevel / 10
 
 local pointsLookup = {}
 local playerIndicatorSize = 18
@@ -88,11 +83,12 @@ function draw.Circle(x, y, radius, seg)
 end
 
 function changeZoom()
-    if zoomLevel >= 1 then
-        zoomLevel = 0.1
+    if uiZoomLevel >= 1 then
+        uiZoomLevel = 0.1
     else
-        zoomLevel = zoomLevel + 0.01
+        uiZoomLevel = uiZoomLevel + 0.01
     end
+    mapZoomLevel = uiZoomLevel / 10
 end
 
 function changeAstimagtismMode()
@@ -215,7 +211,7 @@ end
 
 function mapRender()
     -- Locals for optimization
-    local zoomLevel = zoomLevel
+    local mapZoomLevel = mapZoomLevel
     local hudBound = hudBound
 
     -- Math stuff
@@ -249,8 +245,8 @@ function mapRender()
         if diffZ < 100 then -- we don't perform any crazy arithmetic on points we're not drawing
             local alpha = 255 - (diffZ * 2.55) -- aka 255/100, 100 is the distance of the fade
 
-            local relX = (pos.x - pPos.x) * zoomLevel
-            local relY = (pos.y - pPos.y) * zoomLevel
+            local relX = (pos.x - pPos.x) * mapZoomLevel
+            local relY = (pos.y - pPos.y) * mapZoomLevel
 
             local rotX = relX * cosA - relY * sinA -- renderX = hudCenterX + (pos.x - pPos.x)
             local rotY = relX * sinA + relY * cosA -- hudCenterY - (pos.y - pPos.y) -- We subtract Y because Source coordinate system
