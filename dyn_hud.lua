@@ -251,8 +251,8 @@ function mapRender()
     for _, pos in pairs(points) do
         local diffZ = abs(pos.z - pPos.z)
 
-        if diffZ < 80 then -- we don't perform any crazy arithmetic on points we're not drawing
-            local alpha = 255 - (diffZ * 3.1875) -- 3.1875 aka 255/80 or the distance of the fade
+        if diffZ < 100 then -- we don't perform any crazy arithmetic on points we're not drawing
+            local alpha = 255 - (diffZ * 2.55) -- aka 255/100, 100 is the distance of the fade
 
             local relX = (pos.x - pPos.x) * zoomLevel
             local relY = (pos.y - pPos.y) * zoomLevel
