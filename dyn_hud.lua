@@ -301,8 +301,9 @@ hook.Add("HUDPaint", "HUDMain", function()
 end)
 
 hook.Add("Think", "Zoomer", function(ply, button)
+    local cz = changeZoom
     if input.IsKeyDown(KEY_Z) then
-        changeZoom()
+        cz()
     end
     -- I need to figure out a way to do this that doesn't cause an epilepsy seizure to the user...
     -- DO NOT UNCOMMENT THIS IF YOU HAVE PHOTOSENSITIVITY
