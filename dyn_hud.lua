@@ -13,16 +13,12 @@ soft_gray = Color(240, 240, 240)
 local width = ScrW()
 size = math.floor(0.125 * width)
 halfSize = size / 2
-
 thickness = 3
+hudBound = halfSize - thickness
 xPos = margin
 yPos = margin
-
--- Auxiliary Variables and Globals
-
-hudCenterX = xPos + (size / 2)
-hudCenterY = yPos + (size / 2)
-hudBound = halfSize - thickness
+hudCenterX = xPos + halfSize
+hudCenterY = yPos + halfSize
 
 ply = LocalPlayer()
 local playerIndicatorSize = 18
