@@ -1,11 +1,17 @@
 -- GMOD Dynamic HUD v0.3 by BlackScout/bscout9956
+-- Settings
+uiZoomLevel = 0.5
+astigmatismMode = false
 uiResolution = 1 -- Fractional, the higher the worse, keep it small
+
 -- Data
 points = {}
 ply = LocalPlayer()
 
 -- HUD Parameters
 local width = ScrW()
+spacing = 20
+margin = spacing
 size = math.floor(0.125 * width)
 halfSize = size / 2
 thickness = 3
@@ -116,7 +122,8 @@ function registerPlayerPos()
     local round = math.floor
     -- We drop some precision for X and Y because we don't really need that much precision honestly
     -- It also looks really cool lmao
-    addPoint(round(pos.x / 10) * 10, round(pos.y / 10) * 10, round(pos.z))
+    addPoint(round(pos.x * mapResolution) * 1 / mapResolution, round(pos.y * mapResolution) * 1 / mapResolution,
+        round(pos.z))
 end
 
 function drawHUDBox()
@@ -161,6 +168,8 @@ function draw.SimpleAstigmatismText(text, style, x, y, align_x, align_y)
         draw.SimpleText(text, style, x, y, SOFT_GRAY, align_x, align_y)
     end
 end
+
+-- DRY HELL INCOMING:
 
 --- Draws whether or not astigmatism mode is enabled.
 function drawAstigmatismInfo()
@@ -210,6 +219,7 @@ function drawPlayerIndicator()
 end
 
 function mapRender()
+    local renderStart = SysTime()
     -- Locals for optimization
     local mapZoomLevel = mapZoomLevel
     local hudBound = hudBound
@@ -260,6 +270,12 @@ function mapRender()
             end
         end
     end
+
+    local renderEnd = SysTime()
+    local frameTime = (renderEnd - renderStart) * 1000
+    local timeDiff = string.format("%.2f ms", frameTime)
+
+    draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, Color(0, 255, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
 function northPointRender()
@@ -278,7 +294,7 @@ function northPointRender()
     surface.SetDrawColor(128, 0, 0, 255)
     draw.Circle(renderX, renderY, 10, 255)
 
-    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, pure_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
 -- Hooks and other shit
