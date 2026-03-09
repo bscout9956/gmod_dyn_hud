@@ -125,8 +125,8 @@ function registerPlayerPos()
     local round = math.floor
     -- We drop some precision for X and Y because we don't really need that much precision honestly
     -- It also looks really cool lmao
-    addPoint(round(pos.x * mapResolution) * 1 / mapResolution, round(pos.y * mapResolution) * 1 / mapResolution,
-        round(pos.z))
+    addPoint(round(pos.x * mapResolution) / mapResolution, round(pos.y * mapResolution) / mapResolution,
+        round(pos.z * mapResolution) / mapResolution)
 end
 
 function drawHUDBox()
@@ -229,8 +229,8 @@ function mapRender()
     for _, pos in pairs(points) do
         local diffZ = abs(pos.z - pPos.z)
 
-        if diffZ < 100 then -- we don't perform any crazy arithmetic on points we're not drawing
-            local alpha = 255 - (diffZ * 2.55) -- aka 255/100, 100 is the distance of the fade
+        if diffZ < 500 then -- we don't perform any crazy arithmetic on points we're not drawing
+            local alpha = 255 - (diffZ * 0.51)
 
             local relX = (pos.x - pPos.x) * mapZoomLevel
             local relY = (pos.y - pPos.y) * mapZoomLevel
