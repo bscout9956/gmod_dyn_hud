@@ -103,7 +103,7 @@ end
 ---@param y number @Y coordinate
 ---@param z number @Z coordinate
 function addPoint(x, y, z)
-    if not hasPoint(x, y) then
+    if not hasPoint(x, y, z) then
         table.insert(points, {
             x = x,
             y = y,
