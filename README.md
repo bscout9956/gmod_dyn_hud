@@ -1,4 +1,4 @@
-# GMOD Dynamic HUD v0.2.1 by BlackScout/bscout9956
+# GMOD Dynamic HUD v0.3 by BlackScout/bscout9956
 
 ## Description
 
@@ -15,3 +15,4 @@ It works through a breadcrumb system that reveals the path on the player's radar
 - Zooming in and out
 - Information view (Zoom level for now)
 - Astigmatism mode (if you can't see white on black very well)
+- Fade based on Z level

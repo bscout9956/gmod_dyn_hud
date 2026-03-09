@@ -1,4 +1,4 @@
--- GMOD Dynamic HUD v0.2.3 by BlackScout/bscout9956
+-- GMOD Dynamic HUD v0.3 by BlackScout/bscout9956
 -- Data
 points = {}
 zoomLevel = 0.5
