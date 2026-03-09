@@ -47,6 +47,10 @@ playerIndicatorTable = {{
     v = 0
 }}
 
+-- Auxiliary Variables
+PURE_WHITE = Color(255, 255, 255)
+SOFT_GRAY = Color(240, 240, 240)
+
 -- Functions
 
 -- Taken from: https://wiki.facepunch.com/gmod/surface.DrawPoly
@@ -156,9 +160,9 @@ end
 ---@param align_y any @ Text Alignment on Y Axis
 function draw.SimpleAstigmatismText(text, style, x, y, align_x, align_y)
     if not astigmatismMode then
-        draw.SimpleText(text, style, x, y, pure_white, align_x, align_y)
+        draw.SimpleText(text, style, x, y, PURE_WHITE, align_x, align_y)
     else
-        draw.SimpleText(text, style, x, y, soft_gray, align_x, align_y)
+        draw.SimpleText(text, style, x, y, SOFT_GRAY, align_x, align_y)
     end
 end
 
