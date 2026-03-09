@@ -222,30 +222,49 @@ end
 function mapRender()
     local pPos = ply:GetPos()
     local angY = ply:EyeAngles().y
-    local radA = math.rad(-angY + 90) -- We rotate so 90 is upwards/north
 
-    local cosA = math.cos(radA)
-    local sinA = math.sin(radA)
+    -- Locals for optimization
+    local zLevel = zoomLevel
+    local abs = math.abs
+    local cos = math.cos
+    local sin = math.sin
+    local rad = math.rad
+    local clamp = math.Clamp
+    local dR = surface.DrawRect
+    local sdc = surface.SetDrawColor
 
-    if not astigmatismMode then
-        surface.SetDrawColor(255, 255, 255, 255)
-    else
-        surface.SetDrawColor(40, 40, 40, 255)
+    local radA = rad(-angY + 90) -- We rotate so 90 is upwards/north
+    local cosA = cos(radA)
+    local sinA = sin(radA)
+
+    local r,g,b=255,255,255
+    if astigmatismMode then
+        r,g,b=40,40,40
     end
+
+    local hudBound = hudBound
+
     draw.NoTexture()
 
     for _, pos in pairs(points) do
-        local relX = (pos.x - pPos.x) * zoomLevel
-        local relY = (pos.y - pPos.y) * zoomLevel
+        local diffZ = abs(pos.z - pPos.z)
 
-        local rotX = relX * cosA - relY * sinA -- renderX = hudCenterX + (pos.x - pPos.x)
-        local rotY = relX * sinA + relY * cosA -- hudCenterY - (pos.y - pPos.y) -- We subtract Y because Source coordinate system
+        if diffZ < 80 then -- we don't perform any crazy arithmetic on points we're not drawing
+            local alpha = 255 - (diffZ * 3.1875) -- 3.1875 aka 255/80 or the distance of the fade
+            
+            local relX = (pos.x - pPos.x) * zLevel
+            local relY = (pos.y - pPos.y) * zLevel
 
-        local renderX = hudCenterX + rotX
-        local renderY = hudCenterY - rotY
+            local rotX = relX * cosA - relY * sinA -- renderX = hudCenterX + (pos.x - pPos.x)
+            local rotY = relX * sinA + relY * cosA -- hudCenterY - (pos.y - pPos.y) -- We subtract Y because Source coordinate system
 
-        if (math.abs(rotX) < halfSize - thickness) and (math.abs(rotY) < halfSize - thickness) then
-            surface.DrawRect(renderX - 1, renderY - 1, 3, 3)
+            if abs(rotX) < hudBound and abs(rotY) < hudBound then
+                local renderX = hudCenterX + rotX
+                local renderY = hudCenterY - rotY
+
+                sdc(r, g, b, alpha)
+                dR(renderX - 1, renderY - 1, 3, 3)
+            end
         end
     end
 end
