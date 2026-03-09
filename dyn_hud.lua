@@ -14,9 +14,9 @@ local width = ScrW()
 size = math.floor(0.125 * width)
 halfSize = size / 2
 
-thicknemargin
+thickness = 3
 xPos = margin
-yPos = spacing
+yPos = margin
 
 -- Auxiliary Variables and Globals
 
