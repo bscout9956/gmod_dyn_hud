@@ -21,6 +21,8 @@ hudCenterX = xPos + halfSize
 hudCenterY = yPos + halfSize
 
 ply = LocalPlayer()
+
+local pointsLookup = {}
 local playerIndicatorSize = 18
 
 playerIndicatorTable = {{
@@ -93,13 +95,14 @@ function changeAstimagtismMode()
     astigmatismMode = not astigmatismMode
 end
 
-
 --- Adds a point to the points table if it doesn't already exist
 ---@param x number @X coordinate
 ---@param y number @Y coordinate
 ---@param z number @Z coordinate
 function addPoint(x, y, z)
-    if not hasPoint(x, y, z) then
+    local key = x .. "_" .. y .. "_" .. z
+    if not pointsLookup[key] then
+        pointsLookup[key] = true
         table.insert(points, {
             x = x,
             y = y,
@@ -108,25 +111,12 @@ function addPoint(x, y, z)
     end
 end
 
---- Checks if the points table has a specific coordinate
----@param x number @X coordinate
----@param y number @Y coordinate
----@param z number @Z coordinate
-function hasPoint(x, y, z)
-    for _, pt in ipairs(points) do
-        if pt.x == x and pt.y == y and pt.z == z then
-            return true
-        end
-    end
-    return false
-end
-
 function registerPlayerPos()
     local pos = ply:GetPos()
     local round = math.floor
     -- We drop some precision for X and Y because we don't really need that much precision honestly
     -- It also looks really cool lmao
-    addPoint(round(pos.x/10)*10, round(pos.y/10)*10, round(pos.z)) 
+    addPoint(round(pos.x / 10) * 10, round(pos.y / 10) * 10, round(pos.z))
 end
 
 function drawHUDBox()
