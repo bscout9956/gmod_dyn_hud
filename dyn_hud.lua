@@ -1,9 +1,6 @@
 local colors = include("colors.lua")
 local settings = include("settings.lua")
-
 -- GMOD Dynamic HUD v0.3 by BlackScout/bscout9956
--- Settings
-
 -- Data
 points = {}
 ply = LocalPlayer()
@@ -21,7 +18,6 @@ yPos = margin
 hudCenterX = xPos + halfSize
 hudCenterY = yPos + halfSize
 mapResolution = settings.uiResolution / 100
-mapZoomLevel = settings.uiZoomLevel / 10
 
 local pointsLookup = {}
 local playerIndicatorSize = 18
@@ -84,15 +80,6 @@ function draw.Circle(x, y, radius, seg)
     })
 
     surface.DrawPoly(cir)
-end
-
-function changeZoom()
-    if settings.uiZoomLevel >= 1 then
-        settings.uiZoomLevel = 0.1
-    else
-        settings.uiZoomLevel = settings.uiZoomLevel + 0.01
-    end
-    mapZoomLevel = settings.uiZoomLevel / 10
 end
 
 function changeAstimagtismMode()
@@ -227,8 +214,8 @@ function mapRender()
         if diffZ < 500 then -- we don't perform any crazy arithmetic on points we're not drawing
             local alpha = 255 - (diffZ * 0.51)
 
-            local relX = (pos.x - pPos.x) * mapZoomLevel
-            local relY = (pos.y - pPos.y) * mapZoomLevel
+            local relX = (pos.x - pPos.x) * settings.mapZoomLevel
+            local relY = (pos.y - pPos.y) * settings.mapZoomLevel
 
             local rotX = relX * cosA - relY * sinA -- renderX = hudCenterX + (pos.x - pPos.x)
             local rotY = relX * sinA + relY * cosA -- hudCenterY - (pos.y - pPos.y) -- We subtract Y because Source coordinate system
