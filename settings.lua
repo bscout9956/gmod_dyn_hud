@@ -9,11 +9,37 @@ Settings.uiResolution = 1 -- Fractional, the higher the worse, keep it small
 Settings.spacing = 20
 Settings.margin = 20
 Settings.hudSize = math.floor(0.125 * ScrW())
+Settings.playerIndicatorSize = 18
 
 -- Derivative values
+Settings.halfSize = Settings.hudSize / 2
 Settings.mapZoomLevel = Settings.uiZoomLevel / 10
 Settings.hudXpos = Settings.margin
 Settings.hudYpos = Settings.margin
+Settings.hudCenterX = Settings.hudXpos + Settings.halfSize
+Settings.hudCenterY = Settings.hudYpos + Settings.halfSize
+
+Settings.playerIndicatorTable = {{
+    x = Settings.hudCenterX - Settings.playerIndicatorSize,
+    y = Settings.hudCenterY + Settings.playerIndicatorSize,
+    u = 0,
+    v = 0
+}, {
+    x = Settings.hudCenterX,
+    y = Settings.hudCenterY - Settings.playerIndicatorSize,
+    u = 0,
+    v = 0
+}, {
+    x = Settings.hudCenterX + Settings.playerIndicatorSize,
+    y = Settings.hudCenterY + Settings.playerIndicatorSize,
+    u = 0,
+    v = 0
+}, {
+    x = Settings.hudCenterX - Settings.playerIndicatorSize,
+    y = Settings.hudCenterY + Settings.playerIndicatorSize,
+    u = 0,
+    v = 0
+}}
 
 local SCREEN_WIDTH = ScrW()
 local SCREEN_HEIGHT = ScrH()
@@ -57,6 +83,16 @@ local function createNumSlider(frame, props)
     return slider
 end
 
+local function createLabelGrid(frame, xIndex, yIndex, props)
+    props.pos = getGridPosition(xIndex, yIndex)
+    return createLabel(frame, props)
+end
+
+local function createNumSliderGrid(frame, xIndex, yIndex, props)
+    props.pos = getGridPosition(xIndex, yIndex)
+    return createNumSlider(frame, props)
+end
+
 local function getGridPosition(gridX, gridY)
     local pos = {
         x = nil,
@@ -72,16 +108,6 @@ local function getGridPosition(gridX, gridY)
     end
 
     return pos
-end
-
-local function createLabelGrid(frame, xIndex, yIndex, props)
-    props.pos = getGridPosition(xIndex, yIndex)
-    return createLabel(frame, props)
-end
-
-local function createNumSliderGrid(frame, xIndex, yIndex, props)
-    props.pos = getGridPosition(xIndex, yIndex)
-    return createNumSlider(frame, props)
 end
 
 function Settings.OpenDynHudSettings()

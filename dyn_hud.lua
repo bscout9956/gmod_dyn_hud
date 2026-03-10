@@ -8,37 +8,11 @@ points = {}
 local ply = LocalPlayer()
 
 -- HUD Parameters
-local halfSize = settings.hudSize / 2
 local thickness = 3
-local hudBound = halfSize - thickness
-local hudCenterX = settings.hudXpos + halfSize
-local hudCenterY = settings.hudYpos + halfSize
+local hudBound = settings.halfSize - thickness
 local mapResolution = settings.uiResolution / 100
 
 local pointsLookup = {}
-local playerIndicatorSize = 18
-
-local playerIndicatorTable = {{
-    x = hudCenterX - playerIndicatorSize,
-    y = hudCenterY + playerIndicatorSize,
-    u = 0,
-    v = 0
-}, {
-    x = hudCenterX,
-    y = hudCenterY - playerIndicatorSize,
-    u = 0,
-    v = 0
-}, {
-    x = hudCenterX + playerIndicatorSize,
-    y = hudCenterY + playerIndicatorSize,
-    u = 0,
-    v = 0
-}, {
-    x = hudCenterX - playerIndicatorSize,
-    y = hudCenterY + playerIndicatorSize,
-    u = 0,
-    v = 0
-}}
 
 -- Taken from: https://wiki.facepunch.com/gmod/surface.DrawPoly
 -- Why isn't this included bro? It's not bloat, it's useful lmao
@@ -125,7 +99,7 @@ end
 -- Draws the player indicator triangle
 function drawPlayerIndicator()
     surface.SetDrawColor(0, 100, 200, 255) -- Smoother blue
-    surface.DrawPoly(playerIndicatorTable)
+    surface.DrawPoly(settings.playerIndicatorTable)
 end
 
 function mapRender()
@@ -168,8 +142,8 @@ function mapRender()
             local rotY = relX * sinA + relY * cosA -- hudCenterY - (pos.y - pPos.y) -- We subtract Y because Source coordinate system
 
             if abs(rotX) < hudBound and abs(rotY) < hudBound then
-                local renderX = hudCenterX + rotX
-                local renderY = hudCenterY - rotY
+                local renderX = settings.hudCenterX + rotX
+                local renderY = settings.hudCenterY - rotY
 
                 setDrawColor(r, g, b, alpha)
                 drawRect(renderX, renderY, 3, 3)
@@ -187,15 +161,15 @@ end
 function northPointRender()
     local angY = math.rad(ply:EyeAngles().y - 90)
 
-    local radius = halfSize
+    local radius = settings.halfSize
 
     local dirX = math.cos(angY)
     local dirY = math.sin(angY)
 
     local limit = 1 / math.max(math.abs(dirX), math.abs(dirY))
 
-    local renderX = hudCenterX + (dirX * radius * limit);
-    local renderY = hudCenterY + (dirY * radius * limit);
+    local renderX = settings.hudCenterX + (dirX * radius * limit);
+    local renderY = settings.hudCenterY + (dirY * radius * limit);
 
     surface.SetDrawColor(128, 0, 0, 255)
     draw.Circle(renderX, renderY, 10, 10)
