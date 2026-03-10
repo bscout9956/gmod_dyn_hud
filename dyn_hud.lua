@@ -1,5 +1,5 @@
 local colors = include("colors.lua")
-local settings = include("settings.lua")
+settings = include("settings.lua")
 -- GMOD Dynamic HUD v0.3 by BlackScout/bscout9956
 -- Data
 points = {}
