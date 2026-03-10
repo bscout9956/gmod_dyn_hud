@@ -1,5 +1,6 @@
 local colors = include("colors.lua")
 settings = include("settings.lua")
+uiSettings = include("ui_settings.lua")
 local debug = include("debug.lua")
 
 -- GMOD Dynamic HUD v0.5 by BlackScout/bscout9956
