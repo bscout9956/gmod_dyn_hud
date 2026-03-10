@@ -32,28 +32,45 @@ function Settings.changeZoom()
     Settings.mapZoomLevel = Settings.uiZoomLevel / 10
 end
 
+local function createLabel(frame, x, y, w, h, txt)
+    local label = vgui.Create("DLabel", frame)
+    label:SetPos(x, y)
+    label:SetSize(w, h)
+    label:SetText(txt)
+    return label
+end
+
+local function createNumSlider(frame, x, y, w, h, txt, min, max, decimals, val)
+    local slider = vgui.Create("DNumSlider", frame)
+    slider:SetPos(x, y)
+    slider:SetSize(w, h)
+    slider:SetText(txt)
+    slider:SetMin(min)
+    slider:SetMax(max)
+    slider:SetDecimals(decimals)
+    slider:SetValue(val)
+    return slider
+end
+
 function Settings.OpenDynHudSettings()
     local frame = vgui.Create("DFrame")
-    frame:SetSize(400, 300)
+    frame:SetSize(FRAME_WIDTH, FRAME_WIDTH)
     frame:Center()
     frame:SetTitle("DynHud Settings")
     frame:MakePopup()
 
-    local label = vgui.Create("DLabel", frame)
-    label:SetPos(20, 40)
-    label:SetSize(300, 20)
-    label:SetText("Test")
+    local zoomSlider = createNumSlider(frame, LEFT_MARGIN, TOP_MARGIN + 20, 300, 20, "Zoom Level:", 0, 1, 1,
+        Settings.uiZoomLevel)
 
-    local closeBtn = vgui.Create("DButton", frame)
-    closeBtn:SetText("Button Test")
-    closeBtn:SetPos(150, 250)
-    closeBtn:SetSize(100, 30)
+    zoomSlider.OnValueChanged = function(self, value)
+        Settings.uiZoomLevel = value
+        Settings.mapZoomLevel = Settings.uiZoomLevel / 10
+    end
 
     Settings.settingsFramePresent = true
 
-    closeBtn.DoClick = function()
+    function frame:OnClose()
         Settings.settingsFramePresent = false
-        frame:Close()
     end
 end
 
