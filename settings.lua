@@ -1,5 +1,4 @@
 local uiUtils = include("ui_utils.lua")
-
 local Settings = {}
 
 Settings.settingsFramePresent = false
@@ -21,7 +20,7 @@ Settings.hudYpos = Settings.margin
 Settings.hudCenterX = Settings.hudXpos + Settings.halfSize
 Settings.hudCenterY = Settings.hudYpos + Settings.halfSize
 
-Settings.playerIndicatorTable = {{
+Settings.playerIndicatorTable = { {
     x = Settings.hudCenterX - Settings.playerIndicatorSize,
     y = Settings.hudCenterY + Settings.playerIndicatorSize,
     u = 0,
@@ -41,19 +40,7 @@ Settings.playerIndicatorTable = {{
     y = Settings.hudCenterY + Settings.playerIndicatorSize,
     u = 0,
     v = 0
-}}
-
-local SCREEN_WIDTH = ScrW()
-local SCREEN_HEIGHT = ScrH()
-
-local FRAME_WIDTH = 0.5 * SCREEN_WIDTH
-local FRAME_HEIGHT = 0.5 * SCREEN_HEIGHT
-local LEFT_MARGIN = 0.01 * SCREEN_WIDTH
-local TOP_MARGIN = 0.03 * SCREEN_HEIGHT
-
-local gridCountX, gridCountY = 2, 20
-local gridSizeX = FRAME_WIDTH / gridCountX
-local gridSizeY = FRAME_HEIGHT / gridCountY
+} }
 
 function Settings.changeZoom()
     if Settings.uiZoomLevel >= 1 then
@@ -66,21 +53,21 @@ end
 
 function Settings.OpenDynHudSettings()
     local frame = vgui.Create("DFrame")
-    frame:SetSize(FRAME_WIDTH, FRAME_WIDTH)
+    frame:SetSize(uiSettings.FRAME_WIDTH, uiSettings.FRAME_WIDTH)
     frame:Center()
     frame:SetTitle("DynHud Settings")
     frame:MakePopup()
 
-    local section = uiUtils.createLabelGrid(frame, 0, 0, {
-        w = gridSizeX,
-        h = gridSizeY,
+    uiUtils.createLabelGrid(frame, 0, 0, {
+        w = uiSettings.gridSizeX,
+        h = uiSettings.gridSizeY,
         text = "Main Options:",
         font = "HudDefault"
     })
 
     local zoomSlider = uiUtils.createNumSliderGrid(frame, 0, 1, {
-        w = gridSizeX,
-        h = gridSizeY,
+        w = uiSettings.gridSizeX,
+        h = uiSettings.gridSizeY,
         text = "Zoom Level:",
         min = 0,
         max = 1,
