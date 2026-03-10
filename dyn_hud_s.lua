@@ -1,0 +1,208 @@
+local colors = include("colors.lua")
+settings = include("settings.lua")
+uiSettings = include("ui_settings.lua")
+local debug = include("debug.lua")
+
+-- GMOD Dynamic HUD v0.5 by BlackScout/bscout9956
+-- Data
+points = {}
+local ply = LocalPlayer()
+
+-- HUD Parameters
+local thickness = 3
+local hudBound = settings.halfSize - thickness
+local mapResolution = settings.uiResolution / 100
+
+local pointsLookup = {}
+
+-- Taken from: https://wiki.facepunch.com/gmod/surface.DrawPoly
+-- Why isn't this included bro? It's not bloat, it's useful lmao
+function draw.Circle(x, y, radius, seg)
+    local cir = {}
+
+    table.insert(cir, {
+        x = x,
+        y = y,
+        u = 0.5,
+        v = 0.5
+    })
+
+    local cos, sin = math.cos, math.sin
+    for i = 0, seg do
+        local a = math.rad((i / seg) * -360)
+        table.insert(cir, {
+            x = x + sin(a) * radius,
+            y = y + cos(a) * radius,
+            u = sin(a) / 2 + 0.5,
+            v = cos(a) / 2 + 0.5
+        })
+    end
+
+    local a = math.rad(0) -- This is needed for non absolute segment counts
+    table.insert(cir, {
+        x = x + math.sin(a) * radius,
+        y = y + math.cos(a) * radius,
+        u = math.sin(a) / 2 + 0.5,
+        v = math.cos(a) / 2 + 0.5
+    })
+
+    surface.DrawPoly(cir)
+end
+
+function changeAstimagtismMode()
+    settings.astigmatismMode = not settings.astigmatismMode
+end
+
+--- Adds a point to the points table if it doesn't already exist
+---@param x number @X coordinate
+---@param y number @Y coordinate
+---@param z number @Z coordinate
+function addPoint(x, y, z)
+    local key = x .. "_" .. y .. "_" .. z
+    if not pointsLookup[key] then
+        pointsLookup[key] = true
+        table.insert(points, {
+            x = x,
+            y = y,
+            z = z
+        })
+    end
+end
+
+function registerPlayerPos()
+    local pos = ply:GetPos()
+    local round = math.floor
+    -- We drop some precision for X and Y because we don't really need that much precision honestly
+    -- It also looks really cool lmao
+    addPoint(round(pos.x * mapResolution) / mapResolution, round(pos.y * mapResolution) / mapResolution,
+        round(pos.z * mapResolution) / mapResolution)
+end
+
+function drawHUDBox()
+    if not settings.astigmatismMode then
+        surface.SetDrawColor(255, 255, 255, 255)
+    else
+        surface.SetDrawColor(60, 60, 60, 255)
+    end
+
+    surface.DrawOutlinedRect(settings.hudXpos, settings.hudYpos, settings.hudSize, settings.hudSize, thickness)
+
+    if not settings.astigmatismMode then
+        surface.SetDrawColor(0, 0, 0, 220)
+    else
+        surface.SetDrawColor(235, 235, 235, 240)
+    end
+
+    surface.DrawRect(settings.hudXpos + thickness, settings.hudYpos + thickness, settings.hudSize - (thickness * 2),
+        settings.hudSize - (thickness * 2))
+end
+
+-- Draws the player indicator triangle
+function drawPlayerIndicator()
+    surface.SetDrawColor(0, 100, 200, 255) -- Smoother blue
+    surface.DrawPoly(settings.playerIndicatorTable)
+end
+
+function mapRender()
+    local renderStart = SysTime()
+    -- Math stuff
+    local abs = math.abs
+    local cos = math.cos
+    local sin = math.sin
+    local rad = math.rad
+
+    -- Render/Surface stuff
+    local drawRect = surface.DrawRect
+    local setDrawColor = surface.SetDrawColor
+    -- End of optimization fluff
+    local pPos = ply:GetPos()
+    local angY = ply:EyeAngles().y
+
+    local radA = rad(-angY + 90) -- We rotate so 90 is upwards/north
+    local cosA = cos(radA)
+    local sinA = sin(radA)
+
+    local r, g, b = 255, 255, 255
+    if settings.astigmatismMode then
+        r, g, b = 40, 40, 40
+    end
+
+    draw.NoTexture()
+
+    for _, pos in pairs(points) do
+        local diffZ = abs(pos.z - pPos.z)
+
+        if diffZ < 500 then -- we don't perform any crazy arithmetic on points we're not drawing
+            local alpha = 255 - (diffZ * 0.51)
+
+            local relX = (pos.x - pPos.x) * settings.mapZoomLevel
+            local relY = (pos.y - pPos.y) * settings.mapZoomLevel
+
+            local rotX = relX * cosA - relY * sinA -- renderX = hudCenterX + (pos.x - pPos.x)
+            local rotY = relX * sinA +
+                relY *
+                cosA -- hudCenterY - (pos.y - pPos.y) -- We subtract Y because Source coordinate system
+
+            if abs(rotX) < hudBound and abs(rotY) < hudBound then
+                local renderX = settings.hudCenterX + rotX
+                local renderY = settings.hudCenterY - rotY
+
+                setDrawColor(r, g, b, alpha)
+                drawRect(renderX, renderY, 3, 3)
+            end
+        end
+    end
+
+    local renderEnd = SysTime()
+    local frameTime = (renderEnd - renderStart) * 1000
+    local timeDiff = string.format("%.2f ms", frameTime)
+
+    draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, colors.GREEN, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+end
+
+function northPointRender()
+    local angY = math.rad(ply:EyeAngles().y - 90)
+
+    local radius = settings.halfSize
+
+    local dirX = math.cos(angY)
+    local dirY = math.sin(angY)
+
+    local limit = 1 / math.max(math.abs(dirX), math.abs(dirY))
+
+    local renderX = settings.hudCenterX + (dirX * radius * limit);
+    local renderY = settings.hudCenterY + (dirY * radius * limit);
+
+    surface.SetDrawColor(128, 0, 0, 255)
+    draw.Circle(renderX, renderY, 10, 10)
+
+    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, colors.PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+end
+
+-- Hooks and other shit
+
+hook.Add("HUDPaint", "HUDMain", function()
+    drawHUDBox()
+    debug.drawInfo()
+    drawPlayerIndicator()
+    registerPlayerPos()
+    mapRender()
+    northPointRender()
+end)
+
+local nextChange = 0
+hook.Add("Think", "Zoomer", function(ply, button)
+    local curTime = CurTime
+    if input.IsKeyDown(KEY_Z) and curTime() > nextChange then
+        settings.changeZoom()
+        nextChange = curTime() + 0.009
+    end
+    if input.IsKeyDown(KEY_X) and curTime() > nextChange then
+        changeAstimagtismMode()
+        nextChange = curTime() + 0.2
+    end
+    if input.IsKeyDown(KEY_M) and curTime() > nextChange and settings.settingsFramePresent == false then
+        settingsFramePresent = settings:OpenDynHudSettings()
+        nextChange = curTime() + 0.5 -- We make it real slow lmao
+    end
+end)
