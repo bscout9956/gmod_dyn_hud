@@ -65,6 +65,13 @@ function Settings.OpenDynHudSettings()
         font = "HudDefault"
     })
 
+    uiUtils.createLabelGrid(frame, 0, 2, {
+        w = UiSettings.gridSizeX,
+        h = UiSettings.gridSizeY,
+        text = "Astigmatism Mode:",
+        font = "DermaDefault"
+    })
+
     local zoomSlider = uiUtils.createNumSliderGrid(frame, 0, 1, {
         w = UiSettings.gridSizeX,
         h = UiSettings.gridSizeY,
@@ -75,9 +82,17 @@ function Settings.OpenDynHudSettings()
         value = Settings.uiZoomLevel
     })
 
-    zoomSlider.OnValueChanged = function(self, value)
+    local astigmatismCheckbox = uiUtils.createDCheckboxGrid(frame, 1, 2, {
+        value = Settings.astigmatismMode
+    })
+
+    zoomSlider.OnValueChanged = function(_, value)
         Settings.uiZoomLevel = value
         Settings.mapZoomLevel = Settings.uiZoomLevel / 10
+    end
+
+    astigmatismCheckbox.OnChange = function(_, value)
+        Settings.astigmatismMode = value
     end
 
     Settings.settingsFramePresent = true

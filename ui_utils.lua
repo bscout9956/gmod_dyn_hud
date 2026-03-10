@@ -50,6 +50,17 @@ function UIUtils.createNumSlider(frame, props)
     return slider
 end
 
+--- Creates a DCheckBox with the given properties
+---@param frame Panel
+---@param props table
+---@return DCheckBox
+function UIUtils.createDCheckBox(frame, props)
+    local checkbox = vgui.Create("DCheckBox", frame)
+    checkbox:SetPos(props.pos.x, props.pos.y)
+    checkbox:SetValue(props.value)
+    return checkbox
+end
+
 --- Creates a label using the grid system
 ---@param frame Panel
 ---@param xIndex number
@@ -63,6 +74,11 @@ end
 function UIUtils.createNumSliderGrid(frame, xIndex, yIndex, props)
     props.pos = UIUtils.getGridPosition(xIndex, yIndex)
     return UIUtils.createNumSlider(frame, props)
+end
+
+function UIUtils.createDCheckboxGrid(frame, xIndex, yIndex, props)
+    props.pos = UIUtils.getGridPosition(xIndex, yIndex)
+    return UIUtils.createDCheckBox(frame, props)
 end
 
 return UIUtils
