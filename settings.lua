@@ -4,7 +4,17 @@ Settings.settingsFramePresent = false
 Settings.uiZoomLevel = 0.5
 Settings.astigmatismMode = false
 Settings.uiResolution = 1 -- Fractional, the higher the worse, keep it small
+
+-- HUD Parameters
+Settings.spacing = 20
+Settings.margin = 20
+Settings.hudSize = math.floor(0.125 * ScrW())
+
+-- Derivative values
 Settings.mapZoomLevel = Settings.uiZoomLevel / 10
+Settings.hudXpos = Settings.margin
+Settings.hudYpos = Settings.margin
+
 
 function Settings.changeZoom()
     if Settings.uiZoomLevel >= 1 then
