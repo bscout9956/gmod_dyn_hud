@@ -110,7 +110,6 @@ function mapRender()
     local cos = math.cos
     local sin = math.sin
     local rad = math.rad
-    local clamp = math.Clamp
 
     -- Render/Surface stuff
     local drawRect = surface.DrawRect
