@@ -5,12 +5,12 @@ local Debug = {}
 
 --- Draws whether or not astigmatism mode is enabled.
 local function drawAstigmatismInfo()
-    return "Astigmatism Mode: " .. utils.boolToStr(settings.astigmatismMode)
+    return "Astigmatism Mode: " .. utils.boolToStr(Settings.astigmatismMode)
 end
 
 --- Draws the current zoom level on the HUD
 local function drawZoomInfo()
-    return "Zoom Level: " .. settings.uiZoomLevel
+    return "Zoom Level: " .. Settings.uiZoomLevel
 end
 
 --- Draws the player's current coordinates on the HUD
@@ -22,15 +22,15 @@ end
 
 --- Draws the number of points
 local function drawPCount()
-    return "Number of Points: " .. #points
+    return "Number of Points: " .. #Points
 end
 
 -- Draw all debug/HUD information
 function Debug.drawInfo()
     local funcs = { drawCoordinates, drawAstigmatismInfo, drawZoomInfo, drawPCount }
     for index, func in ipairs(funcs) do
-        draw.SimpleText(func(), "DermaDefault", settings.hudXpos + (settings.spacing * 0.5),
-            settings.hudSize + (settings.hudYpos * index) + settings.spacing, colors.PURE_WHITE, TEXT_ALIGN_LEFT,
+        draw.SimpleText(func(), "DermaDefault", Settings.hudXpos + (Settings.spacing * 0.5),
+            Settings.hudSize + (Settings.hudYpos * index) + Settings.spacing, colors.PURE_WHITE, TEXT_ALIGN_LEFT,
             TEXT_ALIGN_TOP)
     end
 end

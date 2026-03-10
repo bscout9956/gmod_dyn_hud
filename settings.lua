@@ -53,21 +53,21 @@ end
 
 function Settings.OpenDynHudSettings()
     local frame = vgui.Create("DFrame")
-    frame:SetSize(uiSettings.FRAME_WIDTH, uiSettings.FRAME_WIDTH)
+    frame:SetSize(UiSettings.FRAME_WIDTH, UiSettings.FRAME_WIDTH)
     frame:Center()
     frame:SetTitle("DynHud Settings")
     frame:MakePopup()
 
     uiUtils.createLabelGrid(frame, 0, 0, {
-        w = uiSettings.gridSizeX,
-        h = uiSettings.gridSizeY,
+        w = UiSettings.gridSizeX,
+        h = UiSettings.gridSizeY,
         text = "Main Options:",
         font = "HudDefault"
     })
 
     local zoomSlider = uiUtils.createNumSliderGrid(frame, 0, 1, {
-        w = uiSettings.gridSizeX,
-        h = uiSettings.gridSizeY,
+        w = UiSettings.gridSizeX,
+        h = UiSettings.gridSizeY,
         text = "Zoom Level:",
         min = 0,
         max = 1,
