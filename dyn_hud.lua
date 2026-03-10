@@ -3,26 +3,20 @@ settings = include("settings.lua")
 -- GMOD Dynamic HUD v0.3 by BlackScout/bscout9956
 -- Data
 points = {}
-ply = LocalPlayer()
+local ply = LocalPlayer()
 
 -- HUD Parameters
-local width = ScrW()
-spacing = 20
-margin = spacing
-size = math.floor(0.125 * width)
-halfSize = size / 2
-thickness = 3
-hudBound = halfSize - thickness
-xPos = margin
-yPos = margin
-hudCenterX = xPos + halfSize
-hudCenterY = yPos + halfSize
-mapResolution = settings.uiResolution / 100
+local halfSize = settings.hudSize / 2
+local thickness = 3
+local hudBound = halfSize - thickness
+local hudCenterX = settings.hudXpos + halfSize
+local hudCenterY = settings.hudYpos + halfSize
+local mapResolution = settings.uiResolution / 100
 
 local pointsLookup = {}
 local playerIndicatorSize = 18
 
-playerIndicatorTable = {{
+local playerIndicatorTable = {{
     x = hudCenterX - playerIndicatorSize,
     y = hudCenterY + playerIndicatorSize,
     u = 0,
@@ -43,10 +37,6 @@ playerIndicatorTable = {{
     u = 0,
     v = 0
 }}
-
-funcs = {drawZoomInfo, drawAstigmatismInfo, drawCoordinates, drawPCount}
-
--- Functions
 
 -- Taken from: https://wiki.facepunch.com/gmod/surface.DrawPoly
 -- Why isn't this included bro? It's not bloat, it's useful lmao
