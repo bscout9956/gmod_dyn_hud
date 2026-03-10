@@ -64,23 +64,6 @@ function Settings.changeZoom()
     Settings.mapZoomLevel = Settings.uiZoomLevel / 10
 end
 
-local function getGridPosition(gridX, gridY)
-    local pos = {
-        x = nil,
-        y = nil
-    }
-
-    if gridX ~= nil then
-        pos.x = LEFT_MARGIN + (gridSizeX * gridX)
-    end
-
-    if gridY ~= nil then
-        pos.y = TOP_MARGIN + (gridSizeY * gridY)
-    end
-
-    return pos
-end
-
 function Settings.OpenDynHudSettings()
     local frame = vgui.Create("DFrame")
     frame:SetSize(FRAME_WIDTH, FRAME_WIDTH)

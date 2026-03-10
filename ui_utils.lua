@@ -1,5 +1,22 @@
 local UIUtils = {}
 
+function UIUtils.getGridPosition(gridX, gridY)
+    local pos = {
+        x = nil,
+        y = nil
+    }
+
+    if gridX ~= nil then
+        pos.x = LEFT_MARGIN + (gridSizeX * gridX)
+    end
+
+    if gridY ~= nil then
+        pos.y = TOP_MARGIN + (gridSizeY * gridY)
+    end
+
+    return pos
+end
+
 function UIUtils.createLabel(frame, props)
     local label = vgui.Create("DLabel", frame)
     label:SetPos(props.pos.x, props.pos.y)
