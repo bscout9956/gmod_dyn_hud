@@ -139,7 +139,9 @@ function mapRender()
             local relY = (pos.y - pPos.y) * settings.mapZoomLevel
 
             local rotX = relX * cosA - relY * sinA -- renderX = hudCenterX + (pos.x - pPos.x)
-            local rotY = relX * sinA + relY * cosA -- hudCenterY - (pos.y - pPos.y) -- We subtract Y because Source coordinate system
+            local rotY = relX * sinA +
+                relY *
+                cosA -- hudCenterY - (pos.y - pPos.y) -- We subtract Y because Source coordinate system
 
             if abs(rotX) < hudBound and abs(rotY) < hudBound then
                 local renderX = settings.hudCenterX + rotX
