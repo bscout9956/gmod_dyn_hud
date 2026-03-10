@@ -1,3 +1,4 @@
+-- Dyn_Hud.lua
 local colors = include("colors.lua")
 settings = include("settings.lua")
 local debug = include("debug.lua")
@@ -110,7 +111,7 @@ function drawHUDBox()
         surface.SetDrawColor(60, 60, 60, 255)
     end
 
-    surface.DrawOutlinedRect(xPos, yPos, size, size, thickness)
+    surface.DrawOutlinedRect(settings.hudXpos, settings.hudYpos, settings.hudSize, settings.hudSize, thickness)
 
     if not settings.astigmatismMode then
         surface.SetDrawColor(0, 0, 0, 220)
@@ -118,49 +119,8 @@ function drawHUDBox()
         surface.SetDrawColor(235, 235, 235, 240)
     end
 
-    surface.DrawRect(xPos + thickness, yPos + thickness, size - (thickness * 2), size - (thickness * 2))
-end
-
---- Converts a boolean value to a string for display purposes
----@param value boolean @The boolean value to convert to a string
-function boolToStr(value)
-    if value then
-        return "On"
-    else
-        return "Off"
-    end
-end
-
--- DRY HELL INCOMING:
-
---- Draws whether or not astigmatism mode is enabled.
-function drawAstigmatismInfo()
-    return "Astigmatism Mode: " .. boolToStr(settings.astigmatismMode)
-end
-
---- Draws the current zoom level on the HUD
-function drawZoomInfo()
-    return "Zoom Level: " .. settings.uiZoomLevel
-end
-
---- Draws the player's current coordinates on the HUD
-function drawCoordinates()
-    local pPos = ply:GetPos()
-    local floor = math.floor
-    return "X: " .. floor(pPos.x) .. " Y: " .. floor(pPos.y) .. " Z: " .. floor(pPos.z)
-end
-
---- Draws the number of points
-function drawPCount()
-    return "Number of Points: " .. #points
-end
-
--- Draw all debug/HUD information
-function drawInfo()
-    for index, func in ipairs(funcs) do
-        draw.SimpleText(func(), "DermaDefault", xPos + (spacing * 0.5), size + (yPos * index) + spacing,
-            colors.PURE_WHITE, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-    end
+    surface.DrawRect(settings.hudXpos + thickness, settings.hudYpos + thickness, settings.hudSize - (thickness * 2),
+        settings.hudSize - (thickness * 2))
 end
 
 -- Draws the player indicator triangle
@@ -171,10 +131,6 @@ end
 
 function mapRender()
     local renderStart = SysTime()
-    -- Locals for optimization
-    local mapZoomLevel = mapZoomLevel
-    local hudBound = hudBound
-
     -- Math stuff
     local abs = math.abs
     local cos = math.cos
@@ -252,7 +208,7 @@ end
 
 hook.Add("HUDPaint", "HUDMain", function()
     drawHUDBox()
-    drawInfo()
+    debug.drawInfo()
     drawPlayerIndicator()
     registerPlayerPos()
     mapRender()
@@ -263,7 +219,7 @@ local nextChange = 0
 hook.Add("Think", "Zoomer", function(ply, button)
     local curTime = CurTime
     if input.IsKeyDown(KEY_Z) and curTime() > nextChange then
-        changeZoom()
+        settings.changeZoom()
         nextChange = curTime() + 0.009
     end
     if input.IsKeyDown(KEY_X) and curTime() > nextChange then
