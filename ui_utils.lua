@@ -1,5 +1,9 @@
 local UIUtils = {}
 
+--- Returns the position given a specific X and Y grid index
+---@param gridX number
+---@param gridY number
+---@return table
 function UIUtils.getGridPosition(gridX, gridY)
     local pos = {
         x = nil,
@@ -17,6 +21,10 @@ function UIUtils.getGridPosition(gridX, gridY)
     return pos
 end
 
+--- Creates a DLabel with the given properties
+---@param frame Panel
+---@param props table
+---@return DLabel
 function UIUtils.createLabel(frame, props)
     local label = vgui.Create("DLabel", frame)
     label:SetPos(props.pos.x, props.pos.y)
@@ -26,6 +34,10 @@ function UIUtils.createLabel(frame, props)
     return label
 end
 
+--- Creates a DNumSlider with the given properties
+---@param frame Panel
+---@param props table
+---@return DNumSlider
 function UIUtils.createNumSlider(frame, props)
     local slider = vgui.Create("DNumSlider", frame)
     slider:SetPos(props.pos.x, props.pos.y)
