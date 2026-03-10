@@ -1,8 +1,8 @@
+local colors = include("colors.lua")
+local settings = include("settings.lua")
+
 -- GMOD Dynamic HUD v0.3 by BlackScout/bscout9956
 -- Settings
-uiZoomLevel = 0.5
-astigmatismMode = false
-uiResolution = 1 -- Fractional, the higher the worse, keep it small
 
 -- Data
 points = {}
@@ -20,8 +20,8 @@ xPos = margin
 yPos = margin
 hudCenterX = xPos + halfSize
 hudCenterY = yPos + halfSize
-mapResolution = uiResolution / 100
-mapZoomLevel = uiZoomLevel / 10
+mapResolution = settings.uiResolution / 100
+mapZoomLevel = settings.uiZoomLevel / 10
 
 local pointsLookup = {}
 local playerIndicatorSize = 18
@@ -47,11 +47,6 @@ playerIndicatorTable = {{
     u = 0,
     v = 0
 }}
-
--- Auxiliary Variables
-PURE_WHITE = Color(255, 255, 255)
-SOFT_GRAY = Color(240, 240, 240)
-GREEN = Color(0, 255, 0)
 
 funcs = {drawZoomInfo, drawAstigmatismInfo, drawCoordinates, drawPCount}
 
@@ -92,16 +87,16 @@ function draw.Circle(x, y, radius, seg)
 end
 
 function changeZoom()
-    if uiZoomLevel >= 1 then
-        uiZoomLevel = 0.1
+    if settings.uiZoomLevel >= 1 then
+        settings.uiZoomLevel = 0.1
     else
-        uiZoomLevel = uiZoomLevel + 0.01
+        settings.uiZoomLevel = settings.uiZoomLevel + 0.01
     end
-    mapZoomLevel = uiZoomLevel / 10
+    mapZoomLevel = settings.uiZoomLevel / 10
 end
 
 function changeAstimagtismMode()
-    astigmatismMode = not astigmatismMode
+    settings.astigmatismMode = not settings.astigmatismMode
 end
 
 --- Adds a point to the points table if it doesn't already exist
@@ -130,7 +125,7 @@ function registerPlayerPos()
 end
 
 function drawHUDBox()
-    if not astigmatismMode then
+    if not settings.astigmatismMode then
         surface.SetDrawColor(255, 255, 255, 255)
     else
         surface.SetDrawColor(60, 60, 60, 255)
@@ -138,7 +133,7 @@ function drawHUDBox()
 
     surface.DrawOutlinedRect(xPos, yPos, size, size, thickness)
 
-    if not astigmatismMode then
+    if not settings.astigmatismMode then
         surface.SetDrawColor(0, 0, 0, 220)
     else
         surface.SetDrawColor(235, 235, 235, 240)
@@ -161,12 +156,12 @@ end
 
 --- Draws whether or not astigmatism mode is enabled.
 function drawAstigmatismInfo()
-    return "Astigmatism Mode: " .. boolToStr(astigmatismMode)
+    return "Astigmatism Mode: " .. boolToStr(settings.astigmatismMode)
 end
 
 --- Draws the current zoom level on the HUD
 function drawZoomInfo()
-    return "Zoom Level: " .. uiZoomLevel
+    return "Zoom Level: " .. settings.uiZoomLevel
 end
 
 --- Draws the player's current coordinates on the HUD
@@ -184,8 +179,8 @@ end
 -- Draw all debug/HUD information
 function drawInfo()
     for index, func in ipairs(funcs) do
-        draw.SimpleText(func(), "DermaDefault", xPos + (spacing * 0.5), size + (yPos * index) + spacing, PURE_WHITE,
-            TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+        draw.SimpleText(func(), "DermaDefault", xPos + (spacing * 0.5), size + (yPos * index) + spacing,
+            colors.PURE_WHITE, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
     end
 end
 
@@ -220,7 +215,7 @@ function mapRender()
     local sinA = sin(radA)
 
     local r, g, b = 255, 255, 255
-    if astigmatismMode then
+    if settings.astigmatismMode then
         r, g, b = 40, 40, 40
     end
 
@@ -252,7 +247,7 @@ function mapRender()
     local frameTime = (renderEnd - renderStart) * 1000
     local timeDiff = string.format("%.2f ms", frameTime)
 
-    draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, GREEN, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+    draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, colors.GREEN, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
 function northPointRender()
@@ -271,7 +266,7 @@ function northPointRender()
     surface.SetDrawColor(128, 0, 0, 255)
     draw.Circle(renderX, renderY, 10, 10)
 
-    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, colors.PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
 -- Hooks and other shit

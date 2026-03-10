@@ -1,0 +1,7 @@
+local COLORS = {}
+
+COLORS.PURE_WHITE = Color(255, 255, 255)
+COLORS.SOFT_GRAY = Color(240, 240, 240)
+COLORS.GREEN = Color(0, 255, 0)
+
+return COLORS
