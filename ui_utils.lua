@@ -38,14 +38,19 @@ function UIUtils.createNumSlider(frame, props)
     return slider
 end
 
+--- Creates a label using the grid system
+---@param frame Panel
+---@param xIndex number
+---@param yIndex number
+---@param props table
 function UIUtils.createLabelGrid(frame, xIndex, yIndex, props)
-    props.pos = UIUtils:getGridPosition(xIndex, yIndex)
-    return UIUtils:createLabel(frame, props)
+    props.pos = UIUtils.getGridPosition(xIndex, yIndex)
+    return UIUtils.createLabel(frame, props)
 end
 
 function UIUtils.createNumSliderGrid(frame, xIndex, yIndex, props)
-    props.pos = UIUtils:getGridPosition(xIndex, yIndex)
-    return UIUtils:createNumSlider(frame, props)
+    props.pos = UIUtils.getGridPosition(xIndex, yIndex)
+    return UIUtils.createNumSlider(frame, props)
 end
 
 return UIUtils
