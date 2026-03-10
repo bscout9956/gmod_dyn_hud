@@ -30,7 +30,8 @@ function Debug.drawInfo()
     local funcs = {drawCoordinates, drawAstigmatismInfo, drawZoomInfo, drawPCount}
     for index, func in ipairs(funcs) do
         draw.SimpleText(func(), "DermaDefault", settings.hudXpos + (settings.spacing * 0.5),
-            hudSize + (settings.hudYpos * index) + settings.spacing, colors.PURE_WHITE, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+            settings.hudSize + (settings.hudYpos * index) + settings.spacing, colors.PURE_WHITE, TEXT_ALIGN_LEFT,
+            TEXT_ALIGN_TOP)
     end
 end
 
