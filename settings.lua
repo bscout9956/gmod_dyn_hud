@@ -23,6 +23,10 @@ local FRAME_HEIGHT = 0.5 * SCREEN_HEIGHT
 local LEFT_MARGIN = 0.01 * SCREEN_WIDTH
 local TOP_MARGIN = 0.03 * SCREEN_HEIGHT
 
+local gridCountX, gridCountY = 2, 20
+local gridSizeX = FRAME_WIDTH / gridCountX
+local gridSizeY = FRAME_HEIGHT / gridCountY
+
 function Settings.changeZoom()
     if Settings.uiZoomLevel >= 1 then
         Settings.uiZoomLevel = 0.1
@@ -32,24 +36,52 @@ function Settings.changeZoom()
     Settings.mapZoomLevel = Settings.uiZoomLevel / 10
 end
 
-local function createLabel(frame, x, y, w, h, txt)
+local function createLabel(frame, props)
     local label = vgui.Create("DLabel", frame)
-    label:SetPos(x, y)
-    label:SetSize(w, h)
-    label:SetText(txt)
+    label:SetPos(props.pos.x, props.pos.y)
+    label:SetSize(props.w, props.h)
+    label:SetText(props.text)
+    label:SetFont(props.font)
     return label
 end
 
-local function createNumSlider(frame, x, y, w, h, txt, min, max, decimals, val)
+local function createNumSlider(frame, props)
     local slider = vgui.Create("DNumSlider", frame)
-    slider:SetPos(x, y)
-    slider:SetSize(w, h)
-    slider:SetText(txt)
-    slider:SetMin(min)
-    slider:SetMax(max)
-    slider:SetDecimals(decimals)
-    slider:SetValue(val)
+    slider:SetPos(props.pos.x, props.pos.y)
+    slider:SetSize(props.w, props.h)
+    slider:SetText(props.text)
+    slider:SetMin(props.min)
+    slider:SetMax(props.max)
+    slider:SetDecimals(props.decimals)
+    slider:SetValue(props.val)
     return slider
+end
+
+local function getGridPosition(gridX, gridY)
+    local pos = {
+        x = nil,
+        y = nil
+    }
+
+    if gridX ~= nil then
+        pos.x = LEFT_MARGIN + (gridSizeX * gridX)
+    end
+
+    if gridY ~= nil then
+        pos.y = TOP_MARGIN + (gridSizeY * gridY)
+    end
+
+    return pos
+end
+
+local function createLabelGrid(frame, xIndex, yIndex, props)
+    props.pos = getGridPosition(xIndex, yIndex)
+    return createLabel(frame, props)
+end
+
+local function createNumSliderGrid(frame, xIndex, yIndex, props)
+    props.pos = getGridPosition(xIndex, yIndex)
+    return createNumSlider(frame, props)
 end
 
 function Settings.OpenDynHudSettings()
@@ -59,8 +91,22 @@ function Settings.OpenDynHudSettings()
     frame:SetTitle("DynHud Settings")
     frame:MakePopup()
 
-    local zoomSlider = createNumSlider(frame, LEFT_MARGIN, TOP_MARGIN + 20, 300, 20, "Zoom Level:", 0, 1, 1,
-        Settings.uiZoomLevel)
+    local section = createLabelGrid(frame, 0, 0, {
+        w = gridSizeX,
+        h = gridSizeY,
+        text = "Main Options:",
+        font = "HudDefault"
+    })
+
+    local zoomSlider = createNumSliderGrid(frame, 0, 1, {
+        w = gridSizeX,
+        h = gridSizeY,
+        text = "Zoom Level:",
+        min = 0,
+        max = 1,
+        decimals = 1,
+        value = Settings.uiZoomLevel
+    })
 
     zoomSlider.OnValueChanged = function(self, value)
         Settings.uiZoomLevel = value
