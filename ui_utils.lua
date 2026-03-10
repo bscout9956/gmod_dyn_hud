@@ -7,11 +7,11 @@ function UIUtils.getGridPosition(gridX, gridY)
     }
 
     if gridX ~= nil then
-        pos.x = LEFT_MARGIN + (gridSizeX * gridX)
+        pos.x = uiSettings.LEFT_MARGIN + (uiSettings.gridSizeX * gridX)
     end
 
     if gridY ~= nil then
-        pos.y = TOP_MARGIN + (gridSizeY * gridY)
+        pos.y = uiSettings.TOP_MARGIN + (uiSettings.gridSizeY * gridY)
     end
 
     return pos
