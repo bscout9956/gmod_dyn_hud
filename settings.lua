@@ -1,3 +1,5 @@
+local uiUtils = include("ui_utils.lua")
+
 local Settings = {}
 
 Settings.settingsFramePresent = false
@@ -62,37 +64,6 @@ function Settings.changeZoom()
     Settings.mapZoomLevel = Settings.uiZoomLevel / 10
 end
 
-local function createLabel(frame, props)
-    local label = vgui.Create("DLabel", frame)
-    label:SetPos(props.pos.x, props.pos.y)
-    label:SetSize(props.w, props.h)
-    label:SetText(props.text)
-    label:SetFont(props.font)
-    return label
-end
-
-local function createNumSlider(frame, props)
-    local slider = vgui.Create("DNumSlider", frame)
-    slider:SetPos(props.pos.x, props.pos.y)
-    slider:SetSize(props.w, props.h)
-    slider:SetText(props.text)
-    slider:SetMin(props.min)
-    slider:SetMax(props.max)
-    slider:SetDecimals(props.decimals)
-    slider:SetValue(props.val)
-    return slider
-end
-
-local function createLabelGrid(frame, xIndex, yIndex, props)
-    props.pos = getGridPosition(xIndex, yIndex)
-    return createLabel(frame, props)
-end
-
-local function createNumSliderGrid(frame, xIndex, yIndex, props)
-    props.pos = getGridPosition(xIndex, yIndex)
-    return createNumSlider(frame, props)
-end
-
 local function getGridPosition(gridX, gridY)
     local pos = {
         x = nil,
@@ -117,14 +88,14 @@ function Settings.OpenDynHudSettings()
     frame:SetTitle("DynHud Settings")
     frame:MakePopup()
 
-    local section = createLabelGrid(frame, 0, 0, {
+    local section = uiUtils.createLabelGrid(frame, 0, 0, {
         w = gridSizeX,
         h = gridSizeY,
         text = "Main Options:",
         font = "HudDefault"
     })
 
-    local zoomSlider = createNumSliderGrid(frame, 0, 1, {
+    local zoomSlider = uiUtils.createNumSliderGrid(frame, 0, 1, {
         w = gridSizeX,
         h = gridSizeY,
         text = "Zoom Level:",
