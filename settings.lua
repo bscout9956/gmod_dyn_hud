@@ -15,6 +15,13 @@ Settings.mapZoomLevel = Settings.uiZoomLevel / 10
 Settings.hudXpos = Settings.margin
 Settings.hudYpos = Settings.margin
 
+local SCREEN_WIDTH = ScrW()
+local SCREEN_HEIGHT = ScrH()
+
+local FRAME_WIDTH = 0.5 * SCREEN_WIDTH
+local FRAME_HEIGHT = 0.5 * SCREEN_HEIGHT
+local LEFT_MARGIN = 0.01 * SCREEN_WIDTH
+local TOP_MARGIN = 0.03 * SCREEN_HEIGHT
 
 function Settings.changeZoom()
     if Settings.uiZoomLevel >= 1 then
