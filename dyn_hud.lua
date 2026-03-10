@@ -1,4 +1,3 @@
--- Dyn_Hud.lua
 local colors = include("colors.lua")
 settings = include("settings.lua")
 local debug = include("debug.lua")
