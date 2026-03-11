@@ -15,6 +15,19 @@ local mapResolution = Settings.uiResolution / 100
 
 local pointsLookup = {}
 
+-- Localization for Math Functions
+local abs = math.abs
+local cos = math.cos
+local sin = math.sin
+local rad = math.rad
+local max = math.max
+local round = math.floor
+
+-- Localization for surface stuff
+local drawRect = surface.DrawRect
+local setDrawColor = surface.SetDrawColor
+
+
 -- Taken from: https://wiki.facepunch.com/gmod/surface.DrawPoly
 -- Why isn't this included bro? It's not bloat, it's useful lmao
 function draw.Circle(x, y, radius, seg)
@@ -27,9 +40,8 @@ function draw.Circle(x, y, radius, seg)
         v = 0.5
     })
 
-    local cos, sin = math.cos, math.sin
     for i = 0, seg do
-        local a = math.rad((i / seg) * -360)
+        local a = rad((i / seg) * -360)
         table.insert(cir, {
             x = x + sin(a) * radius,
             y = y + cos(a) * radius,
@@ -40,8 +52,8 @@ function draw.Circle(x, y, radius, seg)
 
     local a = math.rad(0) -- This is needed for non absolute segment counts
     table.insert(cir, {
-        x = x + math.sin(a) * radius,
-        y = y + math.cos(a) * radius,
+        x = x + sin(a) * radius,
+        y = y + cos(a) * radius,
         u = (sin(a) * .5) + 0.5,
         v = (cos(a) * .5) + 0.5
     })
@@ -71,7 +83,6 @@ end
 
 local function registerPlayerPos()
     local pos = ply:GetPos()
-    local round = math.floor
     -- We drop some precision for X and Y because we don't really need that much precision honestly
     -- It also looks really cool lmao
     addPoint(round(pos.x * mapResolution) / mapResolution, round(pos.y * mapResolution) / mapResolution,
@@ -95,7 +106,7 @@ local function drawHUDBox()
         surface.SetDrawColor(235, 235, 235, 240)
     end
 
-    surface.DrawRect(Settings.hudXpos + Settings.hudThickness, Settings.hudYpos + Settings.hudThickness, noBoundHudSize,
+    drawRect(Settings.hudXpos + Settings.hudThickness, Settings.hudYpos + Settings.hudThickness, noBoundHudSize,
         noBoundHudSize)
 end
 
@@ -107,16 +118,6 @@ end
 
 local function mapRender()
     local renderStart = SysTime()
-    -- Math stuff
-    local abs = math.abs
-    local cos = math.cos
-    local sin = math.sin
-    local rad = math.rad
-
-    -- Render/Surface stuff
-    local drawRect = surface.DrawRect
-    local setDrawColor = surface.SetDrawColor
-    -- End of optimization fluff
     local pPos = ply:GetPos()
     local angY = ply:EyeAngles().y
 
@@ -161,17 +162,14 @@ local function mapRender()
 end
 
 local function northPointRender()
-    local angY = math.rad(ply:EyeAngles().y - 90)
+    local angY = rad(ply:EyeAngles().y - 90)
+    local cosA = cos(angY)
+    local sinA = sin(angY)
 
-    local radius = Settings.halfSize
+    local scale = Settings.halfSize / max(abs(cosA), abs(sinA))
 
-    local dirX = math.cos(angY)
-    local dirY = math.sin(angY)
-
-    local limit = 1 / math.max(math.abs(dirX), math.abs(dirY))
-
-    local renderX = Settings.hudCenterX + (dirX * radius * limit);
-    local renderY = Settings.hudCenterY + (dirY * radius * limit);
+    local renderX = Settings.hudCenterX + (cosA * scale);
+    local renderY = Settings.hudCenterY + (sinA * scale);
 
     surface.SetDrawColor(128, 0, 0, 255)
     draw.Circle(renderX, renderY, 10, 10)
