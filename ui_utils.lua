@@ -1,100 +1,83 @@
 local UIUtils = {}
 
+-- Mapping for the properties and their function calls
+local uiSetMapper = {
+    value = "SetValue",
+    val = "SetValue",
+    min = "SetMin",
+    max = "SetMax",
+    interval = "SetInterval",
+    decimals = "SetDecimals",
+    text = "SetText",
+    font = "SetFont"
+}
+
+-- Mapping for the properties, their function calls and the expected parameters
+local uiDualElementMapper = {
+    size = { func = "SetSize", params = { "w", "h" } },
+    pos = { func = "SetPos", params = { "x", "y" } },
+    minMax = { func = "SetMinMax", params = { "min", "max" } }
+}
+
 --- Returns the position given a specific X and Y grid index
----@param gridX number
----@param gridY number
+---@param grid table
 ---@return table
-function UIUtils.getGridPosition(gridX, gridY)
+function UIUtils.getGridPosition(grid)
     local pos = {
         x = nil,
         y = nil
     }
 
-    if gridX ~= nil then
-        pos.x = UiSettings.LEFT_MARGIN + (UiSettings.gridSizeX * gridX)
-    end
-
-    if gridY ~= nil then
-        pos.y = UiSettings.TOP_MARGIN + (UiSettings.gridSizeY * gridY)
+    if grid then
+        pos.x = (UiSettings.LEFT_MARGIN + (UiSettings.gridSizeX * grid.x)) or 0
+        pos.y = (UiSettings.TOP_MARGIN + (UiSettings.gridSizeY * grid.y)) or 0
     end
 
     return pos
 end
 
---- Creates a DNumberWang with the given properties
+local function dualElementSetter(element, propName, values)
+    local mapping = uiDualElementMapper[propName]
+    if not mapping then return end
+
+    local func = mapping.func
+    local p1 = mapping.params[1]
+    local p2 = mapping.params[2]
+
+    if element[func] then
+        element[func](element, values[p1], values[p2])
+    end
+end
+
+local function createUIElement(className, frame, props)
+    local element = vgui.Create(className, frame)
+
+    -- Single parameter properties
+    for propName, value in pairs(props) do
+        if propName ~= "grid" then
+            local funcSetter = uiSetMapper[propName]
+
+            if type(value) == "table" then
+                dualElementSetter(element, propName, value)
+            else
+                if funcSetter and element then
+                    element[funcSetter](element, value)
+                end
+            end
+        end
+    end
+
+    return element
+end
+
+--- Creates a label given the className using the grid system
 ---@param frame Panel
+---@param className string
 ---@param props table
-function UIUtils.createDNumberWang(frame, props)
-    local numberWang = vgui.Create("DNumberWang", frame)
-    numberWang:SetInterval(props.interval)
-    numberWang:SetDecimals(props.decimals)
-    numberWang:SetMinMax(props.min, props.max)
-    numberWang:SetValue(props.val)
-end
-
---- Creates a DLabel with the given properties
----@param frame Panel
----@param props table
----@return DLabel
-function UIUtils.createLabel(frame, props)
-    local label = vgui.Create("DLabel", frame)
-    label:SetPos(props.pos.x, props.pos.y)
-    label:SetSize(props.w, props.h)
-    label:SetText(props.text)
-    label:SetFont(props.font)
-    return label
-end
-
---- Creates a DNumSlider with the given properties
----@param frame Panel
----@param props table
----@return DNumSlider
-function UIUtils.createNumSlider(frame, props)
-    local slider = vgui.Create("DNumSlider", frame)
-    slider:SetPos(props.pos.x, props.pos.y)
-    slider:SetSize(props.w, props.h)
-    slider:SetText(props.text)
-    slider:SetMin(props.min)
-    slider:SetMax(props.max)
-    slider:SetDecimals(props.decimals)
-    slider:SetValue(props.val)
-    return slider
-end
-
---- Creates a DCheckBox with the given properties
----@param frame Panel
----@param props table
----@return DCheckBox
-function UIUtils.createDCheckBox(frame, props)
-    local checkbox = vgui.Create("DCheckBox", frame)
-    checkbox:SetPos(props.pos.x, props.pos.y)
-    checkbox:SetValue(props.value)
-    return checkbox
-end
-
---- Creates a label using the grid system
----@param frame Panel
----@param xIndex number
----@param yIndex number
----@param props table
-function UIUtils.createLabelGrid(frame, xIndex, yIndex, props)
-    props.pos = UIUtils.getGridPosition(xIndex, yIndex)
-    return UIUtils.createLabel(frame, props)
-end
-
-function UIUtils.createNumSliderGrid(frame, xIndex, yIndex, props)
-    props.pos = UIUtils.getGridPosition(xIndex, yIndex)
-    return UIUtils.createNumSlider(frame, props)
-end
-
-function UIUtils.createDCheckboxGrid(frame, xIndex, yIndex, props)
-    props.pos = UIUtils.getGridPosition(xIndex, yIndex)
-    return UIUtils.createDCheckBox(frame, props)
-end
-
-function UIUtils.createDNumberWangGrid(frame, xIndex, yIndex, props)
-    props.pos = UIUtils.getGridPosition(xIndex, yIndex)
-    return UIUtils.createDNumberWang(frame, props)
+function UIUtils.createUIElementOnGrid(frame, className, props)
+    props.pos = UIUtils.getGridPosition(props.grid)
+    local element = createUIElement(className, frame, props)
+    return element
 end
 
 return UIUtils
