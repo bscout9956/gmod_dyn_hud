@@ -78,6 +78,13 @@ end
 function UIUtils.createUIElementOnGrid(frame, className, props)
     props.pos = UIUtils.getGridPosition(props.grid)
     local element = createUIElement(className, frame, props)
+
+    -- Patch for when we don't want the text there, VGUI forces empty space to its left
+    if className == "DNumSlider" and (not props.text or props.text == "") then
+        element.Label:SetVisible(false)
+        element.Label:SetWide(0)
+    end
+
     return element
 end
 
