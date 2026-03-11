@@ -58,23 +58,23 @@ function Settings.OpenDynHudSettings()
     frame:SetTitle("DynHud Settings")
     frame:MakePopup()
 
-    uiUtils.createLabelGrid(frame, 0, 0, {
-        w = UiSettings.gridSizeX,
-        h = UiSettings.gridSizeY,
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
+        grid = { x = 0, y = 0 },
+        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
         text = "Main Options:",
         font = "HudDefault"
     })
 
-    uiUtils.createLabelGrid(frame, 0, 2, {
-        w = UiSettings.gridSizeX,
-        h = UiSettings.gridSizeY,
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
+        grid = { x = 0, y = 2 },
+        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
         text = "Astigmatism Mode:",
         font = "DermaDefault"
     })
 
-    local zoomSlider = uiUtils.createNumSliderGrid(frame, 0, 1, {
-        w = UiSettings.gridSizeX,
-        h = UiSettings.gridSizeY,
+    local zoomSlider = uiUtils.createUIElementOnGrid(frame, "DNumSlider", {
+        grid = { x = 0, y = 1 },
+        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
         text = "Zoom Level:",
         min = 0,
         max = 1,
@@ -82,7 +82,8 @@ function Settings.OpenDynHudSettings()
         value = Settings.uiZoomLevel
     })
 
-    local astigmatismCheckbox = uiUtils.createDCheckboxGrid(frame, 1, 2, {
+    local astigmatismCheckbox = uiUtils.createUIElementOnGrid(frame, "DCheckBox", {
+        grid = { x = 1, y = 2 },
         value = Settings.astigmatismMode
     })
 
