@@ -21,6 +21,17 @@ function UIUtils.getGridPosition(gridX, gridY)
     return pos
 end
 
+--- Creates a DNumberWang with the given properties
+---@param frame Panel
+---@param props table
+function UIUtils.createDNumberWang(frame, props)
+    local numberWang = vgui.Create("DNumberWang", frame)
+    numberWang:SetInterval(props.interval)
+    numberWang:SetDecimals(props.decimals)
+    numberWang:SetMinMax(props.min, props.max)
+    numberWang:SetValue(props.val)
+end
+
 --- Creates a DLabel with the given properties
 ---@param frame Panel
 ---@param props table
@@ -79,6 +90,11 @@ end
 function UIUtils.createDCheckboxGrid(frame, xIndex, yIndex, props)
     props.pos = UIUtils.getGridPosition(xIndex, yIndex)
     return UIUtils.createDCheckBox(frame, props)
+end
+
+function UIUtils.createDNumberWangGrid(frame, xIndex, yIndex, props)
+    props.pos = UIUtils.getGridPosition(xIndex, yIndex)
+    return UIUtils.createDNumberWang(frame, props)
 end
 
 return UIUtils
