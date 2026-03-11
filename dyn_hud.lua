@@ -33,8 +33,8 @@ function draw.Circle(x, y, radius, seg)
         table.insert(cir, {
             x = x + sin(a) * radius,
             y = y + cos(a) * radius,
-            u = sin(a) / 2 + 0.5,
-            v = cos(a) / 2 + 0.5
+            u = (sin(a) * .5) + 0.5,
+            v = (cos(a) * .5) + 0.5
         })
     end
 
@@ -42,8 +42,8 @@ function draw.Circle(x, y, radius, seg)
     table.insert(cir, {
         x = x + math.sin(a) * radius,
         y = y + math.cos(a) * radius,
-        u = math.sin(a) / 2 + 0.5,
-        v = math.cos(a) / 2 + 0.5
+        u = (sin(a) * .5) + 0.5,
+        v = (cos(a) * .5) + 0.5
     })
 
     surface.DrawPoly(cir)
