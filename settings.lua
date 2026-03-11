@@ -111,7 +111,7 @@ function Settings.OpenDynHudSettings()
     end
 
     zoomSlider.OnValueChanged = function(_, value)
-        Settings.uiZoomLevel = value
+        Settings.uiZoomLevel = math.Round(value, 2)
         Settings.mapZoomLevel = Settings.uiZoomLevel / 10
     end
 
