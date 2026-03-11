@@ -20,27 +20,31 @@ Settings.hudYpos = Settings.margin
 Settings.hudCenterX = Settings.hudXpos + Settings.halfSize
 Settings.hudCenterY = Settings.hudYpos + Settings.halfSize
 
-Settings.playerIndicatorTable = { {
-    x = Settings.hudCenterX - Settings.playerIndicatorSize,
-    y = Settings.hudCenterY + Settings.playerIndicatorSize,
-    u = 0,
-    v = 0
-}, {
-    x = Settings.hudCenterX,
-    y = Settings.hudCenterY - Settings.playerIndicatorSize,
-    u = 0,
-    v = 0
-}, {
-    x = Settings.hudCenterX + Settings.playerIndicatorSize,
-    y = Settings.hudCenterY + Settings.playerIndicatorSize,
-    u = 0,
-    v = 0
-}, {
-    x = Settings.hudCenterX - Settings.playerIndicatorSize,
-    y = Settings.hudCenterY + Settings.playerIndicatorSize,
-    u = 0,
-    v = 0
-} }
+local function computePlayerIndicatorTable()
+    return { {
+        x = Settings.hudCenterX - Settings.playerIndicatorSize,
+        y = Settings.hudCenterY + Settings.playerIndicatorSize,
+        u = 0,
+        v = 0
+    }, {
+        x = Settings.hudCenterX,
+        y = Settings.hudCenterY - Settings.playerIndicatorSize,
+        u = 0,
+        v = 0
+    }, {
+        x = Settings.hudCenterX + Settings.playerIndicatorSize,
+        y = Settings.hudCenterY + Settings.playerIndicatorSize,
+        u = 0,
+        v = 0
+    }, {
+        x = Settings.hudCenterX - Settings.playerIndicatorSize,
+        y = Settings.hudCenterY + Settings.playerIndicatorSize,
+        u = 0,
+        v = 0
+    } }
+end
+
+Settings.playerIndicatorTable = computePlayerIndicatorTable()
 
 function Settings.changeZoom()
     if Settings.uiZoomLevel >= 1 then
@@ -86,6 +90,25 @@ function Settings.OpenDynHudSettings()
         grid = { x = 1, y = 2 },
         value = Settings.astigmatismMode
     })
+
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
+        grid = { x = 0, y = 3 },
+        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
+        text = "Player Indicator Size:",
+        font = "DermaDefault"
+    })
+
+    local playerSizeWang = uiUtils.createUIElementOnGrid(frame, "DNumberWang", {
+        grid = { x = 1, y = 3 },
+        min = 1,
+        max = 50,
+        value = Settings.playerIndicatorSize,
+    })
+
+    playerSizeWang.OnValueChanged = function(_, value)
+        Settings.playerIndicatorSize = value
+        Settings.playerIndicatorTable = computePlayerIndicatorTable()
+    end
 
     zoomSlider.OnValueChanged = function(_, value)
         Settings.uiZoomLevel = value
