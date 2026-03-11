@@ -70,13 +70,6 @@ function Settings.OpenDynHudSettings()
     })
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
-        grid = { x = 0, y = 2 },
-        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
-        text = "Astigmatism Mode:",
-        font = "DermaDefault"
-    })
-
-    uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 1 },
         size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
         text = "Zoom Level:",
@@ -91,6 +84,13 @@ function Settings.OpenDynHudSettings()
         value = Settings.uiZoomLevel
     })
     zoomSlider:AlignLeft(UiSettings.gridSizeX * 1)
+
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
+        grid = { x = 0, y = 2 },
+        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
+        text = "Astigmatism Mode:",
+        font = "DermaDefault"
+    })
 
     local astigmatismCheckbox = uiUtils.createUIElementOnGrid(frame, "DCheckBox", {
         grid = { x = 1, y = 2 },
