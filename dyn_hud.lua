@@ -9,8 +9,8 @@ Points = {}
 local ply = LocalPlayer()
 
 -- HUD Parameters
-local thickness = 3
-local hudBound = Settings.halfSize - thickness
+local hudBound = Settings.halfSize - Settings.hudThickness
+local noBoundHudSize = Settings.hudSize - (Settings.hudThickness * 2)
 local mapResolution = Settings.uiResolution / 100
 
 local pointsLookup = {}
@@ -78,6 +78,7 @@ local function registerPlayerPos()
         round(pos.z * mapResolution) / mapResolution)
 end
 
+
 local function drawHUDBox()
     if not Settings.astigmatismMode then
         surface.SetDrawColor(255, 255, 255, 255)
@@ -85,7 +86,8 @@ local function drawHUDBox()
         surface.SetDrawColor(60, 60, 60, 255)
     end
 
-    surface.DrawOutlinedRect(Settings.hudXpos, Settings.hudYpos, Settings.hudSize, Settings.hudSize, thickness)
+    surface.DrawOutlinedRect(Settings.hudXpos, Settings.hudYpos, Settings.hudSize, Settings.hudSize,
+        Settings.hudThickness)
 
     if not Settings.astigmatismMode then
         surface.SetDrawColor(0, 0, 0, 220)
@@ -93,8 +95,8 @@ local function drawHUDBox()
         surface.SetDrawColor(235, 235, 235, 240)
     end
 
-    surface.DrawRect(Settings.hudXpos + thickness, Settings.hudYpos + thickness, Settings.hudSize - (thickness * 2),
-        Settings.hudSize - (thickness * 2))
+    surface.DrawRect(Settings.hudXpos + Settings.hudThickness, Settings.hudYpos + Settings.hudThickness, noBoundHudSize,
+        noBoundHudSize)
 end
 
 -- Draws the player indicator triangle

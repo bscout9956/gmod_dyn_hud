@@ -5,6 +5,7 @@ Settings.settingsFramePresent = false
 Settings.uiZoomLevel = 0.5
 Settings.astigmatismMode = false
 Settings.uiResolution = 1 -- Fractional, the higher the worse, keep it small
+Settings.hudThickness = 3
 
 -- HUD Parameters
 Settings.spacing = 20
