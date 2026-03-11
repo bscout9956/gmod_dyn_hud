@@ -76,15 +76,21 @@ function Settings.OpenDynHudSettings()
         font = "DermaDefault"
     })
 
-    local zoomSlider = uiUtils.createUIElementOnGrid(frame, "DNumSlider", {
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 1 },
         size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
         text = "Zoom Level:",
+    })
+
+    local zoomSlider = uiUtils.createUIElementOnGrid(frame, "DNumSlider", {
+        grid = { x = 1, y = 1 },
+        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
         min = 0,
         max = 1,
-        decimals = 1,
+        decimals = 2,
         value = Settings.uiZoomLevel
     })
+    zoomSlider:AlignLeft(UiSettings.gridSizeX * 1)
 
     local astigmatismCheckbox = uiUtils.createUIElementOnGrid(frame, "DCheckBox", {
         grid = { x = 1, y = 2 },
