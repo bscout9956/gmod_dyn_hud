@@ -49,7 +49,7 @@ function draw.Circle(x, y, radius, seg)
     surface.DrawPoly(cir)
 end
 
-function ChangeAstimagtismMode()
+local function changeAstimagtismMode()
     Settings.astigmatismMode = not Settings.astigmatismMode
 end
 
@@ -57,7 +57,7 @@ end
 ---@param x number @X coordinate
 ---@param y number @Y coordinate
 ---@param z number @Z coordinate
-function AddPoint(x, y, z)
+local function addPoint(x, y, z)
     local key = x .. "_" .. y .. "_" .. z
     if not pointsLookup[key] then
         pointsLookup[key] = true
@@ -69,16 +69,16 @@ function AddPoint(x, y, z)
     end
 end
 
-function RegisterPlayerPos()
+local function registerPlayerPos()
     local pos = ply:GetPos()
     local round = math.floor
     -- We drop some precision for X and Y because we don't really need that much precision honestly
     -- It also looks really cool lmao
-    AddPoint(round(pos.x * mapResolution) / mapResolution, round(pos.y * mapResolution) / mapResolution,
+    addPoint(round(pos.x * mapResolution) / mapResolution, round(pos.y * mapResolution) / mapResolution,
         round(pos.z * mapResolution) / mapResolution)
 end
 
-function DrawHUDBox()
+local function drawHUDBox()
     if not Settings.astigmatismMode then
         surface.SetDrawColor(255, 255, 255, 255)
     else
@@ -98,12 +98,12 @@ function DrawHUDBox()
 end
 
 -- Draws the player indicator triangle
-function DrawPlayerIndicator()
+local function drawPlayerIndicator()
     surface.SetDrawColor(0, 100, 200, 255) -- Smoother blue
     surface.DrawPoly(Settings.playerIndicatorTable)
 end
 
-function MapRender()
+local function mapRender()
     local renderStart = SysTime()
     -- Math stuff
     local abs = math.abs
@@ -160,7 +160,7 @@ function MapRender()
     draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, colors.GREEN, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
-function NorthPointRender()
+local function northPointRender()
     local angY = math.rad(ply:EyeAngles().y - 90)
 
     local radius = Settings.halfSize
@@ -182,12 +182,12 @@ end
 -- Hooks and other shit
 
 hook.Add("HUDPaint", "HUDMain", function()
-    DrawHUDBox()
+    drawHUDBox()
     debug.drawInfo()
-    DrawPlayerIndicator()
-    RegisterPlayerPos()
-    MapRender()
-    NorthPointRender()
+    drawPlayerIndicator()
+    registerPlayerPos()
+    mapRender()
+    northPointRender()
 end)
 
 local nextChange = 0
@@ -198,7 +198,7 @@ hook.Add("Think", "Zoomer", function(ply, button)
         nextChange = curTime() + 0.009
     end
     if input.IsKeyDown(KEY_X) and curTime() > nextChange then
-        ChangeAstimagtismMode()
+        changeAstimagtismMode()
         nextChange = curTime() + 0.2
     end
     if input.IsKeyDown(KEY_M) and curTime() > nextChange and Settings.settingsFramePresent == false then
