@@ -191,7 +191,7 @@ hook.Add("HUDPaint", "HUDMain", function()
 end)
 
 local nextChange = 0
-hook.Add("Think", "Zoomer", function(ply, button)
+hook.Add("Think", "Zoomer", function()
     local curTime = CurTime
     if input.IsKeyDown(KEY_Z) and curTime() > nextChange then
         Settings.changeZoom()
