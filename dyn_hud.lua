@@ -160,7 +160,7 @@ function MapRender()
     draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, colors.GREEN, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
-function northPointRender()
+function NorthPointRender()
     local angY = math.rad(ply:EyeAngles().y - 90)
 
     local radius = Settings.halfSize
@@ -187,7 +187,7 @@ hook.Add("HUDPaint", "HUDMain", function()
     DrawPlayerIndicator()
     RegisterPlayerPos()
     MapRender()
-    northPointRender()
+    NorthPointRender()
 end)
 
 local nextChange = 0
