@@ -52,14 +52,15 @@ end
 local function createUIElement(className, frame, props)
     local element = vgui.Create(className, frame)
 
-    -- Single parameter properties
     for propName, value in pairs(props) do
         if propName ~= "grid" then
             local funcSetter = uiSetMapper[propName]
 
             if type(value) == "table" then
+                -- Dual parameter properties
                 dualElementSetter(element, propName, value)
             else
+                -- Single parameter properties
                 if funcSetter and element then
                     element[funcSetter](element, value)
                 end
