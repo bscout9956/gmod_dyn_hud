@@ -16,8 +16,6 @@ It works through a breadcrumb system that reveals the path on the player's radar
 - 1280x720:
 ![Image at 1280 by 720](screenshots/image-6.png)
 
-Important: Requires mod restart!
-
 ### Rotation
 
 ![Image of the rotation feature](screenshots/image-5.png)

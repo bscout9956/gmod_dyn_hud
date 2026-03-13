@@ -204,3 +204,8 @@ hook.Add("Think", "Zoomer", function()
         nextChange = curTime + 0.5 -- We make it real slow lmao
     end
 end)
+
+hook.Add("OnScreenSizeChanged", "UIRefresh", function()
+    print("DynHUD: Screen Resolution change detected, refreshing UI elements...")
+    UiSettings.refreshValues()
+end)

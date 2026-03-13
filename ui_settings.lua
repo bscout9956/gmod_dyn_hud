@@ -1,15 +1,30 @@
 local UISettings = {}
+local SCALE_FACTOR = 0.25
+local GRID_COUNT_X, GRID_COUNT_Y = 2, 10
 
-local SCREEN_WIDTH = ScrW()
-local SCREEN_HEIGHT = ScrH()
-UISettings.FRAME_WIDTH = 0.25 * SCREEN_WIDTH
-UISettings.FRAME_HEIGHT = 0.25 * SCREEN_HEIGHT
+local screenWidth = ScrW()
+local screenHeight = ScrH()
 
-UISettings.LEFT_MARGIN = 0.01 * SCREEN_WIDTH
-UISettings.TOP_MARGIN = 0.03 * SCREEN_HEIGHT
+local function initDefaultValues()
+    screenWidth = ScrW()
+    screenHeight = ScrH()
 
-local gridCountX, gridCountY = 2, 10
-UISettings.gridSizeX = UISettings.FRAME_WIDTH / gridCountX
-UISettings.gridSizeY = UISettings.FRAME_HEIGHT / gridCountY
+    UISettings.frameWidth = SCALE_FACTOR * screenWidth
+    UISettings.frameHeight = SCALE_FACTOR * screenHeight
+
+    UISettings.leftMargin = 0.01 * screenWidth
+    UISettings.topMargin = 0.03 * screenHeight
+
+    UISettings.gridSizeX = UISettings.frameWidth / GRID_COUNT_X
+    UISettings.gridSizeY = UISettings.frameHeight / GRID_COUNT_Y
+end
+
+-- We run this for whenever it gets imported so the variables are set and no code freaks out lmao
+initDefaultValues()
+
+-- We also define a function so whenever we need to do it again we're ready for it
+function UISettings.refreshValues()
+    initDefaultValues()
+end
 
 return UISettings
