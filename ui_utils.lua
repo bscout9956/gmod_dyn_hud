@@ -29,8 +29,8 @@ function UIUtils.getGridPosition(grid)
     }
 
     if grid then
-        pos.x = (UiSettings.LEFT_MARGIN + (UiSettings.gridSizeX * grid.x)) or 0
-        pos.y = (UiSettings.TOP_MARGIN + (UiSettings.gridSizeY * grid.y)) or 0
+        pos.x = (UiSettings.leftMargin + (UiSettings.gridSizeX * grid.x)) or 0
+        pos.y = (UiSettings.topMargin + (UiSettings.gridSizeY * grid.y)) or 0
     end
 
     return pos

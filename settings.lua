@@ -58,7 +58,7 @@ end
 
 function Settings.OpenDynHudSettings()
     local frame = vgui.Create("DFrame")
-    frame:SetSize(UiSettings.FRAME_WIDTH, UiSettings.FRAME_WIDTH)
+    frame:SetSize(UiSettings.frameWidth, UiSettings.frameWidth)
     frame:Center()
     frame:SetTitle("DynHud Settings")
     frame:MakePopup()
