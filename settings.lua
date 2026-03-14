@@ -12,6 +12,7 @@ Settings.spacing = 20
 Settings.margin = 20
 Settings.mapSize = math.floor(0.125 * ScrW())
 Settings.playerIndicatorSize = 18
+Settings.playerIndicatorNotch = 0.5
 
 -- Big Map Parameters
 Settings.bigMapSizeX = math.floor(0.75 * ScrW())
@@ -31,31 +32,24 @@ Settings.mapCenterY = Settings.mapYpos + Settings.halfMapSize
 Settings.bigMapCenterX = Settings.bigMapXpos + Settings.bigMapHalfSizeX
 Settings.bigMapCenterY = Settings.bigMapYpos + Settings.bigMapHalfSizeY
 
-local function computePlayerIndicatorTable()
-    return { {
-        x = Settings.mapCenterX - Settings.playerIndicatorSize,
-        y = Settings.mapCenterY + Settings.playerIndicatorSize,
-        u = 0,
-        v = 0
-    }, {
-        x = Settings.mapCenterX,
-        y = Settings.mapCenterY - Settings.playerIndicatorSize,
-        u = 0,
-        v = 0
-    }, {
-        x = Settings.mapCenterX + Settings.playerIndicatorSize,
-        y = Settings.mapCenterY + Settings.playerIndicatorSize,
-        u = 0,
-        v = 0
-    }, {
-        x = Settings.mapCenterX - Settings.playerIndicatorSize,
-        y = Settings.mapCenterY + Settings.playerIndicatorSize,
-        u = 0,
-        v = 0
-    } }
+local function createIndicatorVertices(cx, cy, size)
+    local notchOffset = size * Settings.playerIndicatorNotch
+
+    return {
+        { x = cx,        y = cy - size,               u = 0, v = 0 }, -- 1. Top Tip
+        { x = cx + size, y = cy + size,               u = 0, v = 0 }, -- 2. Bottom Right
+        { x = cx,        y = cy + size - notchOffset, u = 0, v = 0 }, -- 3. The Notch (Center Base)
+        { x = cx - size, y = cy + size,               u = 0, v = 0 }, -- 4. Bottom Left
+        { x = cx,        y = cy - size,               u = 0, v = 0 }  -- 5. Back to Top Tip
+    }
 end
 
-Settings.playerIndicatorTable = computePlayerIndicatorTable()
+Settings.playerIndicatorTable = createIndicatorVertices(
+    Settings.mapCenterX, Settings.mapCenterY, Settings.playerIndicatorSize
+)
+Settings.bigMapPlayerIndicatorTable = createIndicatorVertices(
+    Settings.bigMapCenterX, Settings.bigMapCenterY, Settings.playerIndicatorSize
+)
 
 function Settings.changeZoom()
     if Settings.uiZoomLevel >= 1 then
