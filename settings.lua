@@ -13,13 +13,23 @@ Settings.margin = 20
 Settings.hudSize = math.floor(0.125 * ScrW())
 Settings.playerIndicatorSize = 18
 
+-- Big Map Parameters
+Settings.bigMapSizeX = math.floor(0.75 * ScrW())
+Settings.bigMapSizeY = math.floor(0.75 * ScrH())
+
 -- Derivative values
 Settings.halfSize = Settings.hudSize / 2
+Settings.bigMapHalfSizeX = Settings.bigMapSizeX / 2
+Settings.bigMapHalfSizeY = Settings.bigMapSizeY / 2
 Settings.mapZoomLevel = Settings.uiZoomLevel / 10
 Settings.hudXpos = Settings.margin
 Settings.hudYpos = Settings.margin
+Settings.bigMapXpos = (ScrW() / 2) - Settings.bigMapHalfSizeX
+Settings.bigMapYpos = (ScrH() / 2) - Settings.bigMapHalfSizeY
 Settings.hudCenterX = Settings.hudXpos + Settings.halfSize
 Settings.hudCenterY = Settings.hudYpos + Settings.halfSize
+Settings.bigMapCenterX = Settings.bigMapXpos + Settings.bigMapHalfSizeX
+Settings.bigMapCenterY = Settings.bigMapYpos + Settings.bigMapHalfSizeY
 
 local function computePlayerIndicatorTable()
     return { {
