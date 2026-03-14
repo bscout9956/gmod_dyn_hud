@@ -12,7 +12,6 @@ local ply = LocalPlayer()
 
 -- HUD Parameters
 local mapResolution = Settings.uiResolution / 100
-
 local pointsLookup = {}
 
 -- Localization for Math Functions
@@ -78,8 +77,11 @@ local function registerPlayerPos()
     local pos = ply:GetPos()
     -- We drop some precision for X and Y because we don't really need that much precision honestly
     -- It also looks really cool lmao
-    addPoint(round(pos.x * mapResolution) / mapResolution, round(pos.y * mapResolution) / mapResolution,
-        round(pos.z * mapResolution) / mapResolution)
+    addPoint(
+        round(pos.x * mapResolution) / mapResolution,
+        round(pos.y * mapResolution) / mapResolution,
+        round(pos.z * mapResolution) / mapResolution
+    )
 end
 
 local function switchMaps()
