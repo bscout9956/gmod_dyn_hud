@@ -21,7 +21,7 @@ local ply = LocalPlayer()
 
 local r, g, b = 255, 255, 255
 
-local function mapRender()
+local function pointRender()
     local renderStart = SysTime()
     local pPos = ply:GetPos()
     local angY = ply:EyeAngles().y
@@ -110,8 +110,8 @@ end
 function Map.Render()
     drawMapBox()
     debug.drawInfo()
+    pointRender()
     drawPlayerIndicator()
-    mapRender()
     drawNorthPoint()
 end
 
