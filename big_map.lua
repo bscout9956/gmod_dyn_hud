@@ -14,7 +14,18 @@ local hudBoundX = Settings.bigMapHalfSizeX - Settings.borderThickness
 local hudBoundY = Settings.bigMapHalfSizeY - Settings.borderThickness
 local noBoundHudSizeX = Settings.bigMapSizeX - (Settings.borderThickness * 2)
 local noBoundHudSizeY = Settings.bigMapSizeY - (Settings.borderThickness * 2)
--- local mapResolution = Settings.uiResolution / 100
+
+local pIndicatorSize = Settings.playerIndicatorSize
+local pIndicatorNotch = Settings.playerIndicatorNotch
+
+local baseIndicatorPos = {
+    { x = 0,                  y = -pIndicatorSize },                                     -- 1. Top Tip
+    { x = pIndicatorSize,     y = pIndicatorSize },                                      -- 2. Bottom Right
+    { x = 0,                  y = pIndicatorSize - (pIndicatorNotch * pIndicatorSize) }, -- 3. The Notch (Center Base)
+    { x = 0 - pIndicatorSize, y = pIndicatorSize },                                      -- 4. Bottom Left
+    { x = 0,                  y = -pIndicatorSize },                                     -- 5. Back to Top Tip
+}
+
 
 local function pointRender()
     local renderStart = SysTime()
@@ -54,6 +65,31 @@ local function pointRender()
         TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
+local function updateBigMapPIndicator()
+    local ang = ply:EyeAngles().y
+    local radA = rad(-ang + 90)
+    local cosA = cos(radA)
+    local sinA = sin(radA)
+
+    local centerX = Settings.bigMapCenterX
+    local centerY = Settings.bigMapCenterY
+
+    for i, point in ipairs(baseIndicatorPos) do
+        local rotX = point.x * cosA - point.y * sinA
+        local rotY = point.x * sinA + point.y * cosA
+
+        Settings.bigMapPlayerIndicatorTable[i].x = centerX + rotX
+        Settings.bigMapPlayerIndicatorTable[i].y = centerY + rotY
+    end
+end
+
+local function drawPlayerIndicator()
+    surface.SetDrawColor(0, 100, 200, 255) -- Smoother blue
+    draw.NoTexture()
+    updateBigMapPIndicator()
+    surface.DrawPoly(Settings.bigMapPlayerIndicatorTable)
+end
+
 local function drawBox()
     if not Settings.astigmatismMode then
         surface.SetDrawColor(255, 255, 255, 255)
@@ -78,6 +114,7 @@ end
 function BMap.Render()
     drawBox()
     pointRender()
+    drawPlayerIndicator()
 end
 
 return BMap
