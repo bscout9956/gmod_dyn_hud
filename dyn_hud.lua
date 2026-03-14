@@ -2,6 +2,9 @@ local colors = include("colors.lua")
 Settings = include("settings.lua")
 UiSettings = include("ui_settings.lua")
 local debug = include("debug.lua")
+local bmap = include("big_map.lua")
+
+local bmapVisible = false
 
 -- GMOD Dynamic HUD v0.5 by BlackScout/bscout9956
 -- Data
@@ -177,15 +180,27 @@ local function northPointRender()
     draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, colors.PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
--- Hooks and other shit
+local function switchMaps()
+    bmapVisible = not bmapVisible
+end
 
-hook.Add("HUDPaint", "HUDMain", function()
+local function renderHud()
     drawHUDBox()
     debug.drawInfo()
     drawPlayerIndicator()
-    registerPlayerPos()
     mapRender()
     northPointRender()
+end
+
+-- Hooks and other shit
+
+hook.Add("HUDPaint", "HUDMain", function()
+    if not bmapVisible then
+        renderHud()
+    else
+        bmap.Render()
+    end
+    registerPlayerPos()
 end)
 
 local nextChange = 0
@@ -202,6 +217,10 @@ hook.Add("Think", "Zoomer", function()
     if input.IsKeyDown(KEY_M) and curTime > nextChange and Settings.settingsFramePresent == false then
         Settings.OpenDynHudSettings()
         nextChange = curTime + 0.5 -- We make it real slow lmao
+    end
+    if input.IsKeyDown(KEY_T) and curTime > nextChange then
+        switchMaps()
+        nextChange = curTime + 0.25
     end
 end)
 
