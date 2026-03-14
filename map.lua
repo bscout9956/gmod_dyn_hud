@@ -7,8 +7,8 @@ local Map = {}
 local drawRect = surface.DrawRect
 local setDrawColor = surface.SetDrawColor
 
-local noBoundHudSize = Settings.hudSize - (Settings.hudThickness * 2)
-local hudBound = Settings.halfSize - Settings.hudThickness
+local noBoundHudSize = Settings.mapSize - (Settings.borderThickness * 2)
+local hudBound = Settings.halfMapSize - Settings.borderThickness
 
 -- Localization for Math Functions
 local abs = math.abs
@@ -19,6 +19,7 @@ local max = math.max
 
 local ply = LocalPlayer()
 
+local r, g, b = 255, 255, 255
 
 local function mapRender()
     local renderStart = SysTime()
@@ -29,7 +30,6 @@ local function mapRender()
     local cosA = cos(radA)
     local sinA = sin(radA)
 
-    local r, g, b = 255, 255, 255
     if Settings.astigmatismMode then
         r, g, b = 40, 40, 40
     end
@@ -49,8 +49,8 @@ local function mapRender()
             local rotY = relX * sinA + relY * cosA
 
             if abs(rotX) < hudBound and abs(rotY) < hudBound then
-                local renderX = Settings.hudCenterX + rotX
-                local renderY = Settings.hudCenterY - rotY
+                local renderX = Settings.mapCenterX + rotX
+                local renderY = Settings.mapCenterY - rotY
 
                 setDrawColor(r, g, b, alpha)
                 drawRect(renderX, renderY, 3, 3)
@@ -65,15 +65,15 @@ local function mapRender()
     draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, colors.GREEN, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
-local function drawHUDBox()
+local function drawMapBox()
     if not Settings.astigmatismMode then
         surface.SetDrawColor(255, 255, 255, 255)
     else
         surface.SetDrawColor(60, 60, 60, 255)
     end
 
-    surface.DrawOutlinedRect(Settings.hudXpos, Settings.hudYpos, Settings.hudSize, Settings.hudSize,
-        Settings.hudThickness)
+    surface.DrawOutlinedRect(Settings.mapXpos, Settings.mapYpos, Settings.mapSize, Settings.mapSize,
+        Settings.borderThickness)
 
     if not Settings.astigmatismMode then
         surface.SetDrawColor(0, 0, 0, 220)
@@ -81,7 +81,7 @@ local function drawHUDBox()
         surface.SetDrawColor(235, 235, 235, 240)
     end
 
-    drawRect(Settings.hudXpos + Settings.hudThickness, Settings.hudYpos + Settings.hudThickness, noBoundHudSize,
+    drawRect(Settings.mapXpos + Settings.borderThickness, Settings.mapYpos + Settings.borderThickness, noBoundHudSize,
         noBoundHudSize)
 end
 
@@ -91,15 +91,15 @@ local function drawPlayerIndicator()
     surface.DrawPoly(Settings.playerIndicatorTable)
 end
 
-local function northPointRender()
+local function drawNorthPoint()
     local angY = rad(ply:EyeAngles().y - 90)
     local cosA = cos(angY)
     local sinA = sin(angY)
 
-    local scale = Settings.halfSize / max(abs(cosA), abs(sinA))
+    local scale = Settings.halfMapSize / max(abs(cosA), abs(sinA))
 
-    local renderX = Settings.hudCenterX + (cosA * scale);
-    local renderY = Settings.hudCenterY + (sinA * scale);
+    local renderX = Settings.mapCenterX + (cosA * scale);
+    local renderY = Settings.mapCenterY + (sinA * scale);
 
     surface.SetDrawColor(128, 0, 0, 255)
     draw.Circle(renderX, renderY, 10, 10)
@@ -108,11 +108,11 @@ local function northPointRender()
 end
 
 function Map.Render()
-    drawHUDBox()
+    drawMapBox()
     debug.drawInfo()
     drawPlayerIndicator()
     mapRender()
-    northPointRender()
+    drawNorthPoint()
 end
 
 return Map

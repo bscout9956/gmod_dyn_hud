@@ -5,12 +5,12 @@ Settings.settingsFramePresent = false
 Settings.uiZoomLevel = 0.5
 Settings.astigmatismMode = false
 Settings.uiResolution = 1 -- Fractional, the higher the worse, keep it small
-Settings.hudThickness = 3
+Settings.borderThickness = 3
 
 -- HUD Parameters
 Settings.spacing = 20
 Settings.margin = 20
-Settings.hudSize = math.floor(0.125 * ScrW())
+Settings.mapSize = math.floor(0.125 * ScrW())
 Settings.playerIndicatorSize = 18
 
 -- Big Map Parameters
@@ -18,38 +18,38 @@ Settings.bigMapSizeX = math.floor(0.75 * ScrW())
 Settings.bigMapSizeY = math.floor(0.75 * ScrH())
 
 -- Derivative values
-Settings.halfSize = Settings.hudSize / 2
+Settings.halfMapSize = Settings.mapSize / 2
 Settings.bigMapHalfSizeX = Settings.bigMapSizeX / 2
 Settings.bigMapHalfSizeY = Settings.bigMapSizeY / 2
 Settings.mapZoomLevel = Settings.uiZoomLevel / 10
-Settings.hudXpos = Settings.margin
-Settings.hudYpos = Settings.margin
+Settings.mapXpos = Settings.margin
+Settings.mapYpos = Settings.margin
 Settings.bigMapXpos = (ScrW() / 2) - Settings.bigMapHalfSizeX
 Settings.bigMapYpos = (ScrH() / 2) - Settings.bigMapHalfSizeY
-Settings.hudCenterX = Settings.hudXpos + Settings.halfSize
-Settings.hudCenterY = Settings.hudYpos + Settings.halfSize
+Settings.mapCenterX = Settings.mapXpos + Settings.halfMapSize
+Settings.mapCenterY = Settings.mapYpos + Settings.halfMapSize
 Settings.bigMapCenterX = Settings.bigMapXpos + Settings.bigMapHalfSizeX
 Settings.bigMapCenterY = Settings.bigMapYpos + Settings.bigMapHalfSizeY
 
 local function computePlayerIndicatorTable()
     return { {
-        x = Settings.hudCenterX - Settings.playerIndicatorSize,
-        y = Settings.hudCenterY + Settings.playerIndicatorSize,
+        x = Settings.mapCenterX - Settings.playerIndicatorSize,
+        y = Settings.mapCenterY + Settings.playerIndicatorSize,
         u = 0,
         v = 0
     }, {
-        x = Settings.hudCenterX,
-        y = Settings.hudCenterY - Settings.playerIndicatorSize,
+        x = Settings.mapCenterX,
+        y = Settings.mapCenterY - Settings.playerIndicatorSize,
         u = 0,
         v = 0
     }, {
-        x = Settings.hudCenterX + Settings.playerIndicatorSize,
-        y = Settings.hudCenterY + Settings.playerIndicatorSize,
+        x = Settings.mapCenterX + Settings.playerIndicatorSize,
+        y = Settings.mapCenterY + Settings.playerIndicatorSize,
         u = 0,
         v = 0
     }, {
-        x = Settings.hudCenterX - Settings.playerIndicatorSize,
-        y = Settings.hudCenterY + Settings.playerIndicatorSize,
+        x = Settings.mapCenterX - Settings.playerIndicatorSize,
+        y = Settings.mapCenterY + Settings.playerIndicatorSize,
         u = 0,
         v = 0
     } }

@@ -10,10 +10,10 @@ local abs = math.abs
 local setDrawColor = surface.SetDrawColor
 local drawRect = surface.DrawRect
 
-local hudBoundX = Settings.bigMapHalfSizeX - Settings.hudThickness
-local hudBoundY = Settings.bigMapHalfSizeY - Settings.hudThickness
-local noBoundHudSizeX = Settings.bigMapSizeX - (Settings.hudThickness * 2)
-local noBoundHudSizeY = Settings.bigMapSizeY - (Settings.hudThickness * 2)
+local hudBoundX = Settings.bigMapHalfSizeX - Settings.borderThickness
+local hudBoundY = Settings.bigMapHalfSizeY - Settings.borderThickness
+local noBoundHudSizeX = Settings.bigMapSizeX - (Settings.borderThickness * 2)
+local noBoundHudSizeY = Settings.bigMapSizeY - (Settings.borderThickness * 2)
 -- local mapResolution = Settings.uiResolution / 100
 
 local function pointRender()
@@ -62,7 +62,7 @@ local function drawBox()
     end
 
     surface.DrawOutlinedRect(Settings.bigMapXpos, Settings.bigMapYpos, Settings.bigMapSizeX, Settings.bigMapSizeY,
-        Settings.hudThickness)
+        Settings.borderThickness)
 
     if not Settings.astigmatismMode then
         surface.SetDrawColor(0, 0, 0, 220)
@@ -70,7 +70,8 @@ local function drawBox()
         surface.SetDrawColor(235, 235, 235, 240)
     end
 
-    drawRect(Settings.bigMapXpos + Settings.hudThickness, Settings.bigMapYpos + Settings.hudThickness, noBoundHudSizeX,
+    drawRect(Settings.bigMapXpos + Settings.borderThickness, Settings.bigMapYpos + Settings.borderThickness,
+        noBoundHudSizeX,
         noBoundHudSizeY)
 end
 
