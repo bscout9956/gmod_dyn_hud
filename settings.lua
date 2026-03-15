@@ -60,8 +60,7 @@ local function refreshMap()
 end
 
 
-
-function Settings.changeZoom()
+function Settings.ChangeZoom()
     if Settings.uiZoomLevel >= 1 then
         Settings.uiZoomLevel = 0.1
     else

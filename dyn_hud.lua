@@ -102,7 +102,7 @@ local nextChange = 0
 hook.Add("Think", "Zoomer", function()
     local curTime = CurTime()
     if input.IsKeyDown(KEY_Z) and curTime > nextChange then
-        Settings.changeZoom()
+        Settings.ChangeZoom()
         nextChange = curTime + 0.009
     end
     if input.IsKeyDown(KEY_X) and curTime > nextChange then
