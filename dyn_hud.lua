@@ -7,7 +7,7 @@ local bmapVisible = false
 
 -- GMOD Dynamic Map v0.6 by BlackScout/bscout9956
 -- Data
-Points = {}
+Points = {} -- TODO: I think this shouldn't be a global variable exposed like this, if you're reading this, don't mess it up lmao
 local ply = LocalPlayer()
 
 -- HUD Parameters

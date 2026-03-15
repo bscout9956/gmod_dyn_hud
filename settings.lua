@@ -186,6 +186,7 @@ function Settings.OpenDynHudSettings()
     mapResolutionSlider.OnValueChanged = function(_, value)
         Settings.uiResolution = value
         Settings.mapResolution = Settings.uiResolution / 100
+        Points = {}
     end
 
     astigmatismCheckbox.OnChange = function(_, value)
