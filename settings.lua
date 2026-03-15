@@ -19,7 +19,6 @@ Settings.bigMapSizeX = math.floor(0.75 * ScrW())
 Settings.bigMapSizeY = math.floor(0.75 * ScrH())
 
 
-
 local function createIndicatorVertices(cx, cy, size)
     local notchOffset = size * Settings.playerIndicatorNotch
 
@@ -45,6 +44,13 @@ local function initDerivativeValues()
     Settings.mapCenterY = Settings.mapYpos + Settings.halfMapSize
     Settings.bigMapCenterX = Settings.bigMapXpos + Settings.bigMapHalfSizeX
     Settings.bigMapCenterY = Settings.bigMapYpos + Settings.bigMapHalfSizeY
+
+    Settings.playerIndicatorTable = createIndicatorVertices(
+        Settings.mapCenterX, Settings.mapCenterY, Settings.playerIndicatorSize
+    )
+    Settings.bigMapPlayerIndicatorTable = createIndicatorVertices(
+        Settings.bigMapCenterX, Settings.bigMapCenterY, Settings.playerIndicatorSize
+    )
 end
 
 local function refreshMap()
@@ -52,12 +58,7 @@ local function refreshMap()
     Map.updateSize()
 end
 
-Settings.playerIndicatorTable = createIndicatorVertices(
-    Settings.mapCenterX, Settings.mapCenterY, Settings.playerIndicatorSize
-)
-Settings.bigMapPlayerIndicatorTable = createIndicatorVertices(
-    Settings.bigMapCenterX, Settings.bigMapCenterY, Settings.playerIndicatorSize
-)
+
 
 function Settings.changeZoom()
     if Settings.uiZoomLevel >= 1 then
