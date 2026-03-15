@@ -18,19 +18,7 @@ Settings.playerIndicatorNotch = 0.5
 Settings.bigMapSizeX = math.floor(0.75 * ScrW())
 Settings.bigMapSizeY = math.floor(0.75 * ScrH())
 
--- Derivative values
-Settings.halfMapSize = Settings.mapSize / 2
-Settings.bigMapHalfSizeX = Settings.bigMapSizeX / 2
-Settings.bigMapHalfSizeY = Settings.bigMapSizeY / 2
-Settings.mapZoomLevel = Settings.uiZoomLevel / 10
-Settings.mapXpos = Settings.margin
-Settings.mapYpos = Settings.margin
-Settings.bigMapXpos = (ScrW() / 2) - Settings.bigMapHalfSizeX
-Settings.bigMapYpos = (ScrH() / 2) - Settings.bigMapHalfSizeY
-Settings.mapCenterX = Settings.mapXpos + Settings.halfMapSize
-Settings.mapCenterY = Settings.mapYpos + Settings.halfMapSize
-Settings.bigMapCenterX = Settings.bigMapXpos + Settings.bigMapHalfSizeX
-Settings.bigMapCenterY = Settings.bigMapYpos + Settings.bigMapHalfSizeY
+
 
 local function createIndicatorVertices(cx, cy, size)
     local notchOffset = size * Settings.playerIndicatorNotch
@@ -42,6 +30,20 @@ local function createIndicatorVertices(cx, cy, size)
         { x = cx - size, y = cy + size,               u = 0, v = 0 }, -- 4. Bottom Left
         { x = cx,        y = cy - size,               u = 0, v = 0 }  -- 5. Back to Top Tip
     }
+end
+local function initDerivativeValues()
+    Settings.halfMapSize = Settings.mapSize / 2
+    Settings.bigMapHalfSizeX = Settings.bigMapSizeX / 2
+    Settings.bigMapHalfSizeY = Settings.bigMapSizeY / 2
+    Settings.mapZoomLevel = Settings.uiZoomLevel / 10
+    Settings.mapXpos = Settings.margin
+    Settings.mapYpos = Settings.margin
+    Settings.bigMapXpos = (ScrW() / 2) - Settings.bigMapHalfSizeX
+    Settings.bigMapYpos = (ScrH() / 2) - Settings.bigMapHalfSizeY
+    Settings.mapCenterX = Settings.mapXpos + Settings.halfMapSize
+    Settings.mapCenterY = Settings.mapYpos + Settings.halfMapSize
+    Settings.bigMapCenterX = Settings.bigMapXpos + Settings.bigMapHalfSizeX
+    Settings.bigMapCenterY = Settings.bigMapYpos + Settings.bigMapHalfSizeY
 end
 
 Settings.playerIndicatorTable = createIndicatorVertices(
@@ -140,5 +142,9 @@ function Settings.OpenDynHudSettings()
         Settings.settingsFramePresent = false
     end
 end
+
+-- Anything that needs to be executed upon script loading goes here:
+
+initDerivativeValues()
 
 return Settings
