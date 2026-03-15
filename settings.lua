@@ -31,6 +31,7 @@ local function createIndicatorVertices(cx, cy, size)
         { x = cx,        y = cy - size,               u = 0, v = 0 }  -- 5. Back to Top Tip
     }
 end
+
 local function initDerivativeValues()
     Settings.halfMapSize = Settings.mapSize / 2
     Settings.bigMapHalfSizeX = Settings.bigMapSizeX / 2
@@ -44,6 +45,11 @@ local function initDerivativeValues()
     Settings.mapCenterY = Settings.mapYpos + Settings.halfMapSize
     Settings.bigMapCenterX = Settings.bigMapXpos + Settings.bigMapHalfSizeX
     Settings.bigMapCenterY = Settings.bigMapYpos + Settings.bigMapHalfSizeY
+end
+
+local function refreshMap()
+    initDerivativeValues()
+    Map.updateSize()
 end
 
 Settings.playerIndicatorTable = createIndicatorVertices(
@@ -118,6 +124,20 @@ function Settings.OpenDynHudSettings()
         value = Settings.playerIndicatorSize,
     })
 
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
+        grid = { x = 0, y = 4 },
+        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
+        text = "Map Size:",
+        font = "DermaDefault"
+    })
+
+    local mapSizeWang = uiUtils.createUIElementOnGrid(frame, "DNumberWang", {
+        grid = { x = 1, y = 4 },
+        min = 50,
+        max = math.max(ScrW(), ScrH()),
+        value = Settings.mapSize
+    })
+
     playerSizeWang.OnValueChanged = function(_, value)
         Settings.playerIndicatorSize = value
         Settings.playerIndicatorTable = createIndicatorVertices(
@@ -125,6 +145,11 @@ function Settings.OpenDynHudSettings()
             Settings.mapCenterY,
             Settings.playerIndicatorSize
         )
+    end
+
+    mapSizeWang.OnValueChanged = function(_, value)
+        Settings.mapSize = value
+        refreshMap()
     end
 
     zoomSlider.OnValueChanged = function(_, value)
