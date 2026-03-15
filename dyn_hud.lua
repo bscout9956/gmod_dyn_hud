@@ -1,7 +1,7 @@
 Settings = include("settings.lua")
 UiSettings = include("ui_settings.lua")
 local bmap = include("big_map.lua")
-local map = include("map.lua")
+Map = include("map.lua")
 
 local bmapVisible = false
 
@@ -92,7 +92,7 @@ end
 -- Hooks and other shit
 hook.Add("HUDPaint", "HUDMain", function()
     if not bmapVisible then
-        map.Render()
+        Map.Render()
     else
         bmap.Render()
     end
