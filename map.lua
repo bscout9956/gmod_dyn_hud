@@ -32,6 +32,8 @@ local function pointRender()
 
     if Settings.astigmatismMode then
         r, g, b = 40, 40, 40
+    else
+        r, g, b = 255, 255, 255
     end
 
     draw.NoTexture()
