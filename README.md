@@ -1,4 +1,4 @@
-# GMOD Dynamic HUD v0.5 by BlackScout/bscout9956
+# GMOD Dynamic HUD v0.6 by BlackScout/bscout9956
 
 ## Description
 
