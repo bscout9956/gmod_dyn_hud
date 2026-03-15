@@ -39,3 +39,9 @@ It works through a breadcrumb system that reveals the path on the player's radar
 ### Settings panel (WIP)
 
 ![Image of the settings panel](screenshots/image.png)
+
+### Custom scaling for the map size
+
+>*"Wow, it really is huge..."*
+
+![Image of the custom scaling feature](screenshots/image-8.png)
