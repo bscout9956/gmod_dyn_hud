@@ -73,8 +73,10 @@ function Settings.OpenDynHudSettings()
     local frame = vgui.Create("DFrame")
     frame:SetSize(UiSettings.frameWidth, UiSettings.frameWidth)
     frame:Center()
-    frame:SetTitle("DynHud Settings")
+    frame:SetTitle("DynMap Settings")
     frame:MakePopup()
+
+    --- Element creation
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 0 },
@@ -140,6 +142,7 @@ function Settings.OpenDynHudSettings()
         value = Settings.mapSize
     })
 
+    --- Hooks
     playerSizeWang.OnValueChanged = function(_, value)
         Settings.playerIndicatorSize = value
         Settings.playerIndicatorTable = createIndicatorVertices(
