@@ -76,24 +76,26 @@ function Settings.OpenDynHudSettings()
     frame:SetTitle("DynMap Settings")
     frame:MakePopup()
 
+    local defaultSize = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY }
+
     --- Element creation
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 0 },
-        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
+        size = defaultSize,
         text = "Main Options:",
         font = "HudDefault"
     })
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 1 },
-        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
+        size = defaultSize,
         text = "Zoom Level:",
     })
 
     local zoomSlider = uiUtils.createUIElementOnGrid(frame, "DNumSlider", {
         grid = { x = 1, y = 1 },
-        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
+        size = defaultSize,
         min = 0,
         max = 1,
         decimals = 2,
@@ -104,7 +106,7 @@ function Settings.OpenDynHudSettings()
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 2 },
-        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
+        size = defaultSize,
         text = "Astigmatism Mode:",
         font = "DermaDefault"
     })
@@ -116,7 +118,7 @@ function Settings.OpenDynHudSettings()
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 3 },
-        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
+        size = defaultSize,
         text = "Player Indicator Size:",
         font = "DermaDefault"
     })
@@ -130,7 +132,7 @@ function Settings.OpenDynHudSettings()
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 4 },
-        size = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY },
+        size = defaultSize,
         text = "Map Size:",
         font = "DermaDefault"
     })
@@ -141,6 +143,25 @@ function Settings.OpenDynHudSettings()
         max = math.max(ScrW(), ScrH()),
         value = Settings.mapSize
     })
+
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
+        grid = { x = 0, y = 5 },
+        size = defaultSize,
+        text = "Map Resolution:",
+        font = "DermaDefault"
+    })
+
+    local mapResolutionSlider = uiUtils.createUIElementOnGrid(frame, "DNumSlider", {
+        grid = { x = 1, y = 5 },
+        size = defaultSize,
+        min = 0,
+        max = 1,
+        decimals = 2,
+        value = Settings.uiResolution
+    })
+
+    mapResolutionSlider:AlignLeft(UiSettings.gridSizeX * 1)
+
 
     --- Hooks
     playerSizeWang.OnValueChanged = function(_, value)
@@ -160,6 +181,11 @@ function Settings.OpenDynHudSettings()
     zoomSlider.OnValueChanged = function(_, value)
         Settings.uiZoomLevel = math.Round(value, 2)
         Settings.mapZoomLevel = Settings.uiZoomLevel / 10
+    end
+
+    mapResolutionSlider.OnValueChanged = function(_, value)
+        Settings.uiResolution = value
+        Settings.mapResolution = Settings.uiResolution / 100
     end
 
     astigmatismCheckbox.OnChange = function(_, value)
