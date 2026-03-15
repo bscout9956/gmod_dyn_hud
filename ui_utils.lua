@@ -9,14 +9,16 @@ local uiSetMapper = {
     interval = "SetInterval",
     decimals = "SetDecimals",
     text = "SetText",
-    font = "SetFont"
+    font = "SetFont",
+    color = "SetColor",
+    wrap = "SetWrap",
 }
 
 -- Mapping for the properties, their function calls and the expected parameters
 local uiDualElementMapper = {
     size = { func = "SetSize", params = { "w", "h" } },
     pos = { func = "SetPos", params = { "x", "y" } },
-    minMax = { func = "SetMinMax", params = { "min", "max" } }
+    minMax = { func = "SetMinMax", params = { "min", "max" } },
 }
 
 --- Returns the position given a specific X and Y grid index
@@ -38,7 +40,10 @@ end
 
 local function dualElementSetter(element, propName, values)
     local mapping = uiDualElementMapper[propName]
-    if not mapping then return end
+    if not mapping then
+        print("No mapping found for dual parameter property: ", propName)
+        return
+    end
 
     local func = mapping.func
     local p1 = mapping.params[1]
@@ -56,13 +61,22 @@ local function createUIElement(className, frame, props)
         if propName ~= "grid" then
             local funcSetter = uiSetMapper[propName]
 
-            if type(value) == "table" then
+            if type(value) == "table" and propName ~= "color" then
                 -- Dual parameter properties
                 dualElementSetter(element, propName, value)
             else
                 -- Single parameter properties
                 if funcSetter and element then
+                    print("Setting property: ", propName, " with value: ", value, " using function: ", funcSetter)
                     element[funcSetter](element, value)
+                else
+                    print(
+                        "No mapping found for property: ",
+                        propName,
+                        " for element of class: ",
+                        className, " value: ",
+                        value
+                    )
                 end
             end
         end
