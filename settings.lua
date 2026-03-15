@@ -1,3 +1,4 @@
+local colors = include("colors.lua")
 local uiUtils = include("ui_utils.lua")
 local Settings = {}
 
@@ -148,13 +149,14 @@ function Settings.OpenDynHudSettings()
         grid = { x = 0, y = 5 },
         size = defaultSize,
         text = "Map Resolution:",
-        font = "DermaDefault"
+        font = "DermaDefault",
+        color = colors.WINE_RED,
     })
 
     local mapResolutionSlider = uiUtils.createUIElementOnGrid(frame, "DNumSlider", {
         grid = { x = 1, y = 5 },
         size = defaultSize,
-        min = 0,
+        min = 0.1,
         max = 1,
         decimals = 2,
         value = Settings.uiResolution
@@ -162,6 +164,16 @@ function Settings.OpenDynHudSettings()
 
     mapResolutionSlider:AlignLeft(UiSettings.gridSizeX * 1)
 
+    -- Stuff that should be on the bottom
+
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
+        grid = { x = 0, y = UiSettings.GRID_COUNT_Y - 1 }, -- The last column for the warning
+        size = defaultSize,
+        text = "WARNING: Changing settings in Red will reset all points on the map!",
+        font = "DermaDefault",
+        color = colors.WINE_RED,
+        wrap = true,
+    })
 
     --- Hooks
     playerSizeWang.OnValueChanged = function(_, value)
