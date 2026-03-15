@@ -138,12 +138,16 @@ function Settings.OpenDynHudSettings()
         font = "DermaDefault"
     })
 
-    local mapSizeWang = uiUtils.createUIElementOnGrid(frame, "DNumberWang", {
+    local mapSizeSlider = uiUtils.createUIElementOnGrid(frame, "DNumSlider", {
         grid = { x = 1, y = 4 },
-        min = 50,
-        max = math.max(ScrW(), ScrH()),
+        size = defaultSize,
+        min = ScrH() * 0.1,
+        max = math.min(ScrW() / 2, ScrH() / 2),
+        decimals = 0,
         value = Settings.mapSize
     })
+
+    mapSizeSlider:AlignLeft(UiSettings.gridSizeX * 1)
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 5 },
@@ -168,11 +172,11 @@ function Settings.OpenDynHudSettings()
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = UiSettings.GRID_COUNT_Y - 1 }, -- The last column for the warning
-        size = defaultSize,
+        size = { w = defaultSize.w * 2, h = defaultSize.h },
         text = "WARNING: Changing settings in Red will reset all points on the map!",
         font = "DermaDefault",
         color = colors.WINE_RED,
-        wrap = true,
+        wrap = true, -- In case it doesn't fit
     })
 
     --- Hooks
@@ -185,7 +189,7 @@ function Settings.OpenDynHudSettings()
         )
     end
 
-    mapSizeWang.OnValueChanged = function(_, value)
+    mapSizeSlider.OnValueChanged = function(_, value)
         Settings.mapSize = value
         refreshMap()
     end
