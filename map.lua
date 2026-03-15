@@ -7,8 +7,8 @@ local Map = {}
 local drawRect = surface.DrawRect
 local setDrawColor = surface.SetDrawColor
 
-local noBoundHudSize = Settings.mapSize - (Settings.borderThickness * 2)
-local hudBound = Settings.halfMapSize - Settings.borderThickness
+local noBoundMapSize = Settings.mapSize - (Settings.borderThickness * 2)
+local mapBound = Settings.halfMapSize - Settings.borderThickness
 
 -- Localization for Math Functions
 local abs = math.abs
@@ -50,7 +50,7 @@ local function pointRender()
             local rotX = relX * cosA - relY * sinA
             local rotY = relX * sinA + relY * cosA
 
-            if abs(rotX) < hudBound and abs(rotY) < hudBound then
+            if abs(rotX) < mapBound and abs(rotY) < mapBound then
                 local renderX = Settings.mapCenterX + rotX
                 local renderY = Settings.mapCenterY - rotY
 
@@ -83,8 +83,8 @@ local function drawMapBox()
         surface.SetDrawColor(235, 235, 235, 240)
     end
 
-    drawRect(Settings.mapXpos + Settings.borderThickness, Settings.mapYpos + Settings.borderThickness, noBoundHudSize,
-        noBoundHudSize)
+    drawRect(Settings.mapXpos + Settings.borderThickness, Settings.mapYpos + Settings.borderThickness, noBoundMapSize,
+        noBoundMapSize)
 end
 
 -- Draws the player indicator triangle
@@ -107,6 +107,11 @@ local function drawNorthPoint()
     draw.Circle(renderX, renderY, 10, 10)
 
     draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, colors.PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+end
+
+function Map.updateSize()
+    noBoundMapSize = Settings.mapSize - (Settings.borderThickness * 2)
+    mapBound = Settings.halfMapSize - Settings.borderThickness
 end
 
 function Map.Render()
