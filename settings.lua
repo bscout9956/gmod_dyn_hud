@@ -44,6 +44,7 @@ local function initDerivativeValues()
     Settings.mapCenterY = Settings.mapYpos + Settings.halfMapSize
     Settings.bigMapCenterX = Settings.bigMapXpos + Settings.bigMapHalfSizeX
     Settings.bigMapCenterY = Settings.bigMapYpos + Settings.bigMapHalfSizeY
+    Settings.mapResolution = Settings.uiResolution / 100
 
     Settings.playerIndicatorTable = createIndicatorVertices(
         Settings.mapCenterX, Settings.mapCenterY, Settings.playerIndicatorSize
@@ -97,6 +98,7 @@ function Settings.OpenDynHudSettings()
         decimals = 2,
         value = Settings.uiZoomLevel
     })
+
     zoomSlider:AlignLeft(UiSettings.gridSizeX * 1)
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
@@ -162,8 +164,8 @@ function Settings.OpenDynHudSettings()
         Settings.astigmatismMode = value
     end
 
-    Settings.settingsFramePresent = true
 
+    Settings.settingsFramePresent = true
     function frame:OnClose()
         Settings.settingsFramePresent = false
     end

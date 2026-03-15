@@ -11,7 +11,6 @@ Points = {}
 local ply = LocalPlayer()
 
 -- HUD Parameters
-local mapResolution = Settings.uiResolution / 100
 local pointsLookup = {}
 
 -- Localization for Math Functions
@@ -78,9 +77,9 @@ local function registerPlayerPos()
     -- We drop some precision for X and Y because we don't really need that much precision honestly
     -- It also looks really cool lmao
     addPoint(
-        round(pos.x * mapResolution) / mapResolution,
-        round(pos.y * mapResolution) / mapResolution,
-        round(pos.z * mapResolution) / mapResolution
+        round(pos.x * Settings.mapResolution) / Settings.mapResolution,
+        round(pos.y * Settings.mapResolution) / Settings.mapResolution,
+        round(pos.z * Settings.mapResolution) / Settings.mapResolution
     )
 end
 
