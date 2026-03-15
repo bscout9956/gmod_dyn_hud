@@ -67,7 +67,6 @@ local function createUIElement(className, frame, props)
             else
                 -- Single parameter properties
                 if funcSetter and element then
-                    print("Setting property: ", propName, " with value: ", value, " using function: ", funcSetter)
                     element[funcSetter](element, value)
                 else
                     print(
