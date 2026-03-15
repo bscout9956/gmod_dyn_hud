@@ -118,7 +118,11 @@ function Settings.OpenDynHudSettings()
 
     playerSizeWang.OnValueChanged = function(_, value)
         Settings.playerIndicatorSize = value
-        Settings.playerIndicatorTable = computePlayerIndicatorTable()
+        Settings.playerIndicatorTable = createIndicatorVertices(
+            Settings.mapCenterX,
+            Settings.mapCenterY,
+            Settings.playerIndicatorSize
+        )
     end
 
     zoomSlider.OnValueChanged = function(_, value)
