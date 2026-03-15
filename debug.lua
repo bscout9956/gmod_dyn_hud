@@ -21,13 +21,13 @@ local function drawCoordinates()
 end
 
 --- Draws the number of points
-local function drawPCount()
+local function drawPointCount()
     return "Number of Points: " .. #Points
 end
 
 -- Draw all debug/HUD information
 function Debug.drawInfo()
-    local funcs = { drawCoordinates, drawAstigmatismInfo, drawZoomInfo, drawPCount }
+    local funcs = { drawCoordinates, drawAstigmatismInfo, drawZoomInfo, drawPointCount }
     for index, func in ipairs(funcs) do
         draw.SimpleText(func(), "DermaDefault", Settings.mapXpos + (Settings.spacing * 0.5),
             Settings.mapSize + (Settings.mapYpos * index) + Settings.spacing, colors.PURE_WHITE, TEXT_ALIGN_LEFT,
