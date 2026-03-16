@@ -1,5 +1,6 @@
 local debug = include("debug.lua")
 local colors = include("colors.lua")
+local utils = include("utils.lua")
 
 ---@type table
 local Map = {}
@@ -12,6 +13,8 @@ local setDrawColor = surface.SetDrawColor
 local noBoundMapSize = Settings.mapSize - (Settings.borderThickness * 2)
 ---@type number
 local mapBound = Settings.halfMapSize - Settings.borderThickness
+---@type table
+local mapBounds = { x = mapBound, y = mapBound }
 
 -- Localization for Math Functions
 local abs = math.abs
@@ -27,47 +30,22 @@ local r, g, b = 255, 255, 255
 --- Renders all the points for the registered player positions applying rotation and checking Map Bounds.
 local function pointRender()
     local renderStart = SysTime()
-    local pPos = ply:GetPos()
-    local angY = ply:EyeAngles().y
+    local playerPos = ply:GetPos()
 
-    local radA = rad(-angY + 90) -- We rotate so 90 is upwards/north
-    local cosA = cos(radA)
-    local sinA = sin(radA)
+    local color = colors.WHITE
 
     if Settings.astigmatismMode then
-        r, g, b = 40, 40, 40
-    else
-        r, g, b = 255, 255, 255
+        color = colors.SOFT_GRAY
     end
 
     draw.NoTexture()
 
-    for _, pos in pairs(Points) do
-        local diffZ = abs(pos.z - pPos.z)
-
-        if diffZ < 500 then -- we don't perform any crazy arithmetic on points we're not drawing
-            local alpha = 255 - (diffZ * 0.51)
-
-            local relX = (pos.x - pPos.x) * Settings.mapZoomLevel
-            local relY = (pos.y - pPos.y) * Settings.mapZoomLevel
-
-            local rotX = relX * cosA - relY * sinA
-            local rotY = relX * sinA + relY * cosA
-
-            if abs(rotX) < mapBound and abs(rotY) < mapBound then
-                local renderX = Settings.mapCenterX + rotX
-                local renderY = Settings.mapCenterY - rotY
-
-                setDrawColor(r, g, b, alpha)
-                drawRect(renderX, renderY, 3, 3)
-            end
-        end
-    end
+    utils.drawPoints(playerPos, colors.WHITE, mapBounds, true)
 
     local renderEnd = SysTime()
     local frameTime = (renderEnd - renderStart) * 1000
     local timeDiff = string.format("%.2f ms", frameTime)
-
+    -- TODO: Make this optional
     draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, colors.GREEN, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 

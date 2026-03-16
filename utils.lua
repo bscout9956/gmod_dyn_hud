@@ -1,5 +1,10 @@
 local Utils = {}
 
+local abs = math.abs
+local ply = LocalPlayer()
+local setDrawColor = surface.SetDrawColor
+local drawRect = surface.DrawRect
+
 --- Converts a boolean value to a string for display purposes
 ---@param value boolean @The boolean value to convert to a string
 function Utils.boolToStr(value)
@@ -7,6 +12,52 @@ function Utils.boolToStr(value)
         return "On"
     else
         return "Off"
+    end
+end
+
+---comment
+---@param pPos table @Player position
+---@param color Color @The color to draw the points with
+---@param mapBound table @The bounds of the map for culling points outside of it
+---@param doRotate boolean @Whether to apply rotation to the points based on player view angle
+function Utils.drawPoints(pPos, color, mapBound, doRotate)
+    -- We predefine just to avoid unbound variable warnings
+    -- but we only really need if we're rotating the map
+    local angleY = 0
+    local angleRadians = 0
+    local cosAngle = 0
+    local sinAngle = 0
+
+    if doRotate then
+        angleY = ply:EyeAngles().y
+        angleRadians = math.rad(-angleY + 90) -- We rotate so 90 is upwards/north
+        cosAngle = math.cos(angleRadians)
+        sinAngle = math.sin(angleRadians)
+    end
+
+    for _, pos in pairs(Points) do
+        local diffZ = abs(pos.z - pPos.z)
+
+        -- TODO: Turn Z fade into a setting
+        if diffZ < 500 then                    -- we don't perform any crazy arithmetic on points we're not drawing
+            local alpha = 255 - (diffZ * 0.51) -- TODO: Same here
+
+            local finalX = (pos.x - pPos.x) * Settings.mapZoomLevel
+            local finalY = (pos.y - pPos.y) * Settings.mapZoomLevel
+
+            if doRotate then
+                finalX = finalX * cosAngle - finalY * sinAngle
+                finalY = finalX * sinAngle + finalY * cosAngle
+            end
+
+            if abs(finalX) < mapBound.x and abs(finalY) < mapBound.y then
+                local renderX = Settings.mapCenterX + finalX
+                local renderY = Settings.mapCenterY - finalY
+
+                setDrawColor(color.r, color.g, color.b, alpha)
+                drawRect(renderX, renderY, 3, 3)
+            end
+        end
     end
 end
 
