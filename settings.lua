@@ -19,7 +19,12 @@ Settings.playerIndicatorNotch = 0.5
 Settings.bigMapSizeX = math.floor(0.75 * ScrW())
 Settings.bigMapSizeY = math.floor(0.75 * ScrH())
 
-
+--- Creates the coordinates for where the player indicator should be.
+--- It's in the shape of a triangle with a notch.
+---@param cx number @X coordinate of the center
+---@param cy number @Y coordinate of the center
+---@param size number @Size of the indicator
+---@return table
 local function createIndicatorVertices(cx, cy, size)
     local notchOffset = size * Settings.playerIndicatorNotch
 

@@ -1,6 +1,7 @@
 local UIUtils = {}
 
 -- Mapping for the properties and their function calls
+---@type table
 local uiSetMapper = {
     value = "SetValue",
     val = "SetValue",
@@ -15,6 +16,7 @@ local uiSetMapper = {
 }
 
 -- Mapping for the properties, their function calls and the expected parameters
+---@type table
 local uiDualElementMapper = {
     size = { func = "SetSize", params = { "w", "h" } },
     pos = { func = "SetPos", params = { "x", "y" } },
@@ -22,8 +24,8 @@ local uiDualElementMapper = {
 }
 
 --- Returns the position given a specific X and Y grid index
----@param grid table
----@return table
+---@param grid table @The grid position with x and y indices
+---@return table @The position with x and y coordinates
 function UIUtils.getGridPosition(grid)
     local pos = {
         x = nil,
@@ -38,6 +40,10 @@ function UIUtils.getGridPosition(grid)
     return pos
 end
 
+--- Dynamic setter for VGUI Elements based on element, property name and values to be used
+---@param element Panel @The VGUI element to set properties for
+---@param propName string @The property name
+---@param values table @The values to set
 local function dualElementSetter(element, propName, values)
     local mapping = uiDualElementMapper[propName]
     if not mapping then
@@ -54,6 +60,10 @@ local function dualElementSetter(element, propName, values)
     end
 end
 
+--- Dynamic setter for VGUI Elements based on the class name, frame, and properties to be set
+---@param className string @The VGUI element class name to create
+---@param frame Panel @The parent frame for the VGUI element
+---@param props table @The properties to set for the VGUI element
 local function createUIElement(className, frame, props)
     local element = vgui.Create(className, frame)
 
@@ -61,11 +71,11 @@ local function createUIElement(className, frame, props)
         if propName ~= "grid" then
             local funcSetter = uiSetMapper[propName]
 
+            --- Tables usually mean we need to use the dual element setter,
+            --- but we make an exception for color since it's a single parameter function that takes a table
             if type(value) == "table" and propName ~= "color" then
-                -- Dual parameter properties
                 dualElementSetter(element, propName, value)
             else
-                -- Single parameter properties
                 if funcSetter and element then
                     element[funcSetter](element, value)
                 else
@@ -85,9 +95,9 @@ local function createUIElement(className, frame, props)
 end
 
 --- Creates a label given the className using the grid system
----@param frame Panel
----@param className string
----@param props table
+---@param frame Panel @The parent frame for the label
+---@param className string @The VGUI element class name to create
+---@param props table @The properties to set for the label
 function UIUtils.createUIElementOnGrid(frame, className, props)
     props.pos = UIUtils.getGridPosition(props.grid)
     local element = createUIElement(className, frame, props)

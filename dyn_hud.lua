@@ -11,6 +11,7 @@ Points = {} -- TODO: I think this shouldn't be a global variable exposed like th
 local ply = LocalPlayer()
 
 -- HUD Parameters
+---@type table
 local pointsLookup = {}
 
 -- Localization for Math Functions
@@ -56,7 +57,8 @@ local function changeAstimagtismMode()
     Settings.astigmatismMode = not Settings.astigmatismMode
 end
 
---- Adds a point to the points table if it doesn't already exist
+--- Adds a point to the points table if it doesn't already exist.
+--- Avoids adding unnecessary points, helps with performance.
 ---@param x number @X coordinate
 ---@param y number @Y coordinate
 ---@param z number @Z coordinate
@@ -72,6 +74,7 @@ local function addPoint(x, y, z)
     end
 end
 
+--- Register the current player position in the points table, with some precision reduction
 local function registerPlayerPos()
     local pos = ply:GetPos()
     -- We drop some precision for X and Y because we don't really need that much precision honestly
@@ -83,6 +86,7 @@ local function registerPlayerPos()
     )
 end
 
+--- Helper to switch between the big map and the regular map
 local function switchMaps()
     bmapVisible = not bmapVisible
 end

@@ -1,13 +1,16 @@
 local debug = include("debug.lua")
 local colors = include("colors.lua")
 
+---@type table
 local Map = {}
 
 -- Localization for surface stuff
 local drawRect = surface.DrawRect
 local setDrawColor = surface.SetDrawColor
 
+---@type number
 local noBoundMapSize = Settings.mapSize - (Settings.borderThickness * 2)
+---@type number
 local mapBound = Settings.halfMapSize - Settings.borderThickness
 
 -- Localization for Math Functions
@@ -21,6 +24,7 @@ local ply = LocalPlayer()
 
 local r, g, b = 255, 255, 255
 
+--- Renders all the points for the registered player positions applying rotation and checking Map Bounds.
 local function pointRender()
     local renderStart = SysTime()
     local pPos = ply:GetPos()
@@ -67,6 +71,8 @@ local function pointRender()
     draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, colors.GREEN, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
+--- Draws the map box including its outline and background.
+--- Applies different colors based on the astigmatism mode setting.
 local function drawMapBox()
     if not Settings.astigmatismMode then
         surface.SetDrawColor(255, 255, 255, 255)
@@ -87,12 +93,14 @@ local function drawMapBox()
         noBoundMapSize)
 end
 
--- Draws the player indicator triangle
+--- Draws the player indicator triangle itself.
+--- The coordinates are defined in a pre-computed indicator table.
 local function drawPlayerIndicator()
     surface.SetDrawColor(0, 100, 200, 255) -- Smoother blue
     surface.DrawPoly(Settings.playerIndicatorTable)
 end
 
+--- Draws the north point indicator, which is a circle at the edges of the map pointing towards North
 local function drawNorthPoint()
     local angY = rad(ply:EyeAngles().y - 90)
     local cosA = cos(angY)
@@ -109,11 +117,13 @@ local function drawNorthPoint()
     draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, colors.PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
+--- Helper to update the map size variables when it gets changed on the Settings Panel
 function Map.updateSize()
     noBoundMapSize = Settings.mapSize - (Settings.borderThickness * 2)
     mapBound = Settings.halfMapSize - Settings.borderThickness
 end
 
+--- Wraps all the necessary drawing calls for rendering the map itself
 function Map.Render()
     drawMapBox()
     debug.drawInfo()

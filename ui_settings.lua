@@ -1,10 +1,12 @@
 local UISettings = {}
 local SCALE_FACTOR = 0.25
 
-
+---@type number
 local screenWidth = ScrW()
+---@type number
 local screenHeight = ScrH()
 
+--- Initializes the default values for the settings panel based on the current screen size.
 local function initDefaultValues()
     screenWidth = ScrW()
     screenHeight = ScrH()
