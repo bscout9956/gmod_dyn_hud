@@ -93,7 +93,7 @@ end
 
 
 -- Hooks and other shit
-hook.Add("HUDPaint", "HUDMain", function()
+hook.Add("HUDPaint", "DynMap_Render", function()
     if not bmapVisible then
         Map.Render()
     else
@@ -103,7 +103,7 @@ hook.Add("HUDPaint", "HUDMain", function()
 end)
 
 local nextChange = 0
-hook.Add("Think", "Zoomer", function()
+hook.Add("Think", "DynMap_Input", function()
     local curTime = CurTime()
     if input.IsKeyDown(KEY_Z) and curTime > nextChange then
         Settings.ChangeZoom()
@@ -123,7 +123,7 @@ hook.Add("Think", "Zoomer", function()
     end
 end)
 
-hook.Add("OnScreenSizeChanged", "UIRefresh", function()
+hook.Add("OnScreenSizeChanged", "DynMap_UIRefresh", function()
     print("DynHUD: Screen Resolution change detected, refreshing UI elements...")
     UiSettings.refreshValues()
 end)
