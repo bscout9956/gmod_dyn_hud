@@ -129,12 +129,15 @@ function Settings.OpenDynHudSettings()
         font = "DermaDefault"
     })
 
-    local playerSizeWang = uiUtils.createUIElementOnGrid(frame, "DNumberWang", {
+    local playerSizeSlider = uiUtils.createUIElementOnGrid(frame, "DNumSlider", {
         grid = { x = 1, y = 3 },
         min = 1,
         max = 50,
+        decimals = 0,
         value = Settings.playerIndicatorSize,
     })
+
+    playerSizeSlider:AlignLeft(UiSettings.gridSizeX * 1)
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 4 },
@@ -185,7 +188,7 @@ function Settings.OpenDynHudSettings()
     })
 
     --- Hooks
-    playerSizeWang.OnValueChanged = function(_, value)
+    playerSizeSlider.OnValueChanged = function(_, value)
         Settings.playerIndicatorSize = value
         Settings.playerIndicatorTable = createIndicatorVertices(
             Settings.mapCenterX,
