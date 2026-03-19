@@ -1,17 +1,14 @@
 {
     "title": "DynMAP DEV",
     "type": "tool",
-    "tags": [
-        "qol",
-        "quality of life",
-        "hud",
-        "map",
-        "radar"
-    ],
+    "tags": [],
     "ignore": [
         "*.bat",
         "*.md",
         "*.png",
-        "*.json"
+        "*.json",
+        "*.jpg",
+        "*.gma",
+        "*.gitignore"
     ]
 }
