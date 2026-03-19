@@ -1,7 +1,7 @@
-Settings = include("settings.lua")
-UiSettings = include("ui_settings.lua")
-local bmap = include("big_map.lua")
-Map = include("map.lua")
+Settings = include("dynmap/settings.lua")
+UiSettings = include("dynmap/ui_settings.lua")
+local bmap = include("dynmap/big_map.lua")
+Map = include("dynmap/map.lua")
 
 local bmapVisible = false
 
