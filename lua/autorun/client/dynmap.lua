@@ -8,7 +8,6 @@ local bmapVisible = false
 -- GMOD Dynamic Map v0.6 by BlackScout/bscout9956
 -- Data
 Points = {} -- TODO: I think this shouldn't be a global variable exposed like this, if you're reading this, don't mess it up lmao
-local ply = LocalPlayer()
 
 -- HUD Parameters
 ---@type table
@@ -76,6 +75,7 @@ end
 
 --- Register the current player position in the points table, with some precision reduction
 local function registerPlayerPos()
+    local ply = LocalPlayer()
     -- Early return in case the player is still loading
     if not IsValid(ply) then return end
     local pos = ply:GetPos()
