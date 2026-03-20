@@ -7,7 +7,6 @@ local Map = {}
 
 -- Localization for surface stuff
 local drawRect = surface.DrawRect
-local setDrawColor = surface.SetDrawColor
 
 ---@type number
 local noBoundMapSize = Settings.mapSize - (Settings.borderThickness * 2)
@@ -23,8 +22,6 @@ local sin = math.sin
 local rad = math.rad
 local max = math.max
 
-
-local r, g, b = 255, 255, 255
 
 --- Renders all the points for the registered player positions applying rotation and checking Map Bounds.
 local function pointRender()
@@ -42,7 +39,7 @@ local function pointRender()
 
     draw.NoTexture()
 
-    utils.drawPoints(playerPos, colors.WHITE, mapBounds, true)
+    utils.drawPoints(playerPos, color, mapBounds, true)
 
     local renderEnd = SysTime()
     local frameTime = (renderEnd - renderStart) * 1000
