@@ -18,8 +18,9 @@ end
 ---@param pPos table @Player position
 ---@param color Color @The color to draw the points with
 ---@param mapBound table @The bounds of the map for culling points outside of it
+---@param mapCenter table @The center position of the map
 ---@param doRotate boolean @Whether to apply rotation to the points based on player view angle
-function Utils.drawPoints(pPos, color, mapBound, doRotate)
+function Utils.drawPoints(pPos, color, mapBound, mapCenter, doRotate)
     -- We predefine just to avoid unbound variable warnings
     -- but we only really need if we're rotating the map
     local angleY = 0
@@ -50,8 +51,8 @@ function Utils.drawPoints(pPos, color, mapBound, doRotate)
             end
 
             if abs(finalX) < mapBound.x and abs(finalY) < mapBound.y then
-                local renderX = Settings.mapCenterX + finalX
-                local renderY = Settings.mapCenterY - finalY
+                local renderX = mapCenter.x + finalX
+                local renderY = mapCenter.y - finalY
 
                 setDrawColor(color.r, color.g, color.b, alpha)
                 drawRect(renderX, renderY, 3, 3)

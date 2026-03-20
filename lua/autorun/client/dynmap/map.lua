@@ -36,7 +36,7 @@ local function pointRender()
 
     draw.NoTexture()
 
-    utils.drawPoints(playerPos, color, mapBounds, true)
+    utils.drawPoints(playerPos, color, mapBounds, { x = Settings.mapCenterX, y = Settings.mapCenterY }, true)
 
     local renderEnd = SysTime()
     local frameTime = (renderEnd - renderStart) * 1000
