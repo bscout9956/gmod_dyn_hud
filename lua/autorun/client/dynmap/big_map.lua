@@ -29,7 +29,7 @@ local baseIndicatorPos = {
 
 local function pointRender()
     local renderStart = SysTime()
-    local playerPos = ply:GetPos()
+    local playerPos = LocalPlayer():GetPos()
 
     local color = colors.WHITE
 
@@ -50,7 +50,7 @@ local function pointRender()
 end
 
 local function updateBigMapPIndicator()
-    local ang = ply:EyeAngles().y
+    local ang = LocalPlayer():EyeAngles().y
     local radA = rad(-ang + 90)
     local cosA = cos(radA)
     local sinA = sin(radA)

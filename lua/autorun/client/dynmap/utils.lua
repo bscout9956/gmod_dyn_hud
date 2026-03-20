@@ -1,7 +1,6 @@
 local Utils = {}
 
 local abs = math.abs
-local ply = LocalPlayer()
 local setDrawColor = surface.SetDrawColor
 local drawRect = surface.DrawRect
 
@@ -29,7 +28,7 @@ function Utils.drawPoints(pPos, color, mapBound, doRotate)
     local sinAngle = 0
 
     if doRotate then
-        angleY = ply:EyeAngles().y
+        angleY = LocalPlayer():EyeAngles().y
         angleRadians = math.rad(-angleY + 90) -- We rotate so 90 is upwards/north
         cosAngle = math.cos(angleRadians)
         sinAngle = math.sin(angleRadians)

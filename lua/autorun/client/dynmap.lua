@@ -75,10 +75,7 @@ end
 
 --- Register the current player position in the points table, with some precision reduction
 local function registerPlayerPos()
-    local ply = LocalPlayer()
-    -- Early return in case the player is still loading
-    if not IsValid(ply) then return end
-    local pos = ply:GetPos()
+    local pos = LocalPlayer():GetPos()
     -- We drop some precision for X and Y because we don't really need that much precision honestly
     -- It also looks really cool lmao
     addPoint(
