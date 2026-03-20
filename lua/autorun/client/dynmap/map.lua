@@ -23,13 +23,13 @@ local sin = math.sin
 local rad = math.rad
 local max = math.max
 
-local ply = LocalPlayer()
 
 local r, g, b = 255, 255, 255
 
 --- Renders all the points for the registered player positions applying rotation and checking Map Bounds.
 local function pointRender()
     local renderStart = SysTime()
+    local ply = LocalPlayer()
     -- Early return in case the player is still loading
     if not IsValid(ply) then return end
     local playerPos = ply:GetPos()
@@ -82,6 +82,7 @@ end
 
 --- Draws the north point indicator, which is a circle at the edges of the map pointing towards North
 local function drawNorthPoint()
+    local ply = LocalPlayer()
     -- Early return in case the player is still loading
     if not IsValid(ply) then return end
     local angY = rad(ply:EyeAngles().y - 90)
