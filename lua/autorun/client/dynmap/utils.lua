@@ -46,8 +46,9 @@ function Utils.drawPoints(pPos, color, mapBound, mapCenter, doRotate)
             local finalY = (pos.y - pPos.y) * Settings.mapZoomLevel
 
             if doRotate then
+                local rotX = finalX
                 finalX = finalX * cosAngle - finalY * sinAngle
-                finalY = finalX * sinAngle + finalY * cosAngle
+                finalY = rotX * sinAngle + finalY * cosAngle
             end
 
             if abs(finalX) < mapBound.x and abs(finalY) < mapBound.y then
