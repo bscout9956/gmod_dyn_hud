@@ -95,6 +95,7 @@ end
 function Map.updateSize()
     noBoundMapSize = Settings.mapSize - (Settings.borderThickness * 2)
     mapBound = Settings.halfMapSize - Settings.borderThickness
+    mapBounds = { x = mapBound, y = mapBound }
 end
 
 --- Wraps all the necessary drawing calls for rendering the map itself
