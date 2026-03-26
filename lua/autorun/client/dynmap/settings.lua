@@ -131,6 +131,7 @@ function Settings.OpenDynHudSettings()
 
     local playerSizeSlider = uiUtils.createUIElementOnGrid(frame, "DNumSlider", {
         grid = { x = 1, y = 3 },
+        size = defaultSize,
         min = 1,
         max = 50,
         decimals = 0,
