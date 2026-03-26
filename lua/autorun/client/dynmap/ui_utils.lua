@@ -1,5 +1,9 @@
 local UIUtils = {}
 
+local cos = math.cos
+local sin = math.sin
+local rad = math.rad
+
 -- Mapping for the properties and their function calls
 ---@type table
 local uiSetMapper = {
@@ -109,6 +113,39 @@ function UIUtils.createUIElementOnGrid(frame, className, props)
     end
 
     return element
+end
+
+-- Taken from: https://wiki.facepunch.com/gmod/surface.DrawPoly
+-- Why isn't this included bro? It's not bloat, it's useful lmao
+function UIUtils.DrawCircle(x, y, radius, seg)
+    local cir = {}
+
+    table.insert(cir, {
+        x = x,
+        y = y,
+        u = 0.5,
+        v = 0.5
+    })
+
+    for i = 0, seg do
+        local a = rad((i / seg) * -360)
+        table.insert(cir, {
+            x = x + sin(a) * radius,
+            y = y + cos(a) * radius,
+            u = (sin(a) * .5) + 0.5,
+            v = (cos(a) * .5) + 0.5
+        })
+    end
+
+    local a = math.rad(0) -- This is needed for non absolute segment counts
+    table.insert(cir, {
+        x = x + sin(a) * radius,
+        y = y + cos(a) * radius,
+        u = (sin(a) * .5) + 0.5,
+        v = (cos(a) * .5) + 0.5
+    })
+
+    surface.DrawPoly(cir)
 end
 
 return UIUtils
