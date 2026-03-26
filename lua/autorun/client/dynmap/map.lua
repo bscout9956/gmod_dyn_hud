@@ -31,7 +31,7 @@ local function pointRender()
     local color = colors.WHITE
 
     if Settings.astigmatismMode then
-        color = colors.SOFT_GRAY
+        color = colors.BLACK
     end
 
     draw.NoTexture()
