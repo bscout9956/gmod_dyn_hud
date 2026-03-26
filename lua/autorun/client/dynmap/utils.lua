@@ -1,4 +1,5 @@
 local Utils = {}
+local colors = include("colors.lua")
 
 local abs = math.abs
 local setDrawColor = surface.SetDrawColor
@@ -16,17 +17,22 @@ end
 
 ---comment
 ---@param pPos table @Player position
----@param color Color @The color to draw the points with
 ---@param mapBound table @The bounds of the map for culling points outside of it
 ---@param mapCenter table @The center position of the map
 ---@param doRotate boolean @Whether to apply rotation to the points based on player view angle
-function Utils.drawPoints(pPos, color, mapBound, mapCenter, doRotate)
+function Utils.drawPoints(pPos, mapBound, mapCenter, doRotate)
     -- We predefine just to avoid unbound variable warnings
     -- but we only really need if we're rotating the map
     local angleY = 0
     local angleRadians = 0
     local cosAngle = 0
     local sinAngle = 0
+
+    local color = colors.WHITE
+
+    if Settings.astigmatismMode then
+        color = colors.BLACK
+    end
 
     if doRotate then
         angleY = LocalPlayer():EyeAngles().y

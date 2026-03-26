@@ -31,15 +31,11 @@ local function pointRender()
     local renderStart = SysTime()
     local playerPos = LocalPlayer():GetPos()
 
-    local color = colors.WHITE
 
-    if Settings.astigmatismMode then
-        color = colors.SOFT_GRAY
-    end
 
     draw.NoTexture()
 
-    utils.drawPoints(playerPos, color, mapBounds, { x = Settings.bigMapCenterX, y = Settings.bigMapCenterY }, false)
+    utils.drawPoints(playerPos, mapBounds, { x = Settings.bigMapCenterX, y = Settings.bigMapCenterY }, false)
 
     local renderEnd = SysTime()
     local frameTime = (renderEnd - renderStart) * 1000
