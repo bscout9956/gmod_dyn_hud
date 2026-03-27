@@ -126,6 +126,19 @@ local function renderLines(offset, range, yShift)
     end
 end
 
+local function renderLetters(offset, range, label)
+    if abs(offset) <= range then
+        local relX = -(offset / range)
+        local posX = Settings.mapCenterX + (relX * Settings.halfMapSize)
+        local posY = Settings.mapCenterY + Settings.halfMapSize
+        local alpha = 1 - abs(relX)
+        local color = Settings.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
+
+        local textColor = Color(color.r, color.g, color.b, color.a * alpha)
+        draw.SimpleText(label, "CloseCaption_Normal", posX, posY + 10, textColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+    end
+end
+
 -- Draws a compass underneath the map, showing NSWE directions
 -- Is disabled when using the round map.
 local function drawCompass()
@@ -147,17 +160,7 @@ local function drawCompass()
 
     for angle, label in pairs(cardinals) do
         local offset = math.NormalizeAngle(angle - pAngle)
-
-        if abs(offset) <= range then
-            local relX = -(offset / range)
-            local posX = Settings.mapCenterX + (relX * Settings.halfMapSize)
-            local posY = Settings.mapCenterY + Settings.halfMapSize
-            local alpha = 1 - abs(relX)
-            local color = Settings.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
-
-            local textColor = Color(color.r, color.g, color.b, color.a * alpha)
-            draw.SimpleText(label, "CloseCaption_Normal", posX, posY + 10, textColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
-        end
+        renderLetters(offset, range, label)
     end
 end
 
