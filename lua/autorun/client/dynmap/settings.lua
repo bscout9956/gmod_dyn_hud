@@ -14,6 +14,7 @@ Settings.margin = 20
 Settings.mapSize = math.floor(0.125 * ScrW())
 Settings.playerIndicatorSize = 18
 Settings.playerIndicatorNotch = 0.5
+Settings.roundMode = false -- Whether to use a round map or not
 
 -- Big Map Parameters
 Settings.bigMapSizeX = math.floor(0.75 * ScrW())
@@ -177,6 +178,19 @@ function Settings.OpenDynHudSettings()
 
     mapResolutionSlider:AlignLeft(UiSettings.gridSizeX * 1)
 
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
+        grid = { x = 0, y = 6 },
+        size = defaultSize,
+        text = "Round Mode",
+        font = "DermaDefault",
+        wrap = true, -- In case it doesn't fit
+    })
+
+    local roundModeCheckbox = uiUtils.createUIElementOnGrid(frame, "DCheckBox", {
+        grid = { x = 1, y = 6 },
+        value = Settings.roundMode
+    })
+
     -- Stuff that should be on the bottom
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
@@ -212,6 +226,10 @@ function Settings.OpenDynHudSettings()
         Settings.uiResolution = value
         Settings.mapResolution = Settings.uiResolution / 100
         Points = {}
+    end
+
+    roundModeCheckbox.OnChange = function(_, value)
+        Settings.roundMode = value
     end
 
     astigmatismCheckbox.OnChange = function(_, value)

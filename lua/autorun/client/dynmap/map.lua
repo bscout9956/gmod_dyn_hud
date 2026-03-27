@@ -1,6 +1,7 @@
 local debug = include("debug.lua")
 local colors = include("colors.lua")
 local utils = include("utils.lua")
+local uiUtils = include("ui_utils.lua")
 
 ---@type table
 local Map = {}
@@ -61,6 +62,27 @@ local function drawMapBox()
         noBoundMapSize)
 end
 
+--- Draws the map as a circle instead of a square, if the roundMode setting is enabled.
+local function drawMapCircle()
+    local color
+    if not Settings.astigmatismMode then
+        color = colors.WHITE
+    else
+        color = colors.SOFT_GRAY
+    end
+
+    surface.DrawCircle(Settings.mapCenterX, Settings.mapCenterY, Settings.mapSize / 2, color.r, color.g, color.b, color
+        .a)
+
+    if not Settings.astigmatismMode then
+        surface.SetDrawColor(0, 0, 0, 220)
+    else
+        surface.SetDrawColor(235, 235, 235, 240)
+    end
+
+    uiUtils.DrawCircle(Settings.mapCenterX, Settings.mapCenterY, Settings.mapSize / 2, 67)
+end
+
 --- Draws the player indicator triangle itself.
 --- The coordinates are defined in a pre-computed indicator table.
 local function drawPlayerIndicator()
@@ -76,11 +98,15 @@ local function drawNorthPoint()
 
     local scale = Settings.halfMapSize / max(abs(cosA), abs(sinA))
 
+    if Settings.roundMode then
+        scale = Settings.halfMapSize
+    end
+
     local renderX = Settings.mapCenterX + (cosA * scale);
     local renderY = Settings.mapCenterY + (sinA * scale);
 
     surface.SetDrawColor(128, 0, 0, 255)
-    draw.Circle(renderX, renderY, 10, 10)
+    uiUtils.DrawCircle(renderX, renderY, 10, 10)
 
     draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, colors.PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
@@ -94,7 +120,11 @@ end
 
 --- Wraps all the necessary drawing calls for rendering the map itself
 function Map.Render()
-    drawMapBox()
+    if Settings.roundMode then
+        drawMapCircle()
+    else
+        drawMapBox()
+    end
     debug.drawInfo()
     pointRender()
     drawPlayerIndicator()
