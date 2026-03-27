@@ -96,11 +96,7 @@ local function drawNorthPoint()
     local cosA = cos(angY)
     local sinA = sin(angY)
 
-    local scale = Settings.halfMapSize / max(abs(cosA), abs(sinA))
-
-    if Settings.roundMode then
-        scale = Settings.halfMapSize
-    end
+    local scale = Settings.halfMapSize
 
     local renderX = Settings.mapCenterX + (cosA * scale);
     local renderY = Settings.mapCenterY + (sinA * scale);

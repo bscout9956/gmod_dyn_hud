@@ -28,6 +28,11 @@ function Utils.drawPoints(pPos, mapBound, mapCenter, doRotate)
     local cosAngle = 0
     local sinAngle = 0
 
+    local maxZ = 500
+    local fadeMult = 0.51
+    local zoom = Settings.mapZoomLevel
+    local radiusSq = Settings.halfMapSize * Settings.halfMapSize
+
     local color = colors.WHITE
 
     if Settings.astigmatismMode then
@@ -44,26 +49,32 @@ function Utils.drawPoints(pPos, mapBound, mapCenter, doRotate)
     for _, pos in pairs(Points) do
         local diffZ = abs(pos.z - pPos.z)
 
-        -- TODO: Turn Z fade into a setting
-        if diffZ < 500 then                    -- we don't perform any crazy arithmetic on points we're not drawing
-            local alpha = 255 - (diffZ * 0.51) -- TODO: Same here
+        if diffZ >= maxZ then continue end
 
-            local finalX = (pos.x - pPos.x) * Settings.mapZoomLevel
-            local finalY = (pos.y - pPos.y) * Settings.mapZoomLevel
+        local finalX = (pos.x - pPos.x) * zoom
+        local finalY = (pos.y - pPos.y) * zoom
 
-            if doRotate then
-                local rotX = finalX
-                finalX = finalX * cosAngle - finalY * sinAngle
-                finalY = rotX * sinAngle + finalY * cosAngle
-            end
+        if doRotate or Settings.roundMode then
+            local rx = finalX
+            finalX = finalX * cosAngle - finalY * sinAngle
+            finalY = rx * sinAngle + finalY * cosAngle
+        end
 
-            if abs(finalX) < mapBound.x and abs(finalY) < mapBound.y then
-                local renderX = mapCenter.x + finalX
-                local renderY = mapCenter.y - finalY
+        local isVisible = false
+        if Settings.roundMode then
+            local distSquared = (finalX * finalX) + (finalY * finalY)
+            isVisible = distSquared < radiusSq
+        else
+            isVisible = abs(finalX) < mapBound.x and abs(finalY) < mapBound.y
+        end
 
-                setDrawColor(color.r, color.g, color.b, alpha)
-                drawRect(renderX, renderY, 3, 3)
-            end
+        if isVisible then
+            local alpha = 255 - (diffZ * fadeMult)
+            local renderX = mapCenter.x + finalX
+            local renderY = mapCenter.y - finalY
+
+            setDrawColor(color.r, color.g, color.b, alpha)
+            drawRect(renderX, renderY, 3, 3)
         end
     end
 end
