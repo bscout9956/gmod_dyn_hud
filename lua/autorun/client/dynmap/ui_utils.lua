@@ -4,6 +4,14 @@ local cos = math.cos
 local sin = math.sin
 local rad = math.rad
 
+surface.CreateFont("CompassFont", {
+    font = "DermaDefaultBold",
+    size = 16,
+    weight = 800,
+    antialias = true,
+    shadow = true
+})
+
 -- Mapping for the properties and their function calls
 ---@type table
 local uiSetMapper = {

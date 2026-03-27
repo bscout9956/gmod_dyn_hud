@@ -111,6 +111,42 @@ local function drawNorthPoint()
     draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, colors.PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
+-- Draws a compass underneath the map, showing NSWE directions
+-- Is disabled when using the round map.
+local function drawCompass()
+    local pAngle = LocalPlayer():EyeAngles().y
+    local range = 90
+    local step = 5
+
+    for offset = -range, range, step do
+        local relX = offset / range
+        local posX = Settings.mapCenterX + (relX * Settings.halfMapSize)
+        local posY = Settings.mapCenterY + Settings.halfMapSize + Settings.spacing
+        local alpha = 1 - abs(relX)
+        local color = Settings.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
+
+        surface.SetDrawColor(color.r, color.g, color.b, color.a * alpha)
+        surface.DrawLine(posX, posY, posX, posY + 5)
+    end
+
+    local cardinals = { [0] = "N", [90] = "W", [180] = "S", [-90] = "E", [270] = "E" }
+
+    for angle, label in pairs(cardinals) do
+        local offset = math.NormalizeAngle(angle - pAngle)
+
+        if abs(offset) <= range then
+            local relX = offset / range
+            local posX = Settings.mapCenterX + (relX * Settings.halfMapSize)
+            local posY = Settings.mapCenterY + Settings.halfMapSize + Settings.spacing
+            local alpha = 1 - abs(relX)
+            local color = Settings.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
+
+            local textColor = Color(color.r, color.g, color.b, color.a * alpha)
+            draw.SimpleText(label, "DermaDefaultBold", posX, posY + 10, textColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+        end
+    end
+end
+
 --- Helper to update the map size variables when it gets changed on the Settings Panel
 function Map.updateSize()
     noBoundMapSize = Settings.mapSize - (Settings.borderThickness * 2)
@@ -122,13 +158,16 @@ end
 function Map.Render()
     if Settings.roundMode then
         drawMapCircle()
+        pointRender()
+        drawNorthPoint()
+        debug.drawInfo(false)
     else
         drawMapBox()
+        pointRender()
+        drawCompass()
+        debug.drawInfo(true)
     end
-    debug.drawInfo()
-    pointRender()
     drawPlayerIndicator()
-    drawNorthPoint()
 end
 
 return Map
