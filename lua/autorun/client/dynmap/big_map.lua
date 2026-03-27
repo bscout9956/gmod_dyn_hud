@@ -91,8 +91,6 @@ local function drawBox()
         noBoundHudSizeY)
 end
 
-
-
 function BMap.Render()
     drawBox()
     pointRender()
