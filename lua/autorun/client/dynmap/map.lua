@@ -111,40 +111,81 @@ local function drawNorthPoint()
     draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, colors.PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
+-- Helper function to render the lines for the compass, used in the square map mode
+-- Helps keep the code tidy
+local function renderLines(offset, range, yShift)
+    if abs(offset) <= range then
+        local relX = -(offset / range)
+        local posX = Settings.mapCenterX + (relX * Settings.halfMapSize)
+        local posY = Settings.mapCenterY + Settings.halfMapSize + 1
+        local alpha = 1 - abs(relX)
+
+        local color = Settings.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
+        surface.SetDrawColor(color.r, color.g, color.b, color.a * alpha)
+        surface.DrawLine(posX, posY, posX, yShift)
+    end
+end
+
 -- Draws a compass underneath the map, showing NSWE directions
 -- Is disabled when using the round map.
 local function drawCompass()
     local pAngle = LocalPlayer():EyeAngles().y
-    local range = 90
-    local step = 5
+    local range = 120 -- TURN INTO SETTING
 
-    for offset = -range, range, step do
-        local relX = offset / range
-        local posX = Settings.mapCenterX + (relX * Settings.halfMapSize)
-        local posY = Settings.mapCenterY + Settings.halfMapSize + Settings.spacing
-        local alpha = 1 - abs(relX)
-        local color = Settings.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
-
-        surface.SetDrawColor(color.r, color.g, color.b, color.a * alpha)
-        surface.DrawLine(posX, posY, posX, posY + 5)
+    for angle = -360, 360, 90 do
+        local offset = math.NormalizeAngle(angle - pAngle)
+        renderLines(offset, range, Settings.mapCenterY + Settings.halfMapSize + 15)
     end
 
-    local cardinals = { [0] = "N", [90] = "W", [180] = "S", [-90] = "E", [270] = "E" }
+    -- Minor ticks every 5°
+    for angle = -360, 360, 5 do
+        local offset = math.NormalizeAngle(angle - pAngle)
+        renderLines(offset, range, Settings.mapCenterY + Settings.halfMapSize + 5)
+    end
+
+    local cardinals = { [0] = "N", [90] = "W", [180] = "S", [-90] = "E" }
 
     for angle, label in pairs(cardinals) do
         local offset = math.NormalizeAngle(angle - pAngle)
 
         if abs(offset) <= range then
-            local relX = offset / range
+            local relX = -(offset / range)
             local posX = Settings.mapCenterX + (relX * Settings.halfMapSize)
-            local posY = Settings.mapCenterY + Settings.halfMapSize + Settings.spacing
+            local posY = Settings.mapCenterY + Settings.halfMapSize
             local alpha = 1 - abs(relX)
             local color = Settings.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
 
             local textColor = Color(color.r, color.g, color.b, color.a * alpha)
-            draw.SimpleText(label, "DermaDefaultBold", posX, posY + 10, textColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+            draw.SimpleText(label, "CloseCaption_Normal", posX, posY + 10, textColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
         end
     end
+end
+
+local function drawCompassBox()
+    if not Settings.astigmatismMode then
+        surface.SetDrawColor(255, 255, 255, 255)
+    else
+        surface.SetDrawColor(60, 60, 60, 255)
+    end
+
+    surface.DrawOutlinedRect(
+        Settings.mapXpos,                                                 -- x
+        (Settings.mapYpos + Settings.mapSize) - Settings.borderThickness, -- y
+        Settings.mapSize, Settings.spacing * 2,                           -- width, height
+        Settings.borderThickness                                          -- thickness
+    )
+
+    if not Settings.astigmatismMode then
+        surface.SetDrawColor(0, 0, 0, 220)
+    else
+        surface.SetDrawColor(235, 235, 235, 240)
+    end
+
+    drawRect(
+        Settings.mapXpos + Settings.borderThickness,                      -- x
+        (Settings.mapYpos + Settings.mapSize) - Settings.borderThickness, -- y
+        noBoundMapSize, (Settings.spacing * 2) - Settings.borderThickness -- width, height
+    )
 end
 
 --- Helper to update the map size variables when it gets changed on the Settings Panel
@@ -164,6 +205,7 @@ function Map.Render()
     else
         drawMapBox()
         pointRender()
+        drawCompassBox()
         drawCompass()
         debug.drawInfo(true)
     end
