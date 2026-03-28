@@ -1,6 +1,5 @@
-local utils = include("utils.lua")
-local uiUtils = include("ui/utils.lua")
-local colors = include("colors.lua")
+local uiUtils = include("../ui/utils.lua")
+local colors = include("../colors.lua")
 
 local setDrawColor = surface.SetDrawColor
 local drawRect = surface.DrawRect
