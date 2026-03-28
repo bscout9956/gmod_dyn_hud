@@ -26,7 +26,7 @@ local pointsLookup = {}
 local round = math.floor
 
 local function changeAstimagtismMode()
-    Settings.astigmatismMode = not Settings.astigmatismMode
+    Config.astigmatismMode = not Config.astigmatismMode
 end
 
 --- Adds a point to the points table if it doesn't already exist.
@@ -52,9 +52,9 @@ local function registerPlayerPos()
     -- We drop some precision for X and Y because we don't really need that much precision honestly
     -- It also looks really cool lmao
     addPoint(
-        round(pos.x * Settings.mapResolution) / Settings.mapResolution,
-        round(pos.y * Settings.mapResolution) / Settings.mapResolution,
-        round(pos.z * Settings.mapResolution) / Settings.mapResolution
+        round(pos.x * Config.mapResolution) / Config.mapResolution,
+        round(pos.y * Config.mapResolution) / Config.mapResolution,
+        round(pos.z * Config.mapResolution) / Config.mapResolution
     )
 end
 
@@ -99,8 +99,8 @@ function StartHooks()
             changeAstimagtismMode()
             nextChange = curTime + 0.2
         end
-        if input.IsKeyDown(KEY_M) and curTime > nextChange and Settings.settingsFramePresent == false then
-            Settings.OpenDynHudSettings()
+        if input.IsKeyDown(KEY_M) and curTime > nextChange and Config.settingsFramePresent == false then
+            Config.OpenDynHudSettings()
             nextChange = curTime + 0.5 -- We make it real slow lmao
         end
         if input.IsKeyDown(KEY_T) and curTime > nextChange then
@@ -119,7 +119,7 @@ function StartHooks()
 
     hook.Add("OnScreenSizeChanged", "DynMap_UIRefresh", function()
         print("DynHUD: Screen Resolution change detected, refreshing UI elements...")
-        UiSettings.refreshValues()
+        UiConfig.refreshValues()
     end)
 end
 
