@@ -47,7 +47,7 @@ end
 
 --- Renders the time taken to render all points on the screen, nothing more, nothing less
 --- @param renderStart number
-function PointRenderDebug(renderStart)
+function UIUtils.PointRenderDebug(renderStart)
     local renderEnd = SysTime()
     local frameTime = (renderEnd - renderStart) * 1000
     local timeDiff = string.format("%.2f ms", frameTime)
