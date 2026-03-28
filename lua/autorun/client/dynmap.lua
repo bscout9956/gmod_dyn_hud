@@ -36,9 +36,8 @@ function StartHooks()
         print("DynMap: Existing Think hook found, replacing it with the new one...")
     end
 
-    local nextChange = 0
     hook.Add("Think", "DynMap_Input", function()
-        inputHandler.handleShortcuts(nextChange)
+        inputHandler.handleShortcuts()
     end)
 
     if hooks["OnScreenSizeChanged"] then

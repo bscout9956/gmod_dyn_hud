@@ -1,12 +1,11 @@
 local InputHandler = {}
+local nextChange = 0
 
 local function changeAstimagtismMode()
     Config.astigmatismMode = not Config.astigmatismMode
 end
 
-
-
-function InputHandler.handleShortcuts(nextChange)
+function InputHandler.handleShortcuts()
     local curTime = CurTime()
     if input.IsKeyDown(KEY_Z) and curTime > nextChange then
         State.ChangeZoom()
