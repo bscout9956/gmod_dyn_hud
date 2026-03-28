@@ -1,4 +1,4 @@
-# GMOD DynMap v0.6 by BlackScout/bscout9956
+# GMOD DynMap v0.10.1 by BlackScout/bscout9956
 
 ## Description
 

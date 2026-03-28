@@ -1,4 +1,4 @@
--- GMOD Dynamic Map v0.10.0 by BlackScout/bscout9956
+-- GMOD Dynamic Map v0.10.1 by BlackScout/bscout9956
 Config = include("dynmap/config.lua")
 State = include("dynmap/state.lua")
 Settings = include("dynmap/settings.lua")
