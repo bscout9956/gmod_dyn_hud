@@ -1,5 +1,5 @@
 local UIUtils = {}
-local colors = include("colors.lua")
+local colors = include("../colors.lua")
 
 local cos = math.cos
 local sin = math.sin
