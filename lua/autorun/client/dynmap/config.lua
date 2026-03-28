@@ -1,6 +1,5 @@
 local Config = {}
 
-Config.ConfigFramePresent = false
 Config.showFrameTimeDebug = true
 Config.uiZoomLevel = 0.5
 Config.astigmatismMode = false
