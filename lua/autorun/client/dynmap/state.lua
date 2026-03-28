@@ -19,7 +19,7 @@ function State.addPoint(x, y, z)
     local key = x .. "_" .. y .. "_" .. z
     if not pointsLookup[key] then
         pointsLookup[key] = true
-        table.insert(Points, {
+        table.insert(State.Points, {
             x = x,
             y = y,
             z = z
