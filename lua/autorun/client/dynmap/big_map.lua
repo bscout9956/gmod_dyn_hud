@@ -1,4 +1,5 @@
 local utils = include("utils.lua")
+local uiUtils = include("ui_utils.lua")
 local colors = include("colors.lua")
 local BMap = {}
 
@@ -31,18 +32,13 @@ local function pointRender()
     local renderStart = SysTime()
     local playerPos = LocalPlayer():GetPos()
 
-
-
     draw.NoTexture()
 
     utils.drawPoints(playerPos, mapBounds, { x = Settings.bigMapCenterX, y = Settings.bigMapCenterY }, false)
 
-    local renderEnd = SysTime()
-    local frameTime = (renderEnd - renderStart) * 1000
-    local timeDiff = string.format("%.2f ms", frameTime)
-    -- TODO: Make this optional
-    draw.SimpleText(timeDiff, "DermaDefaultBold", Settings.bigMapXpos + 30, Settings.bigMapYpos + 30, colors.GREEN,
-        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+    if Settings.showFrameTimeDebug then
+        uiUtils.pointRenderDebug(renderStart)
+    end
 end
 
 local function updateBigMapPIndicator()

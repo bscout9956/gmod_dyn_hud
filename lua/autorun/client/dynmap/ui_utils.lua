@@ -1,4 +1,5 @@
 local UIUtils = {}
+local colors = include("colors.lua")
 
 local cos = math.cos
 local sin = math.sin
@@ -42,6 +43,16 @@ function UIUtils.getGridPosition(grid)
     end
 
     return pos
+end
+
+--- Renders the time taken to render all points on the screen, nothing more, nothing less
+--- @param renderStart number
+local function pointRenderDebug(renderStart)
+    local renderEnd = SysTime()
+    local frameTime = (renderEnd - renderStart) * 1000
+    local timeDiff = string.format("%.2f ms", frameTime)
+    -- TODO: Make this optional
+    draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, colors.GREEN, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
 --- Dynamic setter for VGUI Elements based on element, property name and values to be used

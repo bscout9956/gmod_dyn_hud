@@ -42,7 +42,7 @@ local function pointRender()
 
     utils.drawPoints(playerPos, mapBounds, { x = Settings.mapCenterX, y = Settings.mapCenterY }, true)
     if Settings.showFrameTimeDebug then
-        pointRenderDebug(renderStart)
+        uiUtils.pointRenderDebug(renderStart)
     end
 end
 
