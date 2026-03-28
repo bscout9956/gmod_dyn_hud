@@ -1,7 +1,7 @@
-local hudinfo = include("hud_info.lua")
-local colors = include("colors.lua")
-local utils = include("utils.lua")
-local uiUtils = include("ui_utils.lua")
+local hudinfo = include("../hud_info.lua")
+local colors = include("../colors.lua")
+local utils = include("../utils.lua")
+local uiUtils = include("../ui/utils.lua")
 
 ---@type table
 local Map = {}
