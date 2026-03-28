@@ -75,10 +75,10 @@ function Geometry.initDerivativeValues()
     Config.bigMapCenterY = Config.bigMapYpos + Config.bigMapHalfSizeY
     Config.mapResolution = Config.uiResolution / 100
 
-    Config.playerIndicatorTable = createIndicatorVertices(
+    Config.playerIndicatorTable = Geometry.createIndicatorVertices(
         Config.mapCenterX, Config.mapCenterY, Config.playerIndicatorSize
     )
-    Config.bigMapPlayerIndicatorTable = createIndicatorVertices(
+    Config.bigMapPlayerIndicatorTable = Geometry.createIndicatorVertices(
         Config.bigMapCenterX, Config.bigMapCenterY, Config.playerIndicatorSize
     )
 end
