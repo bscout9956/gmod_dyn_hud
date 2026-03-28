@@ -150,11 +150,8 @@ local function drawCompass()
 end
 
 local function drawCompassBox()
-    if not Settings.astigmatismMode then
-        surface.SetDrawColor(255, 255, 255, 255)
-    else
-        surface.SetDrawColor(60, 60, 60, 255)
-    end
+    local color = Settings.astigmatismMode and colors.ASH or colors.WHITE
+    surface.SetDrawColor(color)
 
     surface.DrawOutlinedRect(
         Settings.mapXpos,                                                 -- x
@@ -163,11 +160,9 @@ local function drawCompassBox()
         Settings.borderThickness                                          -- thickness
     )
 
-    if not Settings.astigmatismMode then
-        surface.SetDrawColor(0, 0, 0, 220)
-    else
-        surface.SetDrawColor(235, 235, 235, 240)
-    end
+    local colorRect = Settings.astigmatismMode and colors.SOFT_GRAY or colors.BLACK
+    colorRect.a = 220
+    surface.SetDrawColor(colorRect)
 
     drawRect(
         Settings.mapXpos + Settings.borderThickness,                      -- x
