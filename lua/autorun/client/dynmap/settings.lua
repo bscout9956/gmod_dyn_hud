@@ -1,5 +1,5 @@
 local colors = include("colors.lua")
-local uiUtils = include("ui_utils.lua")
+local uiUtils = include("ui/utils.lua")
 local geometry = include("geometry.lua")
 
 local Settings = {}
