@@ -3,6 +3,7 @@ local uiUtils = include("ui_utils.lua")
 local Settings = {}
 
 Settings.settingsFramePresent = false
+Settings.showFrameTimeDebug = true
 Settings.uiZoomLevel = 0.5
 Settings.astigmatismMode = false
 Settings.uiResolution = 1 -- Fractional, the higher the worse, keep it small
@@ -191,6 +192,19 @@ function Settings.OpenDynHudSettings()
         value = Settings.roundMode
     })
 
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
+        grid = { x = 0, y = 7 },
+        size = defaultSize,
+        text = "Enable Frametime Debug",
+        font = "DermaDefault",
+    })
+
+    local debugCheckbox = uiUtils.createUIElementOnGrid(frame, "DCheckBox", {
+        grid = { x = 1, y = 7 },
+        value = Settings.showFrameTimeDebug
+    })
+
+
     -- Stuff that should be on the bottom
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
@@ -236,6 +250,9 @@ function Settings.OpenDynHudSettings()
         Settings.astigmatismMode = value
     end
 
+    debugCheckbox.OnChange = function(_, value)
+        Settings.showFrameTimeDebug = value
+    end
 
     Settings.settingsFramePresent = true
     function frame:OnClose()
