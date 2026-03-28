@@ -1,62 +1,16 @@
+-- GMOD Dynamic Map v0.10.0 by BlackScout/bscout9956
 Config = include("dynmap/config.lua")
 State = include("dynmap/state.lua")
 Settings = include("dynmap/settings.lua")
 UiSettings = include("dynmap/ui/settings.lua")
 local bmap = include("dynmap/renderer/big_map.lua")
 Map = include("dynmap/renderer/map.lua")
-
-
-local bmapVisible = false
-
--- GMOD Dynamic Map v0.6 by BlackScout/bscout9956
--- Data
-Points = {} -- TODO: I think this shouldn't be a global variable exposed like this, if you're reading this, don't mess it up lmao
-
--- HUD Parameters
----@type table
-local pointsLookup = {}
+local inputHandler = include("dynmap/input.lua")
 
 -- Localization for Math Functions
-
 local round = math.floor
 
-local function changeAstimagtismMode()
-    Config.astigmatismMode = not Config.astigmatismMode
-end
 
---- Adds a point to the points table if it doesn't already exist.
---- Avoids adding unnecessary points, helps with performance.
----@param x number @X coordinate
----@param y number @Y coordinate
----@param z number @Z coordinate
-local function addPoint(x, y, z)
-    local key = x .. "_" .. y .. "_" .. z
-    if not pointsLookup[key] then
-        pointsLookup[key] = true
-        table.insert(Points, {
-            x = x,
-            y = y,
-            z = z
-        })
-    end
-end
-
---- Register the current player position in the points table, with some precision reduction
-local function registerPlayerPos()
-    local pos = LocalPlayer():GetPos()
-    -- We drop some precision for X and Y because we don't really need that much precision honestly
-    -- It also looks really cool lmao
-    addPoint(
-        round(pos.x * Config.mapResolution) / Config.mapResolution,
-        round(pos.y * Config.mapResolution) / Config.mapResolution,
-        round(pos.z * Config.mapResolution) / Config.mapResolution
-    )
-end
-
---- Helper to switch between the big map and the regular map
-local function switchMaps()
-    bmapVisible = not bmapVisible
-end
 
 -- Hooks and other shit
 
@@ -69,12 +23,12 @@ function StartHooks()
     end
 
     hook.Add("HUDPaint", "DynMap_Render", function()
-        if not bmapVisible then
+        if not State.bmapVisible then
             Map.Render()
         else
             bmap.Render()
         end
-        registerPlayerPos()
+        State.registerPlayerPos()
     end)
 
     if hooks["Think"]["DynMap_Input"] then
@@ -110,7 +64,6 @@ function StartHooks()
             print("DynMap: Existing OnScreenSizeChanged hook found, replacing it with the new one...")
         end
     end
-
 
     hook.Add("OnScreenSizeChanged", "DynMap_UIRefresh", function()
         print("DynHUD: Screen Resolution change detected, refreshing UI elements...")
