@@ -92,14 +92,12 @@ end
 
 --- Draws the north point indicator, which is a circle at the edges of the map pointing towards North
 local function drawNorthPoint()
-    local angY = rad(LocalPlayer():EyeAngles().y - 90)
-    local cosA = cos(angY)
-    local sinA = sin(angY)
+    local angle = math.rad(LocalPlayer():EyeAngles().y - 90)
+    local sinAngle = sin(angle)
+    local cosAngle = cos(angle)
 
-    local scale = Settings.halfMapSize
-
-    local renderX = Settings.mapCenterX + (cosA * scale);
-    local renderY = Settings.mapCenterY + (sinA * scale);
+    local renderX = (cosAngle * Settings.halfMapSize) + Settings.mapCenterX
+    local renderY = (sinAngle * Settings.halfMapSize) + Settings.mapCenterY
 
     surface.SetDrawColor(128, 0, 0, 255)
     uiUtils.DrawCircle(renderX, renderY, 10, 10)
