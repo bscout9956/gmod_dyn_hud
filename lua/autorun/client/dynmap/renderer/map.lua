@@ -170,7 +170,7 @@ function Map.Render()
         hudinfo.draw(false)
     else
         drawMapBox()
-        renderCommon.pointRender(mapBounds, { x = Config.mapCenterX, y = Config.mapCenterY }, false)
+        renderCommon.pointRender(mapBounds, { x = Config.mapCenterX, y = Config.mapCenterY }, true)
         drawCompassBox()
         drawCompass()
         hudinfo.draw(true)
