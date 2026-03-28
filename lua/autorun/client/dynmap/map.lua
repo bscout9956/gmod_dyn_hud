@@ -1,4 +1,4 @@
-local debug = include("debug.lua")
+local hudinfo = include("hud_info.lua")
 local colors = include("colors.lua")
 local utils = include("utils.lua")
 local uiUtils = include("ui_utils.lua")
@@ -178,13 +178,13 @@ function Map.Render()
         drawMapCircle()
         pointRender()
         drawNorthPoint()
-        debug.drawInfo(false)
+        hudinfo.drawInfo(false)
     else
         drawMapBox()
         pointRender()
         drawCompassBox()
         drawCompass()
-        debug.drawInfo(true)
+        hudinfo.drawInfo(true)
     end
     drawPlayerIndicator()
 end

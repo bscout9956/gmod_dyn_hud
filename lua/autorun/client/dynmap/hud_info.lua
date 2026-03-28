@@ -1,15 +1,15 @@
 local colors = include("colors.lua")
 local utils = include("utils.lua")
 
-local Debug = {}
+local HudInfo = {}
 
 --- Draws whether or not astigmatism mode is enabled.
-local function drawAstigmatismInfo()
+local function drawAstigmatism()
     return "Astigmatism Mode: " .. utils.boolToStr(Settings.astigmatismMode)
 end
 
 --- Draws the current zoom level on the HUD
-local function drawZoomInfo()
+local function drawZoom()
     return "Zoom Level: " .. Settings.uiZoomLevel
 end
 
@@ -26,7 +26,7 @@ local function drawPointCount()
 end
 
 -- Draw all debug/HUD information
-function Debug.drawInfo(offset)
+function HudInfo.draw(offset)
     local yOffset = Settings.spacing
 
     -- Offset means we're using the square map with the compass below
@@ -34,7 +34,7 @@ function Debug.drawInfo(offset)
         yOffset = yOffset + (2 * Settings.spacing)
     end
 
-    local funcs = { drawCoordinates, drawAstigmatismInfo, drawZoomInfo, drawPointCount }
+    local funcs = { drawCoordinates, drawAstigmatism, drawZoom, drawPointCount }
     for index, func in ipairs(funcs) do
         draw.SimpleText(
             func(),
@@ -48,4 +48,4 @@ function Debug.drawInfo(offset)
     end
 end
 
-return Debug
+return HudInfo
