@@ -117,6 +117,10 @@ end
 
 -- Taken from: https://wiki.facepunch.com/gmod/surface.DrawPoly
 -- Why isn't this included bro? It's not bloat, it's useful lmao
+---@param x number @x Coordinate
+---@param y number @y Coordinate
+---@param radius number @radius Radius of Circle
+---@param seg number @How many segments aka precision
 function UIUtils.DrawCircle(x, y, radius, seg)
     local cir = {}
 
