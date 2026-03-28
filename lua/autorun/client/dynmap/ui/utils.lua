@@ -1,9 +1,5 @@
 local UIUtils = {}
-local colors = include("colors.lua")
-
-local cos = math.cos
-local sin = math.sin
-local rad = math.rad
+local colors = include("../colors.lua")
 
 -- Mapping for the properties and their function calls
 ---@type table
@@ -27,23 +23,6 @@ local uiDualElementMapper = {
     pos = { func = "SetPos", params = { "x", "y" } },
     minMax = { func = "SetMinMax", params = { "min", "max" } },
 }
-
---- Returns the position given a specific X and Y grid index
----@param grid table @The grid position with x and y indices
----@return table @The position with x and y coordinates
-function UIUtils.getGridPosition(grid)
-    local pos = {
-        x = nil,
-        y = nil
-    }
-
-    if grid then
-        pos.x = (UiSettings.leftMargin + (UiSettings.gridSizeX * grid.x)) or 0
-        pos.y = (UiSettings.topMargin + (UiSettings.gridSizeY * grid.y)) or 0
-    end
-
-    return pos
-end
 
 --- Renders the time taken to render all points on the screen, nothing more, nothing less
 --- @param renderStart number
@@ -114,7 +93,7 @@ end
 ---@param className string @The VGUI element class name to create
 ---@param props table @The properties to set for the label
 function UIUtils.createUIElementOnGrid(frame, className, props)
-    props.pos = UIUtils.getGridPosition(props.grid)
+    props.pos = UiLayout.getGridPosition(props.grid)
     local element = createUIElement(className, frame, props)
 
     -- Patch for when we don't want the text there, VGUI forces empty space to its left
@@ -124,43 +103,6 @@ function UIUtils.createUIElementOnGrid(frame, className, props)
     end
 
     return element
-end
-
--- Taken from: https://wiki.facepunch.com/gmod/surface.DrawPoly
--- Why isn't this included bro? It's not bloat, it's useful lmao
----@param x number @x Coordinate
----@param y number @y Coordinate
----@param radius number @radius Radius of Circle
----@param seg number @How many segments aka precision
-function UIUtils.DrawCircle(x, y, radius, seg)
-    local cir = {}
-
-    table.insert(cir, {
-        x = x,
-        y = y,
-        u = 0.5,
-        v = 0.5
-    })
-
-    for i = 0, seg do
-        local a = rad((i / seg) * -360)
-        table.insert(cir, {
-            x = x + sin(a) * radius,
-            y = y + cos(a) * radius,
-            u = (sin(a) * .5) + 0.5,
-            v = (cos(a) * .5) + 0.5
-        })
-    end
-
-    local a = math.rad(0) -- This is needed for non absolute segment counts
-    table.insert(cir, {
-        x = x + sin(a) * radius,
-        y = y + cos(a) * radius,
-        u = (sin(a) * .5) + 0.5,
-        v = (cos(a) * .5) + 0.5
-    })
-
-    surface.DrawPoly(cir)
 end
 
 return UIUtils
