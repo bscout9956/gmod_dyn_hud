@@ -179,13 +179,13 @@ function Map.Render()
         drawMapCircle()
         pointRender()
         drawNorthPoint()
-        hudinfo.drawInfo(false)
+        hudinfo.draw(false)
     else
         drawMapBox()
         pointRender()
         drawCompassBox()
         drawCompass()
-        hudinfo.drawInfo(true)
+        hudinfo.draw(true)
     end
     drawPlayerIndicator()
 end
