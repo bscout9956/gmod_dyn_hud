@@ -22,7 +22,7 @@ end
 
 --- Draws the number of points
 local function drawPointCount()
-    return "Number of Points: " .. #Points
+    return "Number of Points: " .. #State.Points
 end
 
 -- Draw all debug/HUD information
