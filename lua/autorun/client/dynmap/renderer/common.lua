@@ -39,7 +39,7 @@ local function drawPoints(pPos, mapBound, mapCenter, doRotate)
         sinAngle = sin(angleRadians)
     end
 
-    for _, pos in pairs(Points) do
+    for _, pos in pairs(State.Points) do
         local diffZ = abs(pos.z - pPos.z)
 
         if diffZ >= Config.heightDisplayRange then continue end
