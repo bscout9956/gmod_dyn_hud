@@ -91,7 +91,7 @@ function StartHooks()
     hook.Add("Think", "DynMap_Input", function()
         local curTime = CurTime()
         if input.IsKeyDown(KEY_Z) and curTime > nextChange then
-            Settings.ChangeZoom()
+            State.ChangeZoom()
             nextChange = curTime + 0.009
         end
 

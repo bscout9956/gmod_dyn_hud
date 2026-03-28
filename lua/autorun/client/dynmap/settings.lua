@@ -9,14 +9,7 @@ local function refreshMap()
     Map.updateSize()
 end
 
-function Settings.ChangeZoom()
-    if Settings.uiZoomLevel >= 1 then
-        Settings.uiZoomLevel = 0.1
-    else
-        Settings.uiZoomLevel = Settings.uiZoomLevel + 0.01
-    end
-    Settings.mapZoomLevel = Settings.uiZoomLevel / 10
-end
+
 
 --- Reduce the frame size based on the number of elements.
 ---@param frame Panel @Frame to squash
