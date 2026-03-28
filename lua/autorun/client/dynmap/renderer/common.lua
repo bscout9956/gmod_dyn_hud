@@ -10,13 +10,13 @@ local sin = math.sin
 
 local RenderCommon = {}
 
-function RenderCommon.pointRender(mapBounds, mapCenter)
+function RenderCommon.pointRender(mapBounds, mapCenter, doRotate)
     local renderStart = SysTime()
     local playerPos = LocalPlayer():GetPos()
 
     draw.NoTexture()
 
-    RenderCommon.drawPoints(playerPos, mapBounds, mapCenter, false)
+    RenderCommon.drawPoints(playerPos, mapBounds, mapCenter, doRotate)
 
     if Config.showFrameTimeDebug then
         uiUtils.PointRenderDebug(renderStart)
