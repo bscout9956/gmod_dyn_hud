@@ -1,6 +1,6 @@
-local utils = include("utils.lua")
-local uiUtils = include("ui_utils.lua")
-local colors = include("colors.lua")
+local utils = include("../utils.lua")
+local uiUtils = include("../ui/utils.lua")
+local colors = include("../colors.lua")
 local BMap = {}
 
 -- Optimization locals
