@@ -95,7 +95,7 @@ function StartHooks()
             nextChange = curTime + 0.2
         end
         if input.IsKeyDown(KEY_M) and curTime > nextChange and Config.settingsFramePresent == false then
-            Config.OpenDynHudSettings()
+            Settings.OpenDynHudSettings()
             nextChange = curTime + 0.5 -- We make it real slow lmao
         end
         if input.IsKeyDown(KEY_T) and curTime > nextChange then
