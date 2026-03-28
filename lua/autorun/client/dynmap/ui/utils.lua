@@ -1,10 +1,6 @@
 local UIUtils = {}
 local colors = include("../colors.lua")
 
-local cos = math.cos
-local sin = math.sin
-local rad = math.rad
-
 -- Mapping for the properties and their function calls
 ---@type table
 local uiSetMapper = {

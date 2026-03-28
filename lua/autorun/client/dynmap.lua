@@ -114,7 +114,7 @@ function StartHooks()
 
     hook.Add("OnScreenSizeChanged", "DynMap_UIRefresh", function()
         print("DynHUD: Screen Resolution change detected, refreshing UI elements...")
-        UiConfig.refreshValues()
+        UiSettings.refreshValues()
     end)
 end
 
