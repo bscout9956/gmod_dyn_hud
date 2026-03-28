@@ -1,74 +1,13 @@
 local colors = include("colors.lua")
 local uiUtils = include("ui_utils.lua")
+local geometry = include("geometry.lua")
+
 local Settings = {}
 
-Settings.settingsFramePresent = false
-Settings.showFrameTimeDebug = true
-Settings.uiZoomLevel = 0.5
-Settings.astigmatismMode = false
-Settings.uiResolution = 1 -- Fractional, the higher the worse, keep it small
-Settings.borderThickness = 3
-Settings.heightDisplayRange = 500
-Settings.heightFadeMultiplier = 0.51
-
--- HUD Parameters
-Settings.spacing = 20
-Settings.margin = 20
-Settings.mapSize = math.floor(0.125 * ScrW())
-Settings.playerIndicatorSize = 18
-Settings.playerIndicatorNotch = 0.5
-Settings.roundMode = false -- Whether to use a round map or not
-
--- Big Map Parameters
-Settings.bigMapSizeX = math.floor(0.75 * ScrW())
-Settings.bigMapSizeY = math.floor(0.75 * ScrH())
-
---- Creates the coordinates for where the player indicator should be.
---- It's in the shape of a triangle with a notch.
----@param cx number @X coordinate of the center
----@param cy number @Y coordinate of the center
----@param size number @Size of the indicator
----@return table
-local function createIndicatorVertices(cx, cy, size)
-    local notchOffset = size * Settings.playerIndicatorNotch
-
-    return {
-        { x = cx,        y = cy - size,               u = 0, v = 0 }, -- 1. Top Tip
-        { x = cx + size, y = cy + size,               u = 0, v = 0 }, -- 2. Bottom Right
-        { x = cx,        y = cy + size - notchOffset, u = 0, v = 0 }, -- 3. The Notch (Center Base)
-        { x = cx - size, y = cy + size,               u = 0, v = 0 }, -- 4. Bottom Left
-        { x = cx,        y = cy - size,               u = 0, v = 0 }  -- 5. Back to Top Tip
-    }
-end
-
-local function initDerivativeValues()
-    Settings.halfMapSize = Settings.mapSize / 2
-    Settings.bigMapHalfSizeX = Settings.bigMapSizeX / 2
-    Settings.bigMapHalfSizeY = Settings.bigMapSizeY / 2
-    Settings.mapZoomLevel = Settings.uiZoomLevel / 10
-    Settings.mapXpos = Settings.margin
-    Settings.mapYpos = Settings.margin
-    Settings.bigMapXpos = (ScrW() / 2) - Settings.bigMapHalfSizeX
-    Settings.bigMapYpos = (ScrH() / 2) - Settings.bigMapHalfSizeY
-    Settings.mapCenterX = Settings.mapXpos + Settings.halfMapSize
-    Settings.mapCenterY = Settings.mapYpos + Settings.halfMapSize
-    Settings.bigMapCenterX = Settings.bigMapXpos + Settings.bigMapHalfSizeX
-    Settings.bigMapCenterY = Settings.bigMapYpos + Settings.bigMapHalfSizeY
-    Settings.mapResolution = Settings.uiResolution / 100
-
-    Settings.playerIndicatorTable = createIndicatorVertices(
-        Settings.mapCenterX, Settings.mapCenterY, Settings.playerIndicatorSize
-    )
-    Settings.bigMapPlayerIndicatorTable = createIndicatorVertices(
-        Settings.bigMapCenterX, Settings.bigMapCenterY, Settings.playerIndicatorSize
-    )
-end
-
 local function refreshMap()
-    initDerivativeValues()
+    Config.initDerivativeValues()
     Map.updateSize()
 end
-
 
 function Settings.ChangeZoom()
     if Settings.uiZoomLevel >= 1 then
@@ -275,7 +214,7 @@ function Settings.OpenDynHudSettings()
     --- Hooks
     playerSizeSlider.OnValueChanged = function(_, value)
         Settings.playerIndicatorSize = value
-        Settings.playerIndicatorTable = createIndicatorVertices(
+        Settings.playerIndicatorTable = geometry.createIndicatorVertices(
             Settings.mapCenterX,
             Settings.mapCenterY,
             Settings.playerIndicatorSize
