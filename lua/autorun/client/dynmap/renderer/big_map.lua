@@ -1,10 +1,8 @@
-local utils = include("../utils.lua")
-local uiUtils = include("../ui/utils.lua")
 local colors = include("../colors.lua")
+local renderCommon = include("common.lua")
 local BMap = {}
 
 -- Optimization locals
-local ply = LocalPlayer()
 local rad = math.rad
 local cos = math.cos
 local sin = math.sin
@@ -27,19 +25,6 @@ local baseIndicatorPos = {
     { x = 0,                  y = -pIndicatorSize },                                     -- 5. Back to Top Tip
 }
 
-
-local function pointRender()
-    local renderStart = SysTime()
-    local playerPos = LocalPlayer():GetPos()
-
-    draw.NoTexture()
-
-    utils.drawPoints(playerPos, mapBounds, { x = Config.bigMapCenterX, y = Config.bigMapCenterY }, false)
-
-    if Config.showFrameTimeDebug then
-        uiUtils.PointRenderDebug(renderStart)
-    end
-end
 
 local function updateBigMapPIndicator()
     local ang = LocalPlayer():EyeAngles().y
@@ -90,7 +75,7 @@ end
 
 function BMap.Render()
     drawBox()
-    pointRender()
+    renderCommon.pointRender(mapBounds, { x = Config.bigMapCenterX, y = Config.bigMapCenterY })
     drawPlayerIndicator()
 end
 

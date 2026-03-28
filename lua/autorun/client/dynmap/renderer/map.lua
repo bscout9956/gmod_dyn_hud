@@ -1,8 +1,8 @@
 local hudinfo = include("../hud_info.lua")
 local colors = include("../colors.lua")
-local utils = include("../utils.lua")
-local uiUtils = include("../ui/utils.lua")
 local geometry = include("../geometry.lua")
+local renderCommon = include("common.lua")
+
 
 ---@type table
 local Map = {}
@@ -22,18 +22,6 @@ local abs = math.abs
 local cos = math.cos
 local sin = math.sin
 
---- Renders all the points for the registered player positions applying rotation and checking Map Bounds.
-local function pointRender()
-    local renderStart = SysTime()
-    local playerPos = LocalPlayer():GetPos()
-
-    draw.NoTexture()
-
-    utils.drawPoints(playerPos, mapBounds, { x = Config.mapCenterX, y = Config.mapCenterY }, true)
-    if Config.showFrameTimeDebug then
-        uiUtils.PointRenderDebug(renderStart)
-    end
-end
 
 --- Draws the map box including its outline and background.
 --- Applies different colors based on the astigmatism mode setting.
@@ -177,12 +165,12 @@ end
 function Map.Render()
     if Config.roundMode then
         drawMapCircle()
-        pointRender()
+        renderCommon.pointRender(mapBounds, { x = Config.mapCenterX, y = Config.mapCenterY })
         drawNorthPoint()
         hudinfo.draw(false)
     else
         drawMapBox()
-        pointRender()
+        renderCommon.pointRender(mapBounds, { x = Config.mapCenterX, y = Config.mapCenterY })
         drawCompassBox()
         drawCompass()
         hudinfo.draw(true)
