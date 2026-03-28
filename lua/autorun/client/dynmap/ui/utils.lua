@@ -93,7 +93,7 @@ end
 ---@param className string @The VGUI element class name to create
 ---@param props table @The properties to set for the label
 function UIUtils.createUIElementOnGrid(frame, className, props)
-    props.pos = UIUtils.getGridPosition(props.grid)
+    props.pos = UiLayout.getGridPosition(props.grid)
     local element = createUIElement(className, frame, props)
 
     -- Patch for when we don't want the text there, VGUI forces empty space to its left
