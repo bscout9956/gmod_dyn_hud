@@ -2,7 +2,7 @@
 Config = include("dynmap/config.lua")
 State = include("dynmap/state.lua")
 Settings = include("dynmap/settings.lua")
-UiSettings = include("dynmap/ui/settings.lua")
+UiLayout = include("dynmap/ui/layout.lua")
 local bmap = include("dynmap/renderer/big_map.lua")
 Map = include("dynmap/renderer/map.lua")
 local inputHandler = include("dynmap/input.lua")
@@ -50,7 +50,7 @@ function StartHooks()
 
     hook.Add("OnScreenSizeChanged", "DynMap_UIRefresh", function()
         print("DynHUD: Screen Resolution change detected, refreshing UI elements...")
-        UiSettings.refreshValues()
+        UiLayout.refreshValues()
     end)
 end
 

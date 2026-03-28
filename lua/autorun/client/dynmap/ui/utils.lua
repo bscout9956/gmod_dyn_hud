@@ -24,23 +24,6 @@ local uiDualElementMapper = {
     minMax = { func = "SetMinMax", params = { "min", "max" } },
 }
 
---- Returns the position given a specific X and Y grid index
----@param grid table @The grid position with x and y indices
----@return table @The position with x and y coordinates
-function UIUtils.getGridPosition(grid)
-    local pos = {
-        x = nil,
-        y = nil
-    }
-
-    if grid then
-        pos.x = (UiSettings.leftMargin + (UiSettings.gridSizeX * grid.x)) or 0
-        pos.y = (UiSettings.topMargin + (UiSettings.gridSizeY * grid.y)) or 0
-    end
-
-    return pos
-end
-
 --- Renders the time taken to render all points on the screen, nothing more, nothing less
 --- @param renderStart number
 function UIUtils.PointRenderDebug(renderStart)

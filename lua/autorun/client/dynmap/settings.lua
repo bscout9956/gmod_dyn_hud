@@ -28,17 +28,17 @@ local function squashFrame(frame)
         end
     end
 
-    frame:SetHeight(maxHeight + UiSettings.gridSizeY) -- Add some padding at the bottom
+    frame:SetHeight(maxHeight + UiLayout.gridSizeY) -- Add some padding at the bottom
 end
 
 function Settings.OpenDynHudSettings()
     local frame = vgui.Create("DFrame")
-    frame:SetSize(UiSettings.frameWidth, UiSettings.frameWidth)
+    frame:SetSize(UiLayout.frameWidth, UiLayout.frameWidth)
     frame:Center()
     frame:SetTitle("DynMap Settings")
     frame:MakePopup()
 
-    local defaultSize = { w = UiSettings.gridSizeX, h = UiSettings.gridSizeY }
+    local defaultSize = { w = UiLayout.gridSizeX, h = UiLayout.gridSizeY }
 
     --- Element creation
 
@@ -64,7 +64,7 @@ function Settings.OpenDynHudSettings()
         value = Config.uiZoomLevel
     })
 
-    zoomSlider:AlignLeft(UiSettings.gridSizeX * 1)
+    zoomSlider:AlignLeft(UiLayout.gridSizeX * 1)
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 2 },
@@ -94,7 +94,7 @@ function Settings.OpenDynHudSettings()
         value = Config.playerIndicatorSize,
     })
 
-    playerSizeSlider:AlignLeft(UiSettings.gridSizeX * 1)
+    playerSizeSlider:AlignLeft(UiLayout.gridSizeX * 1)
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 4 },
@@ -112,7 +112,7 @@ function Settings.OpenDynHudSettings()
         value = Config.mapSize
     })
 
-    mapSizeSlider:AlignLeft(UiSettings.gridSizeX * 1)
+    mapSizeSlider:AlignLeft(UiLayout.gridSizeX * 1)
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 5 },
@@ -131,7 +131,7 @@ function Settings.OpenDynHudSettings()
         value = Config.uiResolution
     })
 
-    mapResolutionSlider:AlignLeft(UiSettings.gridSizeX * 1)
+    mapResolutionSlider:AlignLeft(UiLayout.gridSizeX * 1)
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 6 },
@@ -174,7 +174,7 @@ function Settings.OpenDynHudSettings()
         value = Config.heightDisplayRange
     })
 
-    heightRangeSlider:AlignLeft(UiSettings.gridSizeX * 1)
+    heightRangeSlider:AlignLeft(UiLayout.gridSizeX * 1)
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
         grid = { x = 0, y = 9 },
@@ -192,13 +192,13 @@ function Settings.OpenDynHudSettings()
         value = Config.heightFadeMultiplier
     })
 
-    heightFadeSlider:AlignLeft(UiSettings.gridSizeX * 1)
+    heightFadeSlider:AlignLeft(UiLayout.gridSizeX * 1)
 
 
     -- Stuff that should be on the bottom
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
-        grid = { x = 0, y = UiSettings.GRID_COUNT_Y - 1 }, -- The last column for the warning
+        grid = { x = 0, y = UiLayout.GRID_COUNT_Y - 1 }, -- The last column for the warning
         size = { w = defaultSize.w * 2, h = defaultSize.h },
         text = "WARNING: Changing settings in Red will reset all points on the map!",
         font = "DermaDefault",
