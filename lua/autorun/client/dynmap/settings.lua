@@ -7,7 +7,7 @@ local Settings = {}
 Settings.settingsFramePresent = false
 
 local function refreshMap()
-    geometry.initDerivativeValues()
+    State.initDerivativeValues()
     Map.updateSize()
 end
 
