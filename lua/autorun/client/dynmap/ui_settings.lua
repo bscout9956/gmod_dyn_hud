@@ -11,7 +11,7 @@ local function initDefaultValues()
     screenWidth = ScrW()
     screenHeight = ScrH()
 
-    UISettings.GRID_COUNT_X, UISettings.GRID_COUNT_Y = 2, 10
+    UISettings.GRID_COUNT_X, UISettings.GRID_COUNT_Y = 2, 15
 
     UISettings.frameWidth = SCALE_FACTOR * screenWidth
     UISettings.frameHeight = SCALE_FACTOR * screenHeight

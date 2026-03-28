@@ -28,8 +28,6 @@ function Utils.drawPoints(pPos, mapBound, mapCenter, doRotate)
     local cosAngle = 0
     local sinAngle = 0
 
-    local maxZ = 500
-    local fadeMult = 0.51
     local zoom = Settings.mapZoomLevel
     local radiusSq = Settings.halfMapSize * Settings.halfMapSize
 
@@ -49,7 +47,7 @@ function Utils.drawPoints(pPos, mapBound, mapCenter, doRotate)
     for _, pos in pairs(Points) do
         local diffZ = abs(pos.z - pPos.z)
 
-        if diffZ >= maxZ then continue end
+        if diffZ >= Settings.heightDisplayRange then continue end
 
         local finalX = (pos.x - pPos.x) * zoom
         local finalY = (pos.y - pPos.y) * zoom
@@ -69,7 +67,7 @@ function Utils.drawPoints(pPos, mapBound, mapCenter, doRotate)
         end
 
         if isVisible then
-            local alpha = 255 - (diffZ * fadeMult)
+            local alpha = 255 - (diffZ * Settings.heightFadeMultiplier)
             local renderX = mapCenter.x + finalX
             local renderY = mapCenter.y - finalY
 

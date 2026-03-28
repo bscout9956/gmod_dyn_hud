@@ -8,6 +8,8 @@ Settings.uiZoomLevel = 0.5
 Settings.astigmatismMode = false
 Settings.uiResolution = 1 -- Fractional, the higher the worse, keep it small
 Settings.borderThickness = 3
+Settings.heightDisplayRange = 500
+Settings.heightFadeMultiplier = 0.51
 
 -- HUD Parameters
 Settings.spacing = 20
@@ -204,6 +206,42 @@ function Settings.OpenDynHudSettings()
         value = Settings.showFrameTimeDebug
     })
 
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
+        grid = { x = 0, y = 8 },
+        size = defaultSize,
+        text = "Height Display Range",
+        font = "DermaDefault",
+    })
+
+    local heightRangeSlider = uiUtils.createUIElementOnGrid(frame, "DNumSlider", {
+        grid = { x = 1, y = 8 },
+        size = defaultSize,
+        min = 20,
+        max = 1000,
+        decimals = 0,
+        value = Settings.heightDisplayRange
+    })
+
+    heightRangeSlider:AlignLeft(UiSettings.gridSizeX * 1)
+
+    uiUtils.createUIElementOnGrid(frame, "DLabel", {
+        grid = { x = 0, y = 9 },
+        size = defaultSize,
+        text = "Height Fade Multiplier",
+        font = "DermaDefault",
+    })
+
+    local heightFadeSlider = uiUtils.createUIElementOnGrid(frame, "DNumSlider", {
+        grid = { x = 1, y = 9 },
+        size = defaultSize,
+        min = 0.01,
+        max = 1,
+        decimals = 2,
+        value = Settings.heightFadeMultiplier
+    })
+
+    heightFadeSlider:AlignLeft(UiSettings.gridSizeX * 1)
+
 
     -- Stuff that should be on the bottom
 
@@ -240,6 +278,14 @@ function Settings.OpenDynHudSettings()
         Settings.uiResolution = value
         Settings.mapResolution = Settings.uiResolution / 100
         Points = {}
+    end
+
+    heightFadeSlider.OnValueChanged = function(_, value)
+        Settings.heightFadeMultiplier = value
+    end
+
+    heightRangeSlider.OnValueChanged = function(_, value)
+        Settings.heightDisplayRange = value
     end
 
     roundModeCheckbox.OnChange = function(_, value)
