@@ -47,7 +47,7 @@ end
 ---@param cy number @Y coordinate of the center
 ---@param size number @Size of the indicator
 ---@return table
-local function createIndicatorVertices(cx, cy, size)
+function Geometry.createIndicatorVertices(cx, cy, size)
     local notchOffset = size * Config.playerIndicatorNotch
 
     return {
