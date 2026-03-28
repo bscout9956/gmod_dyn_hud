@@ -59,7 +59,7 @@ function Settings.OpenDynHudSettings()
         min = 0,
         max = 1,
         decimals = 2,
-        value = Settings.uiZoomLevel
+        value = Config.uiZoomLevel
     })
 
     zoomSlider:AlignLeft(UiSettings.gridSizeX * 1)
@@ -73,7 +73,7 @@ function Settings.OpenDynHudSettings()
 
     local astigmatismCheckbox = uiUtils.createUIElementOnGrid(frame, "DCheckBox", {
         grid = { x = 1, y = 2 },
-        value = Settings.astigmatismMode
+        value = Config.astigmatismMode
     })
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
@@ -89,7 +89,7 @@ function Settings.OpenDynHudSettings()
         min = 1,
         max = 50,
         decimals = 0,
-        value = Settings.playerIndicatorSize,
+        value = Config.playerIndicatorSize,
     })
 
     playerSizeSlider:AlignLeft(UiSettings.gridSizeX * 1)
@@ -107,7 +107,7 @@ function Settings.OpenDynHudSettings()
         min = ScrH() * 0.1,
         max = math.min(ScrW() / 2, ScrH() / 2),
         decimals = 0,
-        value = Settings.mapSize
+        value = Config.mapSize
     })
 
     mapSizeSlider:AlignLeft(UiSettings.gridSizeX * 1)
@@ -126,7 +126,7 @@ function Settings.OpenDynHudSettings()
         min = 0.1,
         max = 1,
         decimals = 2,
-        value = Settings.uiResolution
+        value = Config.uiResolution
     })
 
     mapResolutionSlider:AlignLeft(UiSettings.gridSizeX * 1)
@@ -141,7 +141,7 @@ function Settings.OpenDynHudSettings()
 
     local roundModeCheckbox = uiUtils.createUIElementOnGrid(frame, "DCheckBox", {
         grid = { x = 1, y = 6 },
-        value = Settings.roundMode
+        value = Config.roundMode
     })
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
@@ -153,7 +153,7 @@ function Settings.OpenDynHudSettings()
 
     local debugCheckbox = uiUtils.createUIElementOnGrid(frame, "DCheckBox", {
         grid = { x = 1, y = 7 },
-        value = Settings.showFrameTimeDebug
+        value = Config.showFrameTimeDebug
     })
 
     uiUtils.createUIElementOnGrid(frame, "DLabel", {
@@ -169,7 +169,7 @@ function Settings.OpenDynHudSettings()
         min = 20,
         max = 1000,
         decimals = 0,
-        value = Settings.heightDisplayRange
+        value = Config.heightDisplayRange
     })
 
     heightRangeSlider:AlignLeft(UiSettings.gridSizeX * 1)
@@ -187,7 +187,7 @@ function Settings.OpenDynHudSettings()
         min = 0.01,
         max = 1,
         decimals = 2,
-        value = Settings.heightFadeMultiplier
+        value = Config.heightFadeMultiplier
     })
 
     heightFadeSlider:AlignLeft(UiSettings.gridSizeX * 1)
@@ -206,56 +206,56 @@ function Settings.OpenDynHudSettings()
 
     --- Hooks
     playerSizeSlider.OnValueChanged = function(_, value)
-        Settings.playerIndicatorSize = value
-        Settings.playerIndicatorTable = geometry.createIndicatorVertices(
-            Settings.mapCenterX,
-            Settings.mapCenterY,
-            Settings.playerIndicatorSize
+        Config.playerIndicatorSize = value
+        Config.playerIndicatorTable = geometry.createIndicatorVertices(
+            Config.mapCenterX,
+            Config.mapCenterY,
+            Config.playerIndicatorSize
         )
     end
 
     mapSizeSlider.OnValueChanged = function(_, value)
-        Settings.mapSize = value
+        Config.mapSize = value
         refreshMap()
     end
 
     zoomSlider.OnValueChanged = function(_, value)
-        Settings.uiZoomLevel = math.Round(value, 2)
-        Settings.mapZoomLevel = Settings.uiZoomLevel / 10
+        Config.uiZoomLevel = math.Round(value, 2)
+        Config.mapZoomLevel = Config.uiZoomLevel / 10
     end
 
     mapResolutionSlider.OnValueChanged = function(_, value)
-        Settings.uiResolution = value
-        Settings.mapResolution = Settings.uiResolution / 100
+        Config.uiResolution = value
+        Config.mapResolution = Config.uiResolution / 100
         Points = {}
     end
 
     heightFadeSlider.OnValueChanged = function(_, value)
-        Settings.heightFadeMultiplier = value
+        Config.heightFadeMultiplier = value
     end
 
     heightRangeSlider.OnValueChanged = function(_, value)
-        Settings.heightDisplayRange = value
+        Config.heightDisplayRange = value
     end
 
     roundModeCheckbox.OnChange = function(_, value)
-        Settings.roundMode = value
+        Config.roundMode = value
     end
 
     astigmatismCheckbox.OnChange = function(_, value)
-        Settings.astigmatismMode = value
+        Config.astigmatismMode = value
     end
 
     debugCheckbox.OnChange = function(_, value)
-        Settings.showFrameTimeDebug = value
+        Config.showFrameTimeDebug = value
     end
 
-    Settings.settingsFramePresent = true
+    Config.settingsFramePresent = true
 
     squashFrame(frame)
 
     function frame:OnClose()
-        Settings.settingsFramePresent = false
+        Config.settingsFramePresent = false
     end
 end
 
