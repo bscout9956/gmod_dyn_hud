@@ -79,6 +79,24 @@ function Settings.ChangeZoom()
     Settings.mapZoomLevel = Settings.uiZoomLevel / 10
 end
 
+--- Reduce the frame size based on the number of elements.
+---@param frame Panel @Frame to squash
+local function squashFrame(frame)
+    local children = frame:GetChildren()
+    local childrenCount = #children
+
+    local maxHeight = 0
+    for i = 1, childrenCount do
+        local child = children[i]
+        local childYPos = child:GetY() + child:GetTall()
+        if childYPos > maxHeight then
+            maxHeight = childYPos
+        end
+    end
+
+    frame:SetHeight(maxHeight + UiSettings.gridSizeY) -- Add some padding at the bottom
+end
+
 function Settings.OpenDynHudSettings()
     local frame = vgui.Create("DFrame")
     frame:SetSize(UiSettings.frameWidth, UiSettings.frameWidth)
@@ -301,6 +319,9 @@ function Settings.OpenDynHudSettings()
     end
 
     Settings.settingsFramePresent = true
+
+    squashFrame(frame)
+
     function frame:OnClose()
         Settings.settingsFramePresent = false
     end
