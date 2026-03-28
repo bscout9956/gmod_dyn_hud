@@ -67,24 +67,24 @@ local function drawPlayerIndicator()
 end
 
 local function drawBox()
-    if not Settings.astigmatismMode then
-        surface.SetDrawColor(255, 255, 255, 255)
-    else
-        surface.SetDrawColor(60, 60, 60, 255)
-    end
+    local colorRect = Settings.astigmatismMode and colors.ASH or colors.WHITE
 
-    surface.DrawOutlinedRect(Settings.bigMapXpos, Settings.bigMapYpos, Settings.bigMapSizeX, Settings.bigMapSizeY,
-        Settings.borderThickness)
+    surface.SetDrawColor(colorRect)
 
-    if not Settings.astigmatismMode then
-        surface.SetDrawColor(0, 0, 0, 220)
-    else
-        surface.SetDrawColor(235, 235, 235, 240)
-    end
+    surface.DrawOutlinedRect(
+        Settings.bigMapXpos, Settings.bigMapYpos,   -- XY position
+        Settings.bigMapSizeX, Settings.bigMapSizeY, -- Width and Height
+        Settings.borderThickness
+    )
 
-    drawRect(Settings.bigMapXpos + Settings.borderThickness, Settings.bigMapYpos + Settings.borderThickness,
-        noBoundHudSizeX,
-        noBoundHudSizeY)
+    local colorFill = Settings.astigmatismMode and colors.SOFT_GRAY or colors.BLACK
+    colorFill.a = 220
+    surface.SetDrawColor(colorFill)
+
+    drawRect(
+        Settings.bigMapXpos + Settings.borderThickness, Settings.bigMapYpos + Settings.borderThickness, -- XY position with border offset
+        noBoundHudSizeX, noBoundHudSizeY                                                                -- Width and Height without borders
+    )
 end
 
 function BMap.Render()
