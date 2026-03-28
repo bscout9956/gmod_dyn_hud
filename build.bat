@@ -1,1 +1,1 @@
-robocopy "." "C:\Program Files (x86)\Steam\steamapps\common\GarrysMod\garrysmod\addons\dynmap" /E
+robocopy "." "C:\Program Files (x86)\Steam\steamapps\common\GarrysMod\garrysmod\addons\dynmap" /E /PURGE /V
