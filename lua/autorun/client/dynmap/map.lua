@@ -58,21 +58,18 @@ end
 
 --- Draws the map as a circle instead of a square, if the roundMode setting is enabled.
 local function drawMapCircle()
-    local color
-    if not Settings.astigmatismMode then
-        color = colors.WHITE
-    else
-        color = colors.SOFT_GRAY
-    end
+    local color = Settings.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
 
-    surface.DrawCircle(Settings.mapCenterX, Settings.mapCenterY, Settings.mapSize / 2, color.r, color.g, color.b, color
-        .a)
+    surface.DrawCircle(
+        Settings.mapCenterX,
+        Settings.mapCenterY,
+        Settings.mapSize / 2, -- radius
+        color.r, color.g, color.b, color.a
+    )
 
-    if not Settings.astigmatismMode then
-        surface.SetDrawColor(0, 0, 0, 220)
-    else
-        surface.SetDrawColor(235, 235, 235, 240)
-    end
+    local colorFill = Settings.astigmatismMode and colors.SOFT_GRAY or colors.BLACK
+    colorFill.a = 220
+    surface.SetDrawColor(colorFill)
 
     uiUtils.DrawCircle(Settings.mapCenterX, Settings.mapCenterY, Settings.mapSize / 2, 67)
 end
