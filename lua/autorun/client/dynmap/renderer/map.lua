@@ -165,12 +165,12 @@ end
 function Map.Render()
     if Config.roundMode then
         drawMapCircle()
-        renderCommon.pointRender(mapBounds, { x = Config.mapCenterX, y = Config.mapCenterY })
+        renderCommon.pointRender(mapBounds, { x = Config.mapCenterX, y = Config.mapCenterY }, true)
         drawNorthPoint()
         hudinfo.draw(false)
     else
         drawMapBox()
-        renderCommon.pointRender(mapBounds, { x = Config.mapCenterX, y = Config.mapCenterY })
+        renderCommon.pointRender(mapBounds, { x = Config.mapCenterX, y = Config.mapCenterY }, false)
         drawCompassBox()
         drawCompass()
         hudinfo.draw(true)
