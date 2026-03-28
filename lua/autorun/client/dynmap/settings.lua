@@ -229,7 +229,7 @@ function Settings.OpenDynHudSettings()
     mapResolutionSlider.OnValueChanged = function(_, value)
         Config.uiResolution = value
         Config.mapResolution = Config.uiResolution / 100
-        Points = {}
+        State.resetPoints()
     end
 
     heightFadeSlider.OnValueChanged = function(_, value)
