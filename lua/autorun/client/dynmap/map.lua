@@ -43,20 +43,14 @@ end
 --- Draws the map box including its outline and background.
 --- Applies different colors based on the astigmatism mode setting.
 local function drawMapBox()
-    if not Settings.astigmatismMode then
-        surface.SetDrawColor(255, 255, 255, 255)
-    else
-        surface.SetDrawColor(60, 60, 60, 255)
-    end
-
+    local colorRect = Settings.astigmatismMode and colors.ASH or colors.WHITE
+    surface.SetDrawColor(colorRect)
     surface.DrawOutlinedRect(Settings.mapXpos, Settings.mapYpos, Settings.mapSize, Settings.mapSize,
         Settings.borderThickness)
 
-    if not Settings.astigmatismMode then
-        surface.SetDrawColor(0, 0, 0, 220)
-    else
-        surface.SetDrawColor(235, 235, 235, 240)
-    end
+    local colorRectFill = Settings.astigmatismMode and colors.SOFT_GRAY or colors.BLACK
+    colorRectFill.a = 220
+    surface.SetDrawColor(colorRectFill)
 
     drawRect(Settings.mapXpos + Settings.borderThickness, Settings.mapYpos + Settings.borderThickness, noBoundMapSize,
         noBoundMapSize)
