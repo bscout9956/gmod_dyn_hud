@@ -4,6 +4,8 @@ local geometry = include("geometry.lua")
 
 local Settings = {}
 
+Settings.settingsFramePresent = false
+
 local function refreshMap()
     Config.initDerivativeValues()
     Map.updateSize()
@@ -250,12 +252,12 @@ function Settings.OpenDynHudSettings()
         Config.showFrameTimeDebug = value
     end
 
-    Config.settingsFramePresent = true
+    Settings.settingsFramePresent = true
 
     squashFrame(frame)
 
     function frame:OnClose()
-        Config.settingsFramePresent = false
+        Settings.settingsFramePresent = false
     end
 end
 
