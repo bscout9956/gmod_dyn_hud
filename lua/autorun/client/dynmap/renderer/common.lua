@@ -10,25 +10,12 @@ local sin = math.sin
 
 local RenderCommon = {}
 
-function RenderCommon.pointRender(mapBounds, mapCenter, doRotate)
-    local renderStart = SysTime()
-    local playerPos = LocalPlayer():GetPos()
-
-    draw.NoTexture()
-
-    RenderCommon.drawPoints(playerPos, mapBounds, mapCenter, doRotate)
-
-    if Config.showFrameTimeDebug then
-        uiUtils.PointRenderDebug(renderStart)
-    end
-end
-
----
+--- Draws the points on the map, applying culling based on map bounds and height, as well as optional rotation based on player view angle.
 ---@param pPos table @Player position
 ---@param mapBound table @The bounds of the map for culling points outside of it
 ---@param mapCenter table @The center position of the map
 ---@param doRotate boolean @Whether to apply rotation to the points based on player view angle
-function RenderCommon.drawPoints(pPos, mapBound, mapCenter, doRotate)
+local function drawPoints(pPos, mapBound, mapCenter, doRotate)
     -- We predefine just to avoid unbound variable warnings
     -- but we only really need if we're rotating the map
     local angleY = 0
@@ -82,6 +69,19 @@ function RenderCommon.drawPoints(pPos, mapBound, mapCenter, doRotate)
             setDrawColor(color.r, color.g, color.b, alpha)
             drawRect(renderX, renderY, 3, 3)
         end
+    end
+end
+
+function RenderCommon.pointRender(mapBounds, mapCenter, doRotate)
+    local renderStart = SysTime()
+    local playerPos = LocalPlayer():GetPos()
+
+    draw.NoTexture()
+
+    drawPoints(playerPos, mapBounds, mapCenter, doRotate)
+
+    if Config.showFrameTimeDebug then
+        uiUtils.PointRenderDebug(renderStart)
     end
 end
 
