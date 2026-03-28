@@ -2,6 +2,7 @@ local hudinfo = include("../hud_info.lua")
 local colors = include("../colors.lua")
 local utils = include("../utils.lua")
 local uiUtils = include("../ui/utils.lua")
+local geometry = include("../geometry.lua")
 
 ---@type table
 local Map = {}
@@ -65,7 +66,7 @@ local function drawMapCircle()
     colorFill.a = 220
     surface.SetDrawColor(colorFill)
 
-    uiUtils.DrawCircle(Settings.mapCenterX, Settings.mapCenterY, Settings.mapSize / 2, 67)
+    geometry.DrawCircle(Settings.mapCenterX, Settings.mapCenterY, Settings.mapSize / 2, 67)
 end
 
 --- Draws the player indicator triangle itself.
@@ -85,7 +86,7 @@ local function drawNorthPoint()
     local renderY = (sinAngle * Settings.halfMapSize) + Settings.mapCenterY
 
     surface.SetDrawColor(128, 0, 0, 255)
-    uiUtils.DrawCircle(renderX, renderY, 10, 10)
+    geometry.DrawCircle(renderX, renderY, 10, 10)
 
     draw.SimpleText("N", "DermaDefaultBold", renderX, renderY, colors.PURE_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
