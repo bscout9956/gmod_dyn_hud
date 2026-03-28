@@ -20,18 +20,6 @@ local mapBounds = { x = mapBound, y = mapBound }
 local abs = math.abs
 local cos = math.cos
 local sin = math.sin
-local rad = math.rad
-local max = math.max
-
---- Renders the time taken to render all points on the screen, nothing more, nothing less
---- @param renderStart number
-local function pointRenderDebug(renderStart)
-    local renderEnd = SysTime()
-    local frameTime = (renderEnd - renderStart) * 1000
-    local timeDiff = string.format("%.2f ms", frameTime)
-    -- TODO: Make this optional
-    draw.SimpleText(timeDiff, "DermaDefaultBold", 30, 30, colors.GREEN, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-end
 
 --- Renders all the points for the registered player positions applying rotation and checking Map Bounds.
 local function pointRender()
