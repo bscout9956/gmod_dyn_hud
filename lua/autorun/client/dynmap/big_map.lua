@@ -37,7 +37,7 @@ local function pointRender()
     utils.drawPoints(playerPos, mapBounds, { x = Settings.bigMapCenterX, y = Settings.bigMapCenterY }, false)
 
     if Settings.showFrameTimeDebug then
-        uiUtils.pointRenderDebug(renderStart)
+        uiUtils.PointRenderDebug(renderStart)
     end
 end
 
@@ -83,7 +83,8 @@ local function drawBox()
 
     drawRect(
         Settings.bigMapXpos + Settings.borderThickness, Settings.bigMapYpos + Settings.borderThickness, -- XY position with border offset
-        noBoundHudSizeX, noBoundHudSizeY                                                                -- Width and Height without borders
+        noBoundHudSizeX,
+        noBoundHudSizeY                                                                                 -- Width and Height without borders
     )
 end
 
