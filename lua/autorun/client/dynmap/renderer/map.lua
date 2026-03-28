@@ -46,7 +46,7 @@ local function drawMapCircle()
     surface.DrawCircle(
         Config.mapCenterX,
         Config.mapCenterY,
-        Config.mapSize / 2, -- radius
+        Config.halfMapSize, -- radius
         color.r, color.g, color.b, color.a
     )
 
@@ -54,7 +54,7 @@ local function drawMapCircle()
     colorFill.a = 220
     surface.SetDrawColor(colorFill)
 
-    geometry.DrawCircle(Config.mapCenterX, Config.mapCenterY, Config.mapSize / 2, 67)
+    geometry.DrawCircle(Config.mapCenterX, Config.mapCenterY, Config.halfMapSize, 67)
 end
 
 --- Draws the player indicator triangle itself.
