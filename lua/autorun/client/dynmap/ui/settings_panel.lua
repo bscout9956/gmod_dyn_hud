@@ -1,4 +1,5 @@
 local uiUtils = include("utils.lua")
+local colors = include("../colors.lua")
 
 local SettingsPanel = {}
 
