@@ -28,12 +28,12 @@ function Utils.drawPoints(pPos, mapBound, mapCenter, doRotate)
     local cosAngle = 0
     local sinAngle = 0
 
-    local zoom = Settings.mapZoomLevel
-    local radiusSq = Settings.halfMapSize * Settings.halfMapSize
+    local zoom = Config.mapZoomLevel
+    local radiusSq = Config.halfMapSize * Config.halfMapSize
 
     local color = colors.WHITE
 
-    if Settings.astigmatismMode then
+    if Config.astigmatismMode then
         color = colors.BLACK
     end
 
@@ -47,19 +47,19 @@ function Utils.drawPoints(pPos, mapBound, mapCenter, doRotate)
     for _, pos in pairs(Points) do
         local diffZ = abs(pos.z - pPos.z)
 
-        if diffZ >= Settings.heightDisplayRange then continue end
+        if diffZ >= Config.heightDisplayRange then continue end
 
         local finalX = (pos.x - pPos.x) * zoom
         local finalY = (pos.y - pPos.y) * zoom
 
-        if doRotate or Settings.roundMode then
+        if doRotate or Config.roundMode then
             local rx = finalX
             finalX = finalX * cosAngle - finalY * sinAngle
             finalY = rx * sinAngle + finalY * cosAngle
         end
 
         local isVisible = false
-        if Settings.roundMode then
+        if Config.roundMode then
             local distSquared = (finalX * finalX) + (finalY * finalY)
             isVisible = distSquared < radiusSq
         else
@@ -67,7 +67,7 @@ function Utils.drawPoints(pPos, mapBound, mapCenter, doRotate)
         end
 
         if isVisible then
-            local alpha = 255 - (diffZ * Settings.heightFadeMultiplier)
+            local alpha = 255 - (diffZ * Config.heightFadeMultiplier)
             local renderX = mapCenter.x + finalX
             local renderY = mapCenter.y - finalY
 

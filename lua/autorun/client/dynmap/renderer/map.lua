@@ -11,9 +11,9 @@ local Map = {}
 local drawRect = surface.DrawRect
 
 ---@type number
-local noBoundMapSize = Settings.mapSize - (Settings.borderThickness * 2)
+local noBoundMapSize = Config.mapSize - (Config.borderThickness * 2)
 ---@type number
-local mapBound = Settings.halfMapSize - Settings.borderThickness
+local mapBound = Config.halfMapSize - Config.borderThickness
 ---@type table
 local mapBounds = { x = mapBound, y = mapBound }
 
@@ -29,8 +29,8 @@ local function pointRender()
 
     draw.NoTexture()
 
-    utils.drawPoints(playerPos, mapBounds, { x = Settings.mapCenterX, y = Settings.mapCenterY }, true)
-    if Settings.showFrameTimeDebug then
+    utils.drawPoints(playerPos, mapBounds, { x = Config.mapCenterX, y = Config.mapCenterY }, true)
+    if Config.showFrameTimeDebug then
         uiUtils.PointRenderDebug(renderStart)
     end
 end
@@ -38,42 +38,42 @@ end
 --- Draws the map box including its outline and background.
 --- Applies different colors based on the astigmatism mode setting.
 local function drawMapBox()
-    local colorRect = Settings.astigmatismMode and colors.ASH or colors.WHITE
+    local colorRect = Config.astigmatismMode and colors.ASH or colors.WHITE
     surface.SetDrawColor(colorRect)
-    surface.DrawOutlinedRect(Settings.mapXpos, Settings.mapYpos, Settings.mapSize, Settings.mapSize,
-        Settings.borderThickness)
+    surface.DrawOutlinedRect(Config.mapXpos, Config.mapYpos, Config.mapSize, Config.mapSize,
+        Config.borderThickness)
 
-    local colorRectFill = Settings.astigmatismMode and colors.SOFT_GRAY or colors.BLACK
+    local colorRectFill = Config.astigmatismMode and colors.SOFT_GRAY or colors.BLACK
     colorRectFill.a = 220
     surface.SetDrawColor(colorRectFill)
 
-    drawRect(Settings.mapXpos + Settings.borderThickness, Settings.mapYpos + Settings.borderThickness, noBoundMapSize,
+    drawRect(Config.mapXpos + Config.borderThickness, Config.mapYpos + Config.borderThickness, noBoundMapSize,
         noBoundMapSize)
 end
 
 --- Draws the map as a circle instead of a square, if the roundMode setting is enabled.
 local function drawMapCircle()
-    local color = Settings.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
+    local color = Config.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
 
     surface.DrawCircle(
-        Settings.mapCenterX,
-        Settings.mapCenterY,
-        Settings.mapSize / 2, -- radius
+        Config.mapCenterX,
+        Config.mapCenterY,
+        Config.mapSize / 2, -- radius
         color.r, color.g, color.b, color.a
     )
 
-    local colorFill = Settings.astigmatismMode and colors.SOFT_GRAY or colors.BLACK
+    local colorFill = Config.astigmatismMode and colors.SOFT_GRAY or colors.BLACK
     colorFill.a = 220
     surface.SetDrawColor(colorFill)
 
-    geometry.DrawCircle(Settings.mapCenterX, Settings.mapCenterY, Settings.mapSize / 2, 67)
+    geometry.DrawCircle(Config.mapCenterX, Config.mapCenterY, Config.mapSize / 2, 67)
 end
 
 --- Draws the player indicator triangle itself.
 --- The coordinates are defined in a pre-computed indicator table.
 local function drawPlayerIndicator()
     surface.SetDrawColor(0, 100, 200, 255) -- Smoother blue
-    surface.DrawPoly(Settings.playerIndicatorTable)
+    surface.DrawPoly(Config.playerIndicatorTable)
 end
 
 --- Draws the north point indicator, which is a circle at the edges of the map pointing towards North
@@ -82,8 +82,8 @@ local function drawNorthPoint()
     local sinAngle = sin(angle)
     local cosAngle = cos(angle)
 
-    local renderX = (cosAngle * Settings.halfMapSize) + Settings.mapCenterX
-    local renderY = (sinAngle * Settings.halfMapSize) + Settings.mapCenterY
+    local renderX = (cosAngle * Config.halfMapSize) + Config.mapCenterX
+    local renderY = (sinAngle * Config.halfMapSize) + Config.mapCenterY
 
     surface.SetDrawColor(128, 0, 0, 255)
     geometry.DrawCircle(renderX, renderY, 10, 10)
@@ -96,11 +96,11 @@ end
 local function renderLines(offset, range, yShift)
     if abs(offset) <= range then
         local relX = -(offset / range)
-        local posX = Settings.mapCenterX + (relX * Settings.halfMapSize)
-        local posY = Settings.mapCenterY + Settings.halfMapSize + 1
+        local posX = Config.mapCenterX + (relX * Config.halfMapSize)
+        local posY = Config.mapCenterY + Config.halfMapSize + 1
         local alpha = 1 - abs(relX)
 
-        local color = Settings.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
+        local color = Config.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
         surface.SetDrawColor(color.r, color.g, color.b, color.a * alpha)
         surface.DrawLine(posX, posY, posX, yShift)
     end
@@ -109,10 +109,10 @@ end
 local function renderLetters(offset, range, label)
     if abs(offset) <= range then
         local relX = -(offset / range)
-        local posX = Settings.mapCenterX + (relX * Settings.halfMapSize)
-        local posY = Settings.mapCenterY + Settings.halfMapSize
+        local posX = Config.mapCenterX + (relX * Config.halfMapSize)
+        local posY = Config.mapCenterY + Config.halfMapSize
         local alpha = 1 - abs(relX)
-        local color = Settings.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
+        local color = Config.astigmatismMode and colors.SOFT_GRAY or colors.WHITE
 
         local textColor = Color(color.r, color.g, color.b, color.a * alpha)
         draw.SimpleText(label, "CloseCaption_Normal", posX, posY + 10, textColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
@@ -127,13 +127,13 @@ local function drawCompass()
 
     for angle = -360, 360, 90 do
         local offset = math.NormalizeAngle(angle - pAngle)
-        renderLines(offset, range, Settings.mapCenterY + Settings.halfMapSize + 15)
+        renderLines(offset, range, Config.mapCenterY + Config.halfMapSize + 15)
     end
 
     -- Minor ticks every 5°
     for angle = -360, 360, 5 do
         local offset = math.NormalizeAngle(angle - pAngle)
-        renderLines(offset, range, Settings.mapCenterY + Settings.halfMapSize + 5)
+        renderLines(offset, range, Config.mapCenterY + Config.halfMapSize + 5)
     end
 
     local cardinals = { [0] = "N", [90] = "W", [180] = "S", [-90] = "E" }
@@ -145,37 +145,37 @@ local function drawCompass()
 end
 
 local function drawCompassBox()
-    local color = Settings.astigmatismMode and colors.ASH or colors.WHITE
+    local color = Config.astigmatismMode and colors.ASH or colors.WHITE
     surface.SetDrawColor(color)
 
     surface.DrawOutlinedRect(
-        Settings.mapXpos,                                                 -- x
-        (Settings.mapYpos + Settings.mapSize) - Settings.borderThickness, -- y
-        Settings.mapSize, Settings.spacing * 2,                           -- width, height
-        Settings.borderThickness                                          -- thickness
+        Config.mapXpos,                                             -- x
+        (Config.mapYpos + Config.mapSize) - Config.borderThickness, -- y
+        Config.mapSize, Config.spacing * 2,                         -- width, height
+        Config.borderThickness                                      -- thickness
     )
 
-    local colorRect = Settings.astigmatismMode and colors.SOFT_GRAY or colors.BLACK
+    local colorRect = Config.astigmatismMode and colors.SOFT_GRAY or colors.BLACK
     colorRect.a = 220
     surface.SetDrawColor(colorRect)
 
     drawRect(
-        Settings.mapXpos + Settings.borderThickness,                      -- x
-        (Settings.mapYpos + Settings.mapSize) - Settings.borderThickness, -- y
-        noBoundMapSize, (Settings.spacing * 2) - Settings.borderThickness -- width, height
+        Config.mapXpos + Config.borderThickness,                      -- x
+        (Config.mapYpos + Config.mapSize) - Config.borderThickness,   -- y
+        noBoundMapSize, (Config.spacing * 2) - Config.borderThickness -- width, height
     )
 end
 
 --- Helper to update the map size variables when it gets changed on the Settings Panel
 function Map.updateSize()
-    noBoundMapSize = Settings.mapSize - (Settings.borderThickness * 2)
-    mapBound = Settings.halfMapSize - Settings.borderThickness
+    noBoundMapSize = Config.mapSize - (Config.borderThickness * 2)
+    mapBound = Config.halfMapSize - Config.borderThickness
     mapBounds = { x = mapBound, y = mapBound }
 end
 
 --- Wraps all the necessary drawing calls for rendering the map itself
 function Map.Render()
-    if Settings.roundMode then
+    if Config.roundMode then
         drawMapCircle()
         pointRender()
         drawNorthPoint()
