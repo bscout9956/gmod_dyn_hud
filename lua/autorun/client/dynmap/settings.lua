@@ -6,6 +6,7 @@ Settings.settingsFramePresent = false
 
 function Settings.OpenDynHudSettings()
     local frame = settingsPanel.Create()
+    Settings.settingsFramePresent = true
 
     function frame:OnClose()
         Settings.settingsFramePresent = false

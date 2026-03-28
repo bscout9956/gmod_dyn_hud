@@ -246,8 +246,6 @@ function SettingsPanel.Create()
         Config.showFrameTimeDebug = value
     end
 
-    Settings.settingsFramePresent = true
-
     squashFrame(frame)
 
     return frame
