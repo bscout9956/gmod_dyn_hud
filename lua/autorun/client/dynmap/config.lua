@@ -7,6 +7,7 @@ Config.uiResolution = 1 -- Fractional, the higher the worse, keep it small
 Config.borderThickness = 3
 Config.heightDisplayRange = 500
 Config.heightFadeMultiplier = 0.51
+Config.pointSize = 4
 
 -- HUD Parameters
 Config.spacing = 20

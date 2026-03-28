@@ -67,7 +67,12 @@ local function drawPoints(pPos, mapBound, mapCenter, doRotate)
             local renderY = mapCenter.y - finalY
 
             setDrawColor(color.r, color.g, color.b, alpha)
-            drawRect(renderX, renderY, 3, 3)
+            drawRect(
+                renderX,
+                renderY,
+                (Config.uiZoomLevel * Config.pointSize) + 1,
+                (Config.uiZoomLevel * Config.pointSize) + 1
+            )
         end
     end
 end
