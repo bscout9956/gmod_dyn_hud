@@ -1,5 +1,6 @@
 -- GMOD Dynamic Map v0.10.1 by BlackScout/bscout9956
 Config = include("dynmap/config.lua")
+DebugProfiler = include("dynmap/profiler/profiler.lua")
 State = include("dynmap/state.lua")
 Settings = include("dynmap/settings.lua")
 UiLayout = include("dynmap/ui/layout.lua")
@@ -7,13 +8,8 @@ local bmap = include("dynmap/renderer/big_map.lua")
 Map = include("dynmap/renderer/map.lua")
 local inputHandler = include("dynmap/input.lua")
 
--- Localization for Math Functions
-local round = math.floor
-
-
 
 -- Hooks and other shit
-
 local hooks = hook.GetTable()
 
 function StartHooks()

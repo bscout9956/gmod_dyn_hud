@@ -27,12 +27,14 @@ end
 
 -- Draw all debug/HUD information
 function HudInfo.draw(offset)
+    DebugProfiler.Begin()
     local yOffset = Config.spacing
 
     -- Offset means we're using the square map with the compass below
     if offset then
         yOffset = yOffset + (2 * Config.spacing)
     end
+
 
     local funcs = { drawCoordinates, drawAstigmatism, drawZoom, drawPointCount }
     for index, func in ipairs(funcs) do
@@ -46,6 +48,9 @@ function HudInfo.draw(offset)
             TEXT_ALIGN_TOP
         )
     end
+
+    DebugProfiler.End()
+    DebugProfiler.Draw()
 end
 
 return HudInfo
