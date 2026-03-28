@@ -21,17 +21,30 @@ local function drawCoordinates()
 end
 
 --- Draws the number of points
-local function drawPCount()
+local function drawPointCount()
     return "Number of Points: " .. #Points
 end
 
 -- Draw all debug/HUD information
-function Debug.drawInfo()
-    local funcs = { drawCoordinates, drawAstigmatismInfo, drawZoomInfo, drawPCount }
+function Debug.drawInfo(offset)
+    local yOffset = Settings.spacing
+
+    -- Offset means we're using the square map with the compass below
+    if offset then
+        yOffset = yOffset + (2 * Settings.spacing)
+    end
+
+    local funcs = { drawCoordinates, drawAstigmatismInfo, drawZoomInfo, drawPointCount }
     for index, func in ipairs(funcs) do
-        draw.SimpleText(func(), "DermaDefault", Settings.mapXpos + (Settings.spacing * 0.5),
-            Settings.mapSize + (Settings.mapYpos * index) + Settings.spacing, colors.PURE_WHITE, TEXT_ALIGN_LEFT,
-            TEXT_ALIGN_TOP)
+        draw.SimpleText(
+            func(),
+            "DermaDefault",
+            Settings.mapXpos + (Settings.spacing * 0.5),
+            Settings.mapSize + (Settings.mapYpos * index) + yOffset,
+            colors.PURE_WHITE,
+            TEXT_ALIGN_LEFT,
+            TEXT_ALIGN_TOP
+        )
     end
 end
 

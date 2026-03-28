@@ -1,0 +1,14 @@
+{
+    "title": "DynMAP DEV",
+    "type": "tool",
+    "tags": [],
+    "ignore": [
+        "*.bat",
+        "*.md",
+        "*.png",
+        "*.json",
+        "*.jpg",
+        "*.gma",
+        "*.gitignore"
+    ]
+}

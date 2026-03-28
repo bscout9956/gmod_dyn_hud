@@ -1,17 +1,18 @@
-local BMap = {}
+local utils = include("utils.lua")
+local uiUtils = include("ui_utils.lua")
 local colors = include("colors.lua")
+local BMap = {}
 
 -- Optimization locals
 local ply = LocalPlayer()
 local rad = math.rad
 local cos = math.cos
 local sin = math.sin
-local abs = math.abs
-local setDrawColor = surface.SetDrawColor
 local drawRect = surface.DrawRect
 
 local hudBoundX = Settings.bigMapHalfSizeX - Settings.borderThickness
 local hudBoundY = Settings.bigMapHalfSizeY - Settings.borderThickness
+local mapBounds = { x = hudBoundX, y = hudBoundY }
 local noBoundHudSizeX = Settings.bigMapSizeX - (Settings.borderThickness * 2)
 local noBoundHudSizeY = Settings.bigMapSizeY - (Settings.borderThickness * 2)
 
@@ -29,44 +30,19 @@ local baseIndicatorPos = {
 
 local function pointRender()
     local renderStart = SysTime()
-    local pPos = ply:GetPos()
-
-    local r, g, b = 255, 255, 255
-    if Settings.astigmatismMode then
-        r, g, b = 40, 40, 40
-    end
+    local playerPos = LocalPlayer():GetPos()
 
     draw.NoTexture()
 
-    for _, pos in pairs(Points) do
-        local diffZ = abs(pos.z - pPos.z)
+    utils.drawPoints(playerPos, mapBounds, { x = Settings.bigMapCenterX, y = Settings.bigMapCenterY }, false)
 
-        if diffZ < 500 then -- we don't perform any crazy arithmetic on points we're not drawing
-            local alpha = 255 - (diffZ * 0.51)
-
-            local relX = (pos.x - pPos.x) * Settings.mapZoomLevel
-            local relY = (pos.y - pPos.y) * Settings.mapZoomLevel
-
-            if abs(relX) < hudBoundX and abs(relY) < hudBoundY then
-                local renderX = Settings.bigMapCenterX + relX
-                local renderY = Settings.bigMapCenterY - relY
-
-                setDrawColor(r, g, b, alpha)
-                drawRect(renderX, renderY, 3, 3)
-            end
-        end
+    if Settings.showFrameTimeDebug then
+        uiUtils.PointRenderDebug(renderStart)
     end
-
-    local renderEnd = SysTime()
-    local frameTime = (renderEnd - renderStart) * 1000
-    local timeDiff = string.format("%.2f ms", frameTime)
-
-    draw.SimpleText(timeDiff, "DermaDefaultBold", Settings.bigMapXpos + 30, Settings.bigMapYpos + 30, colors.GREEN,
-        TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
 local function updateBigMapPIndicator()
-    local ang = ply:EyeAngles().y
+    local ang = LocalPlayer():EyeAngles().y
     local radA = rad(-ang + 90)
     local cosA = cos(radA)
     local sinA = sin(radA)
@@ -91,24 +67,25 @@ local function drawPlayerIndicator()
 end
 
 local function drawBox()
-    if not Settings.astigmatismMode then
-        surface.SetDrawColor(255, 255, 255, 255)
-    else
-        surface.SetDrawColor(60, 60, 60, 255)
-    end
+    local colorRect = Settings.astigmatismMode and colors.ASH or colors.WHITE
 
-    surface.DrawOutlinedRect(Settings.bigMapXpos, Settings.bigMapYpos, Settings.bigMapSizeX, Settings.bigMapSizeY,
-        Settings.borderThickness)
+    surface.SetDrawColor(colorRect)
 
-    if not Settings.astigmatismMode then
-        surface.SetDrawColor(0, 0, 0, 220)
-    else
-        surface.SetDrawColor(235, 235, 235, 240)
-    end
+    surface.DrawOutlinedRect(
+        Settings.bigMapXpos, Settings.bigMapYpos,   -- XY position
+        Settings.bigMapSizeX, Settings.bigMapSizeY, -- Width and Height
+        Settings.borderThickness
+    )
 
-    drawRect(Settings.bigMapXpos + Settings.borderThickness, Settings.bigMapYpos + Settings.borderThickness,
+    local colorFill = Settings.astigmatismMode and colors.SOFT_GRAY or colors.BLACK
+    colorFill.a = 220
+    surface.SetDrawColor(colorFill)
+
+    drawRect(
+        Settings.bigMapXpos + Settings.borderThickness, Settings.bigMapYpos + Settings.borderThickness, -- XY position with border offset
         noBoundHudSizeX,
-        noBoundHudSizeY)
+        noBoundHudSizeY                                                                                 -- Width and Height without borders
+    )
 end
 
 function BMap.Render()
