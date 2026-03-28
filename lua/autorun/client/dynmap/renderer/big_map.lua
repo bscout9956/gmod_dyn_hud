@@ -75,7 +75,7 @@ end
 
 function BMap.Render()
     drawBox()
-    renderCommon.pointRender(mapBounds, { x = Config.bigMapCenterX, y = Config.bigMapCenterY })
+    renderCommon.pointRender(mapBounds, { x = Config.bigMapCenterX, y = Config.bigMapCenterY }, false)
     drawPlayerIndicator()
 end
 
