@@ -59,28 +59,4 @@ function Geometry.createIndicatorVertices(cx, cy, size)
     }
 end
 
---- Intializes all the derivative values based on the current settings.
-function Geometry.initDerivativeValues()
-    Config.halfMapSize = Config.mapSize / 2
-    Config.bigMapHalfSizeX = Config.bigMapSizeX / 2
-    Config.bigMapHalfSizeY = Config.bigMapSizeY / 2
-    Config.mapZoomLevel = Config.uiZoomLevel / 10
-    Config.mapXpos = Config.margin
-    Config.mapYpos = Config.margin
-    Config.bigMapXpos = (ScrW() / 2) - Config.bigMapHalfSizeX
-    Config.bigMapYpos = (ScrH() / 2) - Config.bigMapHalfSizeY
-    Config.mapCenterX = Config.mapXpos + Config.halfMapSize
-    Config.mapCenterY = Config.mapYpos + Config.halfMapSize
-    Config.bigMapCenterX = Config.bigMapXpos + Config.bigMapHalfSizeX
-    Config.bigMapCenterY = Config.bigMapYpos + Config.bigMapHalfSizeY
-    Config.mapResolution = Config.uiResolution / 100
-
-    Config.playerIndicatorTable = Geometry.createIndicatorVertices(
-        Config.mapCenterX, Config.mapCenterY, Config.playerIndicatorSize
-    )
-    Config.bigMapPlayerIndicatorTable = Geometry.createIndicatorVertices(
-        Config.bigMapCenterX, Config.bigMapCenterY, Config.playerIndicatorSize
-    )
-end
-
 return Geometry
