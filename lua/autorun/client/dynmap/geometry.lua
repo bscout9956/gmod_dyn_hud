@@ -48,7 +48,7 @@ end
 ---@param size number @Size of the indicator
 ---@return table
 local function createIndicatorVertices(cx, cy, size)
-    local notchOffset = size * Settings.playerIndicatorNotch
+    local notchOffset = size * Config.playerIndicatorNotch
 
     return {
         { x = cx,        y = cy - size,               u = 0, v = 0 }, -- 1. Top Tip
