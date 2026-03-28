@@ -263,6 +263,6 @@ end
 
 -- Anything that needs to be executed upon script loading goes here:
 
-geometry.initDerivativeValues()
+State.initDerivativeValues()
 
 return Settings
