@@ -1,13 +1,8 @@
-print("DynMap: Initializing client-side script...")
-print("DynMap: Loading configuration...")
 Config = include("dynmap/config.lua")
-print("DynMap: Loading settings...")
+State = include("dynmap/state.lua")
 Settings = include("dynmap/settings.lua")
-print("DynMap: Loading UI settings...")
 UiSettings = include("dynmap/ui/settings.lua")
-print("DynMap: Loading map renderer...")
 local bmap = include("dynmap/renderer/big_map.lua")
-print("DynMap: Loading main map renderer...")
 Map = include("dynmap/renderer/map.lua")
 
 
