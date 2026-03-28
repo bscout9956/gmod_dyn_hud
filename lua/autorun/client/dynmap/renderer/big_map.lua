@@ -45,7 +45,7 @@ local function updateBigMapPIndicator()
 end
 
 local function drawPlayerIndicator()
-    surface.SetDrawColor(0, 100, 200, 255) -- Smoother blue
+    surface.SetDrawColor(colors.SOFT_BLUE) -- Smoother blue
     draw.NoTexture()
     updateBigMapPIndicator()
     surface.DrawPoly(Config.bigMapPlayerIndicatorTable)
