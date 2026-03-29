@@ -132,7 +132,7 @@ local function drawBackgroundBox()
     )
 end
 
-local function draw()
+function DebugProfiler.Draw()
     drawLabels()
     drawBackgroundBox()
     drawXAxis()
@@ -161,7 +161,6 @@ function DebugProfiler.RunWithProfiler(func, name)
     begin()
     func()
     finish()
-    draw()
 end
 
 return DebugProfiler
