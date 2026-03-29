@@ -20,7 +20,9 @@ local minScale = 0.01
 local maxScale = 2
 local middlePoint = (maxScale + minScale) / 2
 
-function DebugProfiler.DrawGraph()
+
+
+local function drawGraph()
     middlePoint = (maxScale + minScale) / 2
 
     surface.SetDrawColor(colors.GREEN)
@@ -48,18 +50,18 @@ function DebugProfiler.DrawGraph()
     maxScale = math.max(maxScale, 0.01)
 end
 
-function DebugProfiler.Register(name)
+local function register(name)
     measurement = name
 end
 
-function DebugProfiler.Begin()
+local function begin()
     if not measurement or measurement == "" then
         print("DYNMAP WARNING: NO REGISTERED NAME FOR PROFILER, YOU WON'T KNOW WHAT YOU ARE LOOKING FOR.")
     end
     startTime = SysTime()
 end
 
-function DebugProfiler.DrawXAxis()
+local function drawXAxis()
     surface.SetDrawColor(colors.WHITE)
     surface.DrawLine(
         boxXpos,
@@ -69,7 +71,7 @@ function DebugProfiler.DrawXAxis()
     )
 end
 
-function DebugProfiler.DrawYAxis()
+local function drawYAxis()
     draw.DrawText(
         string.format("%.2f ms", maxScale),
         "DermaDefault",
@@ -98,7 +100,7 @@ function DebugProfiler.DrawYAxis()
     )
 end
 
-function DebugProfiler.DrawLabels()
+local function drawLabels()
     draw.DrawText(
         "DynMap Profiler:",
         "DermaDefaultBold",
@@ -116,7 +118,7 @@ function DebugProfiler.DrawLabels()
     )
 end
 
-function DebugProfiler.DrawBackgroundBox()
+local function drawBackgroundBox()
     surface.SetDrawColor(0, 0, 0, 200)
     surface.DrawRect(boxXpos, boxYpos, boxWidth, boxHeight)
 
@@ -130,20 +132,36 @@ function DebugProfiler.DrawBackgroundBox()
     )
 end
 
-function DebugProfiler.Draw()
-    DebugProfiler.DrawLabels()
-    DebugProfiler.DrawBackgroundBox()
-    DebugProfiler.DrawXAxis()
-    DebugProfiler.DrawYAxis()
-    DebugProfiler.DrawGraph()
+local function draw()
+    drawLabels()
+    drawBackgroundBox()
+    drawXAxis()
+    drawYAxis()
+    drawGraph()
 end
 
-function DebugProfiler.End()
+local function finish()
     endTime = SysTime()
     if #values > boxWidth then
         table.remove(values, 1)
     end
     values[#values + 1] = (endTime - startTime) * 1000
+end
+
+---
+---@param func function @Function to run with the profiler
+---@param name string @String to identify the measurement, will be shown above the graph
+function DebugProfiler.RunWithProfiler(func, name)
+    if not func then
+        print("DYNMAP PROFILER ERROR: NO FUNCTION PASSED IN")
+        return
+    end
+
+    register(name or "Unnamed Measurement\t:(")
+    begin()
+    func()
+    finish()
+    draw()
 end
 
 return DebugProfiler
