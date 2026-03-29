@@ -27,6 +27,7 @@ end
 
 -- Draw all debug/HUD information
 function HudInfo.draw(offset)
+    DebugProfiler.Register("HudInfo.draw")
     DebugProfiler.Begin()
     local yOffset = Config.spacing
 
