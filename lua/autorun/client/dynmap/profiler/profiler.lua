@@ -12,7 +12,15 @@ local boxCenterX = boxXpos / 2
 local boxCenterY = boxYpos / 2
 local boxHalfSizeX = boxWidth / 2
 local boxHalfSizeY = boxHeight / 2
+local boxCenterX = boxXpos + boxHalfSizeX
+local boxCenterY = boxYpos + boxHalfSizeY
 local spacing = 20
+local measurement = ""
+
+local values = {}
+local minScale = 0.01
+local maxScale = 2
+local middlePoint = (maxScale + minScale) / 2
 
 function DebugProfiler.DrawGraph()
 
@@ -28,6 +36,14 @@ function DebugProfiler.DrawLabel()
         "DermaDefaultBold",
         boxXpos + (spacing / 2), boxYpos - spacing, -- XY
         colors.SOFT_GREEN,
+        TEXT_ALIGN_LEFT
+    )
+
+    draw.DrawText(
+        measurement,
+        "DermaDefault",
+        boxXpos + (spacing / 2), boxYpos - (spacing * 1), -- XY
+        colors.WHITE,
         TEXT_ALIGN_LEFT
     )
 end
