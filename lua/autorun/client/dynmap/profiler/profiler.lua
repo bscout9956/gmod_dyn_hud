@@ -102,7 +102,7 @@ function DebugProfiler.DrawLabels()
     draw.DrawText(
         "DynMap Profiler:",
         "DermaDefaultBold",
-        boxXpos + (spacing / 2), boxYpos - spacing, -- XY
+        boxXpos + (spacing / 2), boxYpos - (spacing * 2), -- XY
         colors.SOFT_GREEN,
         TEXT_ALIGN_LEFT
     )
@@ -131,8 +131,11 @@ function DebugProfiler.DrawBackgroundBox()
 end
 
 function DebugProfiler.Draw()
-    DebugProfiler.DrawLabel()
+    DebugProfiler.DrawLabels()
     DebugProfiler.DrawBackgroundBox()
+    DebugProfiler.DrawXAxis()
+    DebugProfiler.DrawYAxis()
+    DebugProfiler.DrawGraph()
 end
 
 function DebugProfiler.End()
