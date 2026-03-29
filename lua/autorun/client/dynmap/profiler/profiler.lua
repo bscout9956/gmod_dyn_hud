@@ -53,6 +53,9 @@ function DebugProfiler.Register(name)
 end
 
 function DebugProfiler.Begin()
+    if not measurement or measurement == "" then
+        print("DYNMAP WARNING: NO REGISTERED NAME FOR PROFILER, YOU WON'T KNOW WHAT YOU ARE LOOKING FOR.")
+    end
     startTime = SysTime()
 end
 
