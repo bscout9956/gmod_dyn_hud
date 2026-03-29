@@ -53,6 +53,10 @@ end
 
 function DebugProfiler.End()
     endTime = SysTime()
+    if #values > boxWidth then
+        table.remove(values, 1)
+    end
+    values[#values + 1] = (endTime - startTime) * 1000
 end
 
 return DebugProfiler
