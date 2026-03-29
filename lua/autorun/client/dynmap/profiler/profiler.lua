@@ -33,7 +33,7 @@ function DebugProfiler.DrawLabel()
 end
 
 function DebugProfiler.DrawBackgroundBox()
-    surface.SetDrawColor(0, 0, 0, 150)
+    surface.SetDrawColor(0, 0, 0, 200)
     surface.DrawRect(boxXpos, boxYpos, boxWidth, boxHeight)
 
     local frameTime = (endTime - startTime) * 1000
