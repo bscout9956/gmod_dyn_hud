@@ -59,7 +59,46 @@ function DebugProfiler.Begin()
     startTime = SysTime()
 end
 
-function DebugProfiler.DrawLabel()
+function DebugProfiler.DrawXAxis()
+    surface.SetDrawColor(colors.WHITE)
+    surface.DrawLine(
+        boxXpos,
+        boxYpos + boxHalfSizeY - 2,
+        boxXpos + boxWidth,
+        boxYpos + boxHalfSizeY + 2
+    )
+end
+
+function DebugProfiler.DrawYAxis()
+    draw.DrawText(
+        string.format("%.2f ms", maxScale),
+        "DermaDefault",
+        boxXpos + (spacing / 2),
+        boxYpos + (spacing / 2),
+        colors.WHITE,
+        TEXT_ALIGN_LEFT
+    )
+
+    draw.DrawText(
+        string.format("%.2f ms", middlePoint),
+        "DermaDefault",
+        boxXpos + (spacing / 2),
+        boxCenterY,
+        colors.WHITE,
+        TEXT_ALIGN_LEFT
+    )
+
+    draw.DrawText(
+        string.format("%.2f ms", minScale),
+        "DermaDefault",
+        boxXpos + (spacing / 2),
+        boxYpos + boxHeight - spacing,
+        colors.WHITE,
+        TEXT_ALIGN_LEFT
+    )
+end
+
+function DebugProfiler.DrawLabels()
     draw.DrawText(
         "DynMap Profiler:",
         "DermaDefaultBold",
