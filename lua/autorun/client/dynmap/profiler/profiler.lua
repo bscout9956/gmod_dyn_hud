@@ -7,6 +7,7 @@ local DebugProfiler = {}
 local startTime = 0
 local endTime = 0
 
+
 local boxWidth = ScrW() * .25
 local boxHeight = ScrH() * .25
 local boxXpos = ScrW() - (boxWidth + 10)
@@ -24,27 +25,37 @@ local maxScale = 2
 local middlePoint = (maxScale + minScale) / 2
 
 
+local peakIndex = 1
+local maxValues = math.floor(boxWidth) -- One value per pixel of width in the graph
 
 local function drawGraph()
     middlePoint = (maxScale + minScale) / 2
 
     surface.SetDrawColor(colors.GREEN)
     local peak = 0
-    for i = 1, #values do
-        if values[i] > peak then peak = values[i] end
+    for i = 1, maxValues do
+        local curVal = values[i] or 0
+        if curVal > peak then peak = curVal end
     end
 
     if peak > maxScale then
         maxScale = Lerp(0.1, maxScale, peak)
     end
 
-    for i = 1, #values do
-        local curValue = values[i]
+    for x = 1, maxValues do
+        local index = (peakIndex + x - 2) % maxValues + 1
+
+        local curValue = values[index] or 0
         local percentPosition = curValue / maxScale
         local barHeight = percentPosition * boxHeight
 
-        if barHeight <= boxHeight then
-            surface.DrawRect(boxXpos + i, (boxYpos + boxHeight) - barHeight, 3, 3) -- TODO: Make smaller later
+        if barHeight > 0 then
+            surface.DrawRect(
+                boxXpos + x,
+                (boxYpos + boxHeight) - barHeight,
+                1,
+                1
+            )
         end
     end
 
@@ -145,10 +156,14 @@ end
 
 local function finish()
     endTime = SysTime()
-    if #values > boxWidth then
-        table.remove(values, 1)
+    local frameTime = (endTime - startTime) * 1000
+
+    values[peakIndex] = frameTime
+    peakIndex = peakIndex + 1
+
+    if peakIndex > maxValues then
+        peakIndex = 1
     end
-    values[#values + 1] = (endTime - startTime) * 1000
 end
 
 ---
