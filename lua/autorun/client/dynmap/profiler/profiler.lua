@@ -23,7 +23,35 @@ local maxScale = 2
 local middlePoint = (maxScale + minScale) / 2
 
 function DebugProfiler.DrawGraph()
+    middlePoint = (maxScale + minScale) / 2
 
+    surface.SetDrawColor(colors.GREEN)
+    local peak = 0
+    for i = 1, #values do
+        if values[i] > peak then peak = values[i] end
+    end
+
+    if peak > maxScale then
+        maxScale = Lerp(0.1, maxScale, peak)
+    end
+
+    for i = 1, #values do
+        local curValue = values[i]
+        local percentPosition = curValue / maxScale
+        local barHeight = percentPosition * boxHeight
+
+        if barHeight <= boxHeight then
+            surface.DrawRect(boxXpos + i, (boxYpos + boxHeight) - barHeight, 3, 3) -- TODO: Make smaller later
+        end
+    end
+
+    -- This drifts it back down and prevents it from becoming 0
+    maxScale = maxScale * 0.99
+    maxScale = math.max(maxScale, 0.01)
+end
+
+function DebugProfiler.Register(name)
+    measurement = name
 end
 
 function DebugProfiler.Begin()
