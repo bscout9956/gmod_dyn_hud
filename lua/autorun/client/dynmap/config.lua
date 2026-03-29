@@ -8,6 +8,7 @@ Config.borderThickness = 3
 Config.heightDisplayRange = 500
 Config.heightFadeMultiplier = 0.51
 Config.pointSize = 4
+Config.uiMaxResolution = 1.2
 
 -- HUD Parameters
 Config.spacing = 20

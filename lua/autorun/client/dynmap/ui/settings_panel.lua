@@ -1,6 +1,6 @@
 local uiUtils = include("utils.lua")
 local colors = include("../colors.lua")
-
+local geometry = include("../geometry.lua")
 local SettingsPanel = {}
 
 local function refreshMap()
@@ -121,7 +121,7 @@ function SettingsPanel.Create()
         grid = { x = 1, y = 5 },
         size = defaultSize,
         min = 0.1,
-        max = 1,
+        max = Config.uiMaxResolution,
         decimals = 2,
         value = Config.uiResolution
     })
