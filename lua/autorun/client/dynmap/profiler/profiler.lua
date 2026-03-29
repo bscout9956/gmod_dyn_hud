@@ -1,3 +1,6 @@
+--- This profiler is for development usage only. I can't guarantee nor will fix any bug requests.
+--- Good luck!
+
 local colors = include("../colors.lua")
 local DebugProfiler = {}
 
