@@ -39,6 +39,8 @@ local function drawPoints(pPos, mapBound, mapCenter, doRotate)
         sinAngle = sin(angleRadians)
     end
 
+    local zoomLevelPointSize = Config.uiZoomLevel * Config.pointSize
+
     for _, pos in pairs(State.Points) do
         local diffZ = abs(pos.z - pPos.z)
 
@@ -70,8 +72,8 @@ local function drawPoints(pPos, mapBound, mapCenter, doRotate)
             drawRect(
                 renderX,
                 renderY,
-                (Config.uiZoomLevel * Config.pointSize) + 1,
-                (Config.uiZoomLevel * Config.pointSize) + 1
+                zoomLevelPointSize + 1,
+                zoomLevelPointSize + 1
             )
         end
     end
